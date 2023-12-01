@@ -2,17 +2,17 @@
 
 function is_logged_in()
 {
-    $this_in_ci_helper = get_instance();
-    if (!$this_in_ci_helper->session->userdata('email')) {
+    $this_mod = get_instance();
+    if (!$this_mod->session->userdata('email')) {
         redirect('auth');
     } else {
-        $role_id = $this_in_ci_helper->session->userdata('role_id');
-        $menu = $this_in_ci_helper->uri->segment(1);
+        $role_id = $this_mod->session->userdata('role_id');
+        $menu = $this_mod->uri->segment(1);
 
-        $queryMenu = $this_in_ci_helper->db->get_where('user_menu', ['menu' => $menu])->row_array();
+        $queryMenu = $this_mod->db->get_where('user_menu', ['menu' => $menu])->row_array();
         $menu_id = $queryMenu['id'];
 
-        $userAccess = $this_in_ci_helper->db->get_where('user_access_menu', [
+        $userAccess = $this_mod->db->get_where('user_access_menu', [
             'role_id' => $role_id,
             'menu_id' => $menu_id
         ]);
