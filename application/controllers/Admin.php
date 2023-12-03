@@ -9,7 +9,8 @@ class Admin extends CI_Controller
         // if (!$this->session->userdata('email')) {
         //     redirect('auth');
         // }
-        is_logged_in();
+        // is_logged_in();
+
     }
     public function index()
     {
@@ -42,7 +43,7 @@ class Admin extends CI_Controller
 
         $data['role'] = $this->db->get_where('user_role', ['id' => $role_id])->row_array();
 
-        $this->db->where('id !=', 1);
+        // $this->db->where('id !=', 1);
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->load->view('templates/header', $data);

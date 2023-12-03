@@ -9,7 +9,8 @@ class Menu extends CI_Controller
         // if (!$this->session->userdata('email')) {
         //     redirect('auth');
         // }
-        is_logged_in();
+        // is_logged_in();
+        cek_login();
     }
 
     public function index()

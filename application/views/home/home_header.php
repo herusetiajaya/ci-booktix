@@ -27,7 +27,8 @@
                     <div class="navbar-nav">
                         <a class="nav-item nav-link" href="<?= base_url('home'); ?>">Home <span class="sr-only">(current)</span></a>
                         <a class="nav-item nav-link" href="<?= base_url('about'); ?>">About</a>
-                        <a class="nav-item nav-link" href="<?= base_url('auth'); ?>">Admin</a>
+                        <a class="nav-item nav-link" href="<?= base_url('auth'); ?>">Customer</a>
+                        <a class="nav-item nav-link" href="<?= base_url('dashboard/auth'); ?>">Admin</a>
                     </div>
                 </div>
             </nav>
