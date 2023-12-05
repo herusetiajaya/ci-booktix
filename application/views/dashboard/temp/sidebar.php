@@ -31,7 +31,7 @@
                 <!-- JIKA MENU ADALAH SUPERADMIN -->
                 <?php if ($m['menu'] === 'SuperAdmin') : ?>
                     <li class="nav-item <?= ($menuActive === $m['menu']) ? 'active' : '' ?>">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                             <i class="fas fa-fw fa-user-secret"></i>
                             <span><?= $m['menu']; ?></span>
                         </a>
@@ -53,8 +53,10 @@
                             </div>
                         </div>
                     </li>
-                <?php else : ?>
                     <hr class="sidebar-divider mt-1">
+
+                    <!-- Jika menu lain lanjut looping -->
+                <?php else : ?>
                     <div class="sidebar-heading">
                         <?= $m['menu']; ?>
                     </div>
@@ -75,9 +77,18 @@
                             <?php else : ?>
                             <li class="nav-item">
                             <?php endif; ?>
-                            <a class="nav-link pb-0" href="<?= base_url($sm['url']); ?>">
-                                <i class="<?= $sm['icon']; ?>"></i>
-                                <span><?= $sm['title']; ?></span></a>
+                            <!-- Jika login level admin dan submenu listUserAdmin -->
+                            <?php if ($admin['role_id'] === '2' and $sm['title'] == 'List User Admin') : ?>
+                                <a class="nav-link pb-0" href="<?= base_url($sm['url']); ?>" onclick="return false;" style="cursor:not-allowed; opacity:0.5; text-decoration:none;">
+                                    <i class="<?= $sm['icon']; ?>"></i>
+                                    <span><?= $sm['title']; ?></span>
+                                </a>
+                            <?php else : ?>
+                                <a class="nav-link pb-0" href="<?= base_url($sm['url']); ?>">
+                                    <i class="<?= $sm['icon']; ?>"></i>
+                                    <span><?= $sm['title']; ?></span>
+                                </a>
+                            <?php endif; ?>
                             </li>
                         <?php endforeach; ?>
                         <!-- Divider -->

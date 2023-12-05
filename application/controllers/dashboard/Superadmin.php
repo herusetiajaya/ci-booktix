@@ -10,6 +10,8 @@ class Superadmin extends CI_Controller
         //     redirect('auth');
         // }
         // is_logged_in();
+        $this->load->model('Menu_model', 'menu');
+        $this->load->library('form_validation');
         check_logged();
     }
     public function index()
@@ -17,7 +19,6 @@ class Superadmin extends CI_Controller
         $data['title'] = 'Owner';
         $data['menuActive'] = 'SuperAdmin';
         $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
-        // echo 'Selamat datang ' . $data['user']['name'];
         $this->load->view('dashboard/temp/header', $data);
         $this->load->view('dashboard/temp/sidebar', $data);
         $this->load->view('dashboard/temp/topbar', $data);
@@ -25,6 +26,7 @@ class Superadmin extends CI_Controller
         $this->load->view('dashboard/temp/footer');
     }
 
+    // ROLE
     public function role()
     {
         $data['title'] = 'Role';
@@ -77,14 +79,14 @@ class Superadmin extends CI_Controller
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Access Changed!</div>');
     }
 
+    // MENU
     public function menu()
     {
         $data['title'] = 'Menu Management';
-        $data['menuActive'] = 'superadmin';
+        $data['menuActive'] = 'SuperAdmin';
         $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
 
         $data['menu'] = $this->db->get('user_menu')->result_array();
-        // echo 'Selamat datang ' . $data['user']['name'];
 
         $this->form_validation->set_rules('menu', 'Menu', 'required');
 
@@ -98,16 +100,65 @@ class Superadmin extends CI_Controller
         } else {
             $this->db->insert('user_menu', ['menu' => $this->input->post('menu')]);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New menu added!</div>');
-            redirect('dashboard/menu');
+            redirect('dashboard/superadmin/menu');
         }
     }
 
+    public function editMenu()
+    {
+        $nameMenu = $this->db->get_where('user_menu', ['menu' => $this->input->post('menu')])->row_array();
+        $this->form_validation->set_rules('menu', 'Menu', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Change name menu failed!</div>');
+            redirect('dashboard/superadmin/menu');
+        } elseif ($nameMenu) {
+            $this->session->set_flashdata('message', '<div class="alert alert-info" role="alert">Nothing changes</div>');
+            redirect('dashboard/superadmin/menu');
+        } elseif ($this->input->post('id') === '1' or $this->input->post('id') === '2' or $this->input->post('id') === '3') {
+            $this->session->set_flashdata('message', '<div class="alert alert-info" role="alert">Cant changes this menu</div>');
+            redirect('dashboard/superadmin/menu');
+        } else
+            $this->menu->editNameMenu($this->input->post('id'));
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Change name menu success</div>');
+        redirect('dashboard/superadmin/menu');
+    }
+
+    public function deleteMenu($id)
+    {
+        if ($id === '1' or $id === '2' or $id === '3') {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Cant delete this menu!</div>');
+            redirect('dashboard/superadmin/menu');
+        } elseif ($id == null) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Delete menu failed!</div>');
+            redirect('dashboard/superadmin/menu');
+        } else {
+            $this->menu->deleteMenuById($id);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Delete menu success</div>');
+            redirect('dashboard/superadmin/menu');
+        }
+    }
+
+    public function test()
+    {
+        $data = [
+            'title' => $this->input->post('title'),
+            'menu_id' => $this->input->post('menu_id'),
+            'url' => $this->input->post('url'),
+            'icon' => $this->input->post('icon'),
+            'is_active' => $this->input->post('is_active')
+        ];
+        $result = json_encode($data);
+        var_dump($result . 'gagal lol wkwk');
+        die;
+    }
+
+    // SUB MENU
     public function submenu()
     {
-        $data['title'] = 'Submenu Management';
-        $data['menuActive'] = 'superadmin';
+        $data['title'] = 'Submenu';
+        $data['menuActive'] = 'SuperAdmin';
         $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
-        $this->load->model('Menu_model', 'menu');
 
         $data['subMenu'] = $this->menu->getSubMenu();
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -135,7 +186,53 @@ class Superadmin extends CI_Controller
             ];
             $this->db->insert('user_sub_menu', $data);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New sub menu added!</div>');
-            redirect('dashboard/menu/submenu');
+            redirect('dashboard/superadmin/submenu');
+        }
+    }
+
+    public function editSubMenu()
+    {
+        $subMenu = $this->db->get_where('user_sub_menu', [
+            'title' => $this->input->post('title'),
+            'menu_id' => $this->input->post('menu_id'),
+            'url' => $this->input->post('url'),
+            'icon' => $this->input->post('icon'),
+            'is_active' => $this->input->post('is_active')
+        ])->row_array();
+
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('menu_id', 'Menu', 'required');
+        $this->form_validation->set_rules('url', 'Url', 'required');
+        $this->form_validation->set_rules('icon', 'Icon', 'required');
+        $this->form_validation->set_rules('is_active', 'Is_active', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Change sub menu failed!</div>');
+            redirect('dashboard/superadmin/submenu');
+        } elseif ($subMenu) {
+            $this->session->set_flashdata('message', '<div class="alert alert-info" role="alert">Nothing changes</div>');
+            redirect('dashboard/superadmin/submenu');
+        } elseif ($this->menu->setRulesEditSubMenu()) {
+            $this->session->set_flashdata('message', '<div class="alert alert-info" role="alert">Cant changes this sub menu</div>');
+            redirect('dashboard/superadmin/submenu');
+        } else
+            $this->menu->editSubMenu($this->input->post('id'));
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Change name menu success</div>');
+        redirect('dashboard/superadmin/submenu');
+    }
+
+    public function deleteSubMenu($id)
+    {
+        if ($this->menu->setRulesDeleteSubMenu($id)) {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Cant delete this sub menu!</div>');
+            redirect('dashboard/superadmin/submenu');
+        } elseif ($id == null) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Delete sub menu failed!</div>');
+            redirect('dashboard/superadmin/submenu');
+        } else {
+            $this->menu->deleteSubMenuById($id);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Delete sub menu success</div>');
+            redirect('dashboard/superadmin/submenu');
         }
     }
 }

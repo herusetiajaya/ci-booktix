@@ -15,7 +15,7 @@ class User extends CI_Controller
     public function index()
     {
         $data['title'] = 'My Profile';
-        $data['menuActive'] = 'user';
+        $data['menuActive'] = 'Users Management';
         $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
         // echo 'Selamat datang ' . $data['user']['name'];
         $this->load->view('dashboard/temp/header', $data);
@@ -28,7 +28,7 @@ class User extends CI_Controller
     public function edit()
     {
         $data['title'] = 'Edit Profile';
-        $data['menuActive'] = 'user';
+        $data['menuActive'] = 'Users Management';
         $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
 
         $this->form_validation->set_rules('name', 'Full Name', 'required|trim');
@@ -77,7 +77,7 @@ class User extends CI_Controller
     public function changePassword()
     {
         $data['title'] = 'Change Password';
-        $data['menuActive'] = 'user';
+        $data['menuActive'] = 'Users Management';
         $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
 
         $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim');
@@ -113,5 +113,43 @@ class User extends CI_Controller
                 }
             }
         }
+    }
+
+    public function listAdmin()
+    {
+
+        $adminLogin =  $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
+        $roleId = $adminLogin['role_id'];
+        if ($roleId === '2') {
+            check_logged();
+        }
+        $data['title'] = 'List User Admin';
+        $data['menuActive'] = 'Users Management';
+        $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
+        $data['listadmin'] = $this->db->query("SELECT * FROM admin")->result_array();
+        $this->load->view('dashboard/temp/header', $data);
+        $this->load->view('dashboard/temp/sidebar', $data);
+        $this->load->view('dashboard/temp/topbar', $data);
+        $this->load->view('dashboard/user/listadmin', $data);
+        $this->load->view('dashboard/temp/footer');
+    }
+
+    public function listCustomer()
+    {
+
+        // $adminLogin =  $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
+        // $roleId = $adminLogin['role_id'];
+        // if ($roleId === '2') {
+        //     check_logged();
+        // }
+        $data['title'] = 'List User Customer';
+        $data['menuActive'] = 'Users Management';
+        $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
+        $data['listcustomer'] = $this->db->query("SELECT * FROM user")->result_array();
+        $this->load->view('dashboard/temp/header', $data);
+        $this->load->view('dashboard/temp/sidebar', $data);
+        $this->load->view('dashboard/temp/topbar', $data);
+        $this->load->view('dashboard/user/listcustomer', $data);
+        $this->load->view('dashboard/temp/footer');
     }
 }
