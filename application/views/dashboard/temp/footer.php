@@ -62,13 +62,13 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="<?= base_url('assets/'); ?>vendor/jquery/jquery.min.js"></script>
-<script src="<?= base_url('assets/'); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?= base_url('assets/'); ?>dashboard/vendor/jquery/jquery.min.js"></script>
+<script src="<?= base_url('assets/'); ?>dashboard/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Core plugin JavaScript-->
-<script src="<?= base_url('assets/'); ?>vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="<?= base_url('assets/'); ?>dashboard/vendor/jquery-easing/jquery.easing.min.js"></script>
 <!-- Custom scripts for all pages-->
-<script src="<?= base_url('assets/'); ?>js/sb-admin-2.min.js"></script>
-<script src="<?= base_url('assets/'); ?>js/sweetalert2.all.min.js"></script>
+<script src="<?= base_url('assets/'); ?>dashboard/js/sb-admin-2.min.js"></script>
+<script src="<?= base_url('assets/'); ?>dashboard/js/sweetalert2.all.min.js"></script>
 <script>
     // Image edit user
     $('.custom-file-input').on('change', function() {
@@ -79,7 +79,6 @@
     $('.deleteData').on('click', function(e) {
         e.preventDefault();
         const href = $(this).attr('href');
-
         Swal.fire({
             title: 'Make sure to delete it?',
             text: "Delete will be permanent",
@@ -129,14 +128,12 @@
         $('#subMenuModalLabel').html('Edit Sub Menu');
         $('.modal-footer button[type=submit]').html('Edit');
         $('.modal-body form').attr('action', "<?= base_url('dashboard/superadmin/editsubmenu'); ?>");
-
         const subMenuId = $(this).data('id');
         const title = $(this).data('title');
         const menuId = $(this).data('menu_id');
         const urlSubMenu = $(this).data('url');
         const icon = $(this).data('icon');
         // const isActive = $(this).data('isActive');
-
         $('.modal-body #id').val(subMenuId);
         $('.modal-body #title').val(title);
         $('.modal-body #menu_id').val(menuId);
@@ -144,13 +141,22 @@
         $('.modal-body #icon').val(icon);
         // $('.modal-body #is_active').val(isActive);
     });
+    // Add user admin
+    $(document).on('click', '.addAdmin', function() {
+        $('#adminModalLabel').html('Add New Admin');
+        $('.modal-footer button[type=submit]').html('Add');
+        $('.modal-body form').attr('action', "<?= base_url('dashboard/user/addadmin'); ?>");
+        $('.modal-body #name').val('');
+        $('.modal-body #email').val('');
+        $('.modal-body #password1').val('');
+        $('.modal-body #password2').val('');
+    });
 </script>
 <script>
-    // Changes Access Role
+    // Change Access Role
     $('.form-check-input').on('click', function() {
         const menuId = $(this).data('menu');
         const roleId = $(this).data('role');
-
         $.ajax({
             url: "<?= base_url('dashboard/superadmin/changeaccess'); ?>",
             type: 'post',
@@ -163,10 +169,24 @@
             }
         });
     });
+    // Change User Is Active
+    $('.isActive ').on('click', function() {
+        const id = $(this).data('id');
+        const isAct = $(this).data('ac');
+
+        $.ajax({
+            success: function() {
+                // alert('success');
+                document.location.href = "<?= base_url('dashboard/user/changeAdminIsActive/'); ?>" + id + '/' + isAct;
+            },
+            error: function() {
+                alert('error');
+            }
+        });
+    });
     // logout
     $('.submit-logout').on('click', function(e) {
         e.preventDefault();
-
         Swal.fire({
             title: 'Ready to Leave?',
             text: 'Select "Logout" below if you are ready to end your current session.',

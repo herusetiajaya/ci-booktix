@@ -17,12 +17,7 @@
             <!-- QUERY MENU -->
             <?php
             $role_id = $this->session->userdata('role_id');
-            $queryMenu = "SELECT `user_menu`.`id`,`menu`
-                    FROM `user_menu` JOIN `user_access_menu`
-                    ON `user_menu`.`id` = `user_access_menu`.`menu_id`
-                    WHERE `user_access_menu`.`role_id` = $role_id
-                    ORDER BY `user_access_menu`.`menu_id` ASC
-                ";
+            $queryMenu = queryMenuLevel($role_id);
             $menu = $this->db->query($queryMenu)->result_array();
             ?>
             <!-- LOOPING MENU -->
@@ -37,15 +32,13 @@
                         </a>
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                             <div class="bg-info py-2 collapse-inner rounded">
+                                <!-- SUB-MENU SESUAI SUPERADMIN -->
                                 <?php
-                                $menuId_2 = $m['id'];
-                                $querySubMenu_2 = "SELECT * FROM `user_sub_menu`
-                                                    WHERE `menu_id` = $menuId_2
-                                                    AND `is_active` = 1
-                                                    ";
-                                $subMenu_2 = $this->db->query($querySubMenu_2)->result_array();
+                                $menuId = $m['id'];
+                                $querySubMenu = querySubMenuLevel($menuId);
+                                $subMenu = $this->db->query($querySubMenu)->result_array();
                                 ?>
-                                <?php foreach ($subMenu_2 as $sm => $sf) : ?>
+                                <?php foreach ($subMenu as $sm => $sf) : ?>
                                     <?php if ($m['menu'] === 'SuperAdmin') : ?>
                                         <a class="collapse-item" href="<?= base_url($sf['url']); ?>"><i class="<?= $sf['icon']; ?>"></i> <?= $sf['title']; ?></a>
                                     <?php endif; ?>
@@ -55,19 +48,16 @@
                     </li>
                     <hr class="sidebar-divider mt-1">
 
-                    <!-- Jika menu lain lanjut looping -->
                 <?php else : ?>
+                    <!-- ELSE MENU ADALAH ADMIN -->
                     <div class="sidebar-heading">
                         <?= $m['menu']; ?>
                     </div>
 
-                    <!-- SIAPKAN SUB-MENU SESUAI MENU -->
+                    <!-- SUB-MENU SESUAI ADMIN -->
                     <?php
                     $menuId = $m['id'];
-                    $querySubMenu = "SELECT * FROM `user_sub_menu` 
-                                    WHERE `menu_id` = $menuId
-                                    AND `is_active` = 1
-                                    ";
+                    $querySubMenu = querySubMenuLevel($menuId);
                     $subMenu = $this->db->query($querySubMenu)->result_array();
                     ?>
                     <?php foreach ($subMenu as $sm) : ?>
@@ -96,32 +86,12 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
 
-
-
-                <!-- <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                        <i class="fas fa-fw fa-users"></i>
-                        <span>Management User</span>
-                    </a>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="<?= base_url('dashboard/admin/listuser') ?>">List Admin</a>
-                            <a class="collapse-item" href="<?= base_url('dashboard/customer/listuser') ?>">List Customer</a>
-                        </div>
-                    </div>
-                </li> -->
-
                 <!-- Nav Item - Logout -->
                 <li class="nav-item submit-logout">
                     <a class="nav-link" href="<?= base_url('dashboard/auth/logout'); ?>">
                         <i class=" fas fa-fw fa-sign-out-alt"></i>
                         <span>Logout</span></a>
                 </li>
-                <!-- <li class="nav-item">
-            <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
-            <i class=" fas fa-fw fa-sign-out-alt"></i>
-                <span>Logout</span></a>
-        </li> -->
 
                 <!-- Divider -->
                 <hr class="sidebar-divider d-none d-md-block">

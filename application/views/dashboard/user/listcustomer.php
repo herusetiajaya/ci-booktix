@@ -39,7 +39,7 @@
                                 <td><?= $i++; ?></td>
                                 <td><?= $listC['name']; ?></td>
                                 <td><?= $listC['email']; ?></td>
-                                <td width="100px"><img class="img-thumbnail" src="<?= base_url('assets/img/profile/') . $listC['image']; ?>"></td>
+                                <td width="100px"><img class="img-thumbnail" src="<?= base_url('assets/dashboard/img/profile/') . $listC['image']; ?>"></td>
                                 <!-- <td><?= $listC['password']; ?></td> -->
                                 <td><?php if ($listC['role_id'] == '1') { ?>
                                         SuperAdmin
@@ -47,11 +47,12 @@
                                         Admin
                                     <?php } ?>
                                 </td>
-                                <td><?php if ($listC['is_active'] == '1') { ?>
-                                        Yes
-                                    <?php } else { ?>
-                                        No
-                                    <?php } ?>
+                                <td style="text-align:center;">
+                                    <?php if ($listC['is_active'] == '1') : ?>
+                                        <input class="form-check-input" type="checkbox" value="<?= $listC['is_active'] ?>" name="is_active" for="is_avtive" checked>
+                                    <?php else : ?>
+                                        <input class="form-check-input" type="checkbox" value="<?= $listC['is_active'] ?>" name="is_active" for="is_avtive">
+                                    <?php endif; ?>
                                 </td>
                                 <td><a href="<?= base_url('dashboard/user/') ?>" class="badge badge-primary">View</a></td>
                             </tr>

@@ -54,15 +54,15 @@ class Auth extends CI_Controller
                     }
                 } else {
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
-                    redirect('dasboard/auth');
+                    redirect('dashboard/auth');
                 }
             } else {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">This Email has not activated!</div>');
-                redirect('dasboard/auth');
+                redirect('dashboard/auth');
             }
         } else {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Email is not registered!</div>');
-            redirect('dasboard/auth');
+            redirect('dashboard/auth');
         }
     }
 

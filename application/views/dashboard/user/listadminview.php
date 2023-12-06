@@ -14,18 +14,19 @@
     <div class="card mb-3" style="max-width: 610px;">
         <div class="row no-gutters">
             <div class="col-md-4">
-                <img src="<?= base_url('assets/dashboard/img/profile/') . $admin['image']; ?>" class="card-img">
+                <img src="<?= base_url('assets/dashboard/img/profile/') . $useradmin['image']; ?>" class="card-img">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title"><?= $admin['name']; ?></h5>
-                    <p class="card-text"><?= $admin['email']; ?></p>
-                    <p class="card-text"><small class="text-muted">Member Since <?= date('d F Y', $admin['date_created']); ?></small></p>
+                    <h5 class="card-title"><?= $useradmin['name']; ?></h5>
+                    <p class="card-text"><?= $useradmin['email']; ?></p>
+                    <p class="card-text"><small class="text-muted">Member Since <?= date('d F Y', $useradmin['date_created']); ?></small></p>
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <a href="<?= base_url('dashboard/user/edit/') ?>" class="badge badge-success">Edit Profile</a>
-                        <a href="<?= base_url('dashboard/user/changePassword/') ?>" class="badge badge-info">Change Password</a>
+                        <a href="<?= base_url('dashboard/user/editadmin/' . $useradmin['id']) ?>" class="badge badge-success">Edit Profile</a>
+                        <a href="<?= base_url('dashboard/user/listadmin') ?>" class="badge badge-primary">Back</a>
+                        <!-- <a href="<?= base_url('dashboard/user/changePasswordAdmin/') ?>" class="badge badge-info">Change Password</a> -->
                     </div>
                 </div>
             </div>

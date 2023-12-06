@@ -29,12 +29,10 @@ class Superadmin extends CI_Controller
     // ROLE
     public function role()
     {
-        $data['title'] = 'Role';
+        $data['title'] = 'Role / Level';
         $data['menuActive'] = 'SuperAdmin';
         $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
-
         $data['role'] = $this->db->get('user_role')->result_array();
-
         $this->load->view('dashboard/temp/header', $data);
         $this->load->view('dashboard/temp/sidebar', $data);
         $this->load->view('dashboard/temp/topbar', $data);
@@ -46,12 +44,9 @@ class Superadmin extends CI_Controller
         $data['title'] = 'Role Access';
         $data['menuActive'] = 'SuperAdmin';
         $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
-
         $data['role'] = $this->db->get_where('user_role', ['id' => $role_id])->row_array();
-
         // $this->db->where('id !=', 1);
         $data['menu'] = $this->db->get('user_menu')->result_array();
-
         $this->load->view('dashboard/temp/header', $data);
         $this->load->view('dashboard/temp/sidebar', $data);
         $this->load->view('dashboard/temp/topbar', $data);
@@ -64,13 +59,11 @@ class Superadmin extends CI_Controller
         $data['menuActive'] = 'SuperAdmin';
         $menu_id = $this->input->post('menuId');
         $role_id = $this->input->post('roleId');
-
         $data = [
             'role_id' => $role_id,
             'menu_id' => $menu_id
         ];
         $result = $this->db->get_where('user_access_menu', $data);
-
         if ($result->num_rows() < 1) {
             $this->db->insert('user_access_menu', $data);
         } else {
@@ -98,7 +91,7 @@ class Superadmin extends CI_Controller
             $this->load->view('dashboard/superadmin/menu', $data);
             $this->load->view('dashboard/temp/footer');
         } else {
-            $this->db->insert('user_menu', ['menu' => $this->input->post('menu')]);
+            $this->menu->addMenu();
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New menu added!</div>');
             redirect('dashboard/superadmin/menu');
         }
@@ -177,14 +170,7 @@ class Superadmin extends CI_Controller
             $this->load->view('dashboard/superadmin/submenu', $data);
             $this->load->view('dashboard/temp/footer');
         } else {
-            $data = [
-                'title' => $this->input->post('title'),
-                'menu_id' => $this->input->post('menu_id'),
-                'url' => $this->input->post('url'),
-                'icon' => $this->input->post('icon'),
-                'is_active' => $this->input->post('is_active')
-            ];
-            $this->db->insert('user_sub_menu', $data);
+            $this->menu->addSubMenu();
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New sub menu added!</div>');
             redirect('dashboard/superadmin/submenu');
         }
