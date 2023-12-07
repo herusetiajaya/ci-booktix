@@ -149,7 +149,7 @@ class Superadmin extends CI_Controller
     // SUB MENU
     public function submenu()
     {
-        $data['title'] = 'Submenu';
+        $data['title'] = 'Submenu Management';
         $data['menuActive'] = 'SuperAdmin';
         $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
 

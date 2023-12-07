@@ -17,7 +17,7 @@ class User extends CI_Controller
     public function index()
     {
         $data['title'] = 'My Profile';
-        $data['menuActive'] = 'Users Management';
+        $data['menuActive'] = 'Users';
         $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
         // echo 'Selamat datang ' . $data['user']['name'];
         $this->load->view('dashboard/temp/header', $data);
@@ -30,7 +30,7 @@ class User extends CI_Controller
     public function edit()
     {
         $data['title'] = 'Edit Profile';
-        $data['menuActive'] = 'Users Management';
+        $data['menuActive'] = 'Users';
         $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
         $this->form_validation->set_rules('name', 'Full Name', 'required|trim');
         if ($this->form_validation->run() == false) {
@@ -66,7 +66,7 @@ class User extends CI_Controller
     public function changePassword()
     {
         $data['title'] = 'Change Password';
-        $data['menuActive'] = 'Users Management';
+        $data['menuActive'] = 'Users';
         $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
 
         $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim');
@@ -111,7 +111,7 @@ class User extends CI_Controller
             check_logged();
         }
         $data['title'] = 'Profile';
-        $data['menuActive'] = 'Users Management';
+        $data['menuActive'] = 'Users';
         $data['admin'] = $this->db->get_where('admin', ['id' => 1])->row_array();
         $data['useradmin'] = $this->db->get_where('admin', ['id' => $id])->row_array();
 
@@ -130,7 +130,7 @@ class User extends CI_Controller
             check_logged();
         }
         $data['title'] = 'Edit Profile';
-        $data['menuActive'] = 'Users Management';
+        $data['menuActive'] = 'Users';
         $data['admin'] = $this->db->get_where('admin', ['id' => 1])->row_array();
         $data['useradmin'] = $this->db->get_where('admin', ['id' => $id])->row_array();
         $this->form_validation->set_rules('name', 'Full Name', 'required|trim');
@@ -172,8 +172,8 @@ class User extends CI_Controller
         if ($roleId === '2') {
             check_logged();
         }
-        $data['title'] = 'List User Admin';
-        $data['menuActive'] = 'Users Management';
+        $data['title'] = 'List Admin';
+        $data['menuActive'] = 'Users';
         $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
         $data['listadmin'] = $this->userModel->getUserAdmin();
         $this->load->view('dashboard/temp/header', $data);
@@ -185,8 +185,8 @@ class User extends CI_Controller
 
     public function listCustomer()
     {
-        $data['title'] = 'List User Customer';
-        $data['menuActive'] = 'Users Management';
+        $data['title'] = 'List Customers';
+        $data['menuActive'] = 'Users';
         $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
         $data['listcustomer'] = $this->db->get('user')->result_array();
         $this->load->view('dashboard/temp/header', $data);

@@ -8,7 +8,7 @@
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('dashboard/admin'); ?>">
             <?php endif; ?>
             <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-code"></i>
+                <i class="fas fa-leaf"></i>
             </div>
             <div class="sidebar-brand-text mx-3">Booktix</div>
             </a>
@@ -27,7 +27,7 @@
                 <?php if ($m['menu'] === 'SuperAdmin') : ?>
                     <li class="nav-item <?= ($menuActive === $m['menu']) ? 'active' : '' ?>">
                         <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                            <i class="fas fa-fw fa-user-secret"></i>
+                            <i class="fas fa-house-user"></i>
                             <span><?= $m['menu']; ?></span>
                         </a>
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -40,7 +40,9 @@
                                 ?>
                                 <?php foreach ($subMenu as $sm => $sf) : ?>
                                     <?php if ($m['menu'] === 'SuperAdmin') : ?>
+
                                         <a class="collapse-item" href="<?= base_url($sf['url']); ?>"><i class="<?= $sf['icon']; ?>"></i> <?= $sf['title']; ?></a>
+
                                     <?php endif; ?>
                                 <?php endforeach; ?>
                             </div>
@@ -68,7 +70,7 @@
                             <li class="nav-item">
                             <?php endif; ?>
                             <!-- Jika login level admin dan submenu listUserAdmin -->
-                            <?php if ($admin['role_id'] === '2' and $sm['title'] == 'List User Admin') : ?>
+                            <?php if ($admin['role_id'] === '2' and $sm['id'] === '6') : ?>
                                 <a class="nav-link pb-0" href="<?= base_url($sm['url']); ?>" onclick="return false;" style="cursor:not-allowed; opacity:0.5; text-decoration:none;">
                                     <i class="<?= $sm['icon']; ?>"></i>
                                     <span><?= $sm['title']; ?></span>

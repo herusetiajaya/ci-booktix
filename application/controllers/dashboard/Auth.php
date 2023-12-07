@@ -15,12 +15,13 @@ class Auth extends CI_Controller
     public function index()
     {
         if ($this->session->userdata('email')) {
-            redirect('dashboard/admin');
+            redirect('dashboard/auth');
         }
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
         $this->form_validation->set_rules('password', 'Password', 'required|trim');
 
         if ($this->form_validation->run() == false) {
+            $data['ipaddres'] = $this->getUserIP();
             $data['title'] = 'Login Page';
             $this->load->view('dashboard/temp/auth_header', $data);
             $this->load->view('dashboard/auth/login');
@@ -80,5 +81,22 @@ class Auth extends CI_Controller
         $this->load->view('dashboard/temp/auth_header', $data);
         $this->load->view('dashboard/auth/blocked');
         $this->load->view('dashboard/temp/auth_footer');
+    }
+
+    function getUserIP()
+    {
+        $client  = @$_SERVER['HTTP_CLIENT_IP'];
+        $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+        $remote  = $_SERVER['REMOTE_ADDR'];
+
+        if (filter_var($client, FILTER_VALIDATE_IP)) {
+            $ip = $client;
+        } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
+            $ip = $forward;
+        } else {
+            $ip = $remote;
+        }
+
+        return $ip;
     }
 }

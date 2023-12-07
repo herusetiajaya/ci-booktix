@@ -33,6 +33,9 @@
                             </form>
                             <hr>
                             <div class="text-center">
+                                <p align="center" class="login-box-msg">Your IP : <?= $ipaddres; ?></p>
+                            </div>
+                            <div class="text-center">
                                 <!-- <a class="small" href="<?= base_url('dashboard/auth/forgotpassword'); ?>">Forgot Password?</a> -->
                             </div>
                             <div class="text-center">
