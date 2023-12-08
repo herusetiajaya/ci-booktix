@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-lg">
                         <div class="p-5">
-                            <a href="<?= base_url('home'); ?>" class="m-1">&laquo Home</a>
+                            <a href="<?= base_url('frontend/home'); ?>" class="m-1 badge badge-info">&laquo Home</a>
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-3">Login Admin</h1>
                                 <?= $this->session->flashdata('message'); ?>
