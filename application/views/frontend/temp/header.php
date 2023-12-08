@@ -23,12 +23,37 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-                    <div class="navbar-nav ">
+                    <div class="navbar-nav">
                         <a class="nav-item nav-link <?= ($title == 'Home page') ? 'active' : '' ?>" href="<?= base_url('frontend/home'); ?>">Home <span class="sr-only">(current)</span></a>
                         <a class="nav-item nav-link <?= ($title == 'About page') ? 'active' : '' ?>" href="<?= base_url('frontend/about'); ?>">About</a>
                         <a class="nav-item nav-link <?= ($title == 'Film page') ? 'active' : '' ?>" href="<?= base_url('frontend/film'); ?>">Film</a>
-                        <a class="nav-item nav-link <?= ($title == 'Login Customer page') ? 'active' : '' ?>" href="<?= base_url('frontend/auth'); ?>">Login Customer</a>
-                        <a class="nav-item nav-link" href="<?= base_url('dashboard/auth'); ?>">Login Admin</a>
+                        <a class="nav-item nav-link <?= ($title == 'Forum page') ? 'active' : '' ?>" href="<?= base_url('frontend/forum'); ?>">Forum</a>
+                        <?php if ($this->session->userdata('username')) : ?>
+                            <div class="dropdown show ml-5">
+                                <a class="nav-item nav-link <?= ($title == 'Customer page') ? 'active' : '' ?> dropdown-toggle" href="" role="a" id="dropdownMenuLink" data-toggle="dropdown" data-target="#dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span"><?= $this->session->userdata('username'); ?></span>
+                                </a>
+                                <div class="dropdown-menu bg-secondary" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item nav-item nav-link bg-dark" href="<?= base_url('frontend/customer'); ?>">
+                                        <i class="fa fa-id-card fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        My Profile
+                                    </a>
+                                    <a class="dropdown-item nav-item nav-link bg-dark" href="">
+                                        <i class="fa fa-ticket fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        My Ticket
+                                    </a>
+                                    <a class="dropdown-item nav-item nav-link bg-dark submit-logout" href="">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </div>
+
+                        <?php else : ?>
+                            <a class="nav-item nav-link <?= ($title == 'Login page') ? 'active' : '' ?>" href="<?= base_url('frontend/auth'); ?>">
+                                <span class="pl-5">Login</span>
+                            </a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </nav>

@@ -22,10 +22,32 @@
 <script src="<?= base_url('assets/'); ?>frontend/js/sweetalert2.all.min.js"></script>
 
 <!-- <script src="<?= base_url('assets/'); ?>frontend/js/myscript.js"></script> -->
+
+<script>
+    // logout
+    $('.submit-logout').on('click', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Ready to Leave?',
+            text: 'Select "Logout" below if you are ready to end your current session.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Logout!'
+        }).then((result) => {
+            if (result.value) {
+                document.location.href = "<?= base_url('frontend/auth/logout'); ?>"
+            }
+        })
+    });
+</script>
+
 <script>
     // HOME PAGE
     // const txtElement = ['Motherfucker', 'Bitches', 'Idiot'];
-    const txtElement = ['Human', 'Stanger', 'Robot', 'Student', 'Mr./Mrs'];
+    // const txtElement = ['Human', 'Stanger', 'Robot', 'Student', 'Mr./Mrs'];
+    const txtElement = ['Good people', 'Handsome', 'Beautiful'];
     let count = 0;
     let txtIndex = 0;
     let currentTxt = '';
@@ -66,28 +88,6 @@
     setInterval(() => {
         plusDivs(1);
     }, 1000);
-
-    // slide image about
-    // let slideIndex1 = 1;
-    // showDivs(slideIndex1);
-
-    // function plusDivs(n) {
-    //     showDivs((slideIndex1 += n));
-    // }
-
-    // function showDivs(n) {
-    //     let i;
-    //     let imgList = document.getElementsByClassName('img-slideshow-about');
-    //     if (n > imgList.length) slideIndex1 = 1;
-    //     else if (n < 1) slideIndex1 = imgList.length;
-    //     for (i = 0; i < imgList.length; i++) {
-    //         imgList[i].style.display = 'none';
-    //     }
-    //     imgList[slideIndex1 - 1].style.display = 'block';
-    // }
-    // setInterval(() => {
-    //     plusDivs(1);
-    // }, 1000);
 </script>
 
 </body>

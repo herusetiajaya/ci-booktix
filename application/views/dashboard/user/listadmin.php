@@ -34,6 +34,7 @@
                             <!-- <th>Password</th> -->
                             <th>Level</th>
                             <th>Active</th>
+                            <th>Created at</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -44,7 +45,7 @@
                                 <td><?= $i++; ?></td>
                                 <td><?= $listA['name']; ?></td>
                                 <td><?= $listA['email']; ?></td>
-                                <td width="100px"><img class="img-thumbnail" src="<?= base_url('assets/dashboard/img/profile/') . $listA['image']; ?>"></td>
+                                <td width="50px"><img class="img-thumbnail" src="<?= base_url('assets/dashboard/img/profile/') . $listA['image']; ?>"></td>
                                 <!-- <td><?= $listA['password']; ?></td> -->
                                 <td><?php if ($listA['role_id'] == '1') { ?>
                                         SuperAdmin
@@ -61,7 +62,7 @@
                                             <input class="isActive form-check-input" type="checkbox" name="is_active" for="is_avtive" data-id="<?= $listA['id']; ?>" data-ac="<?= $listA['is_active']; ?>">
                                         <?php endif; ?>
                                     </td>
-
+                                    <td><?= date('d F Y', $listA['date_created']); ?></td>
                                     <td>
                                         <a href="<?= base_url('dashboard/user/viewAdmin/' . $listA['id']) ?>" class="badge badge-primary">View</a>
                                         <a href="<?= base_url('dashboard/user/deleteAdmin/' . $listA['id']) ?>" class="deleteData badge badge-danger" onclick="return false;" style="cursor:not-allowed; opacity:0.5; text-decoration:none;">Delete</a>
@@ -75,6 +76,7 @@
                                             <input class="isActive form-check-input" type="checkbox" name="is_active" for="is_avtive" data-id="<?= $listA['id']; ?>" data-ac="<?= $listA['is_active']; ?>">
                                         <?php endif; ?>
                                     </td>
+                                    <td><?= date('d F Y', $listA['date_created']); ?></td>
                                     <td>
                                         <a href="<?= base_url('dashboard/user/viewAdmin/' . $listA['id']) ?>" class="badge badge-primary">View</a>
                                         <a href="<?= base_url('dashboard/user/deleteAdmin/' . $listA['id']) ?>" class="deleteData badge badge-danger">Delete</a>

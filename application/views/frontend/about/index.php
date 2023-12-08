@@ -4,7 +4,7 @@
         <div class="row mt-3 text-dark">
             <div class="col m6 text-white">
                 <h5>Booktix is Booking Ticket Film Online</h5>
-                <p>Aplikasi pemesanan tiket film secara online dan Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores dicta possimus voluptatibus ad! Dignissimos fuga alias similique esse aperiam accusantium officiis nihil accusamus.</p>
+                <p>Aplikasi pemesanan tiket film secara online dan Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores dicta possimus voluptatibus ad! Dignissimos fuga alias similique esse aperiam officiis accusamus.</p>
             </div>
             <div class="col m6 light text-white">
                 <div class="slider row justify-content-center">

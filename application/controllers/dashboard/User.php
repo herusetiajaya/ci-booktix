@@ -183,19 +183,6 @@ class User extends CI_Controller
         $this->load->view('dashboard/temp/footer');
     }
 
-    public function listCustomer()
-    {
-        $data['title'] = 'List Customers';
-        $data['menuActive'] = 'Users';
-        $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
-        $data['listcustomer'] = $this->db->get('user')->result_array();
-        $this->load->view('dashboard/temp/header', $data);
-        $this->load->view('dashboard/temp/sidebar', $data);
-        $this->load->view('dashboard/temp/topbar', $data);
-        $this->load->view('dashboard/user/listcustomer', $data);
-        $this->load->view('dashboard/temp/footer');
-    }
-
     public function addAdmin()
     {
         $adminLogin =  $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
@@ -264,5 +251,18 @@ class User extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">User admin ' . $nameAdmin . ' is not active now!</div>');
             redirect('dashboard/user/listAdmin');
         }
+    }
+
+    public function listCustomer()
+    {
+        $data['title'] = 'List Customers';
+        $data['menuActive'] = 'Users';
+        $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
+        $data['listcustomer'] = $this->db->get('customer')->result_array();
+        $this->load->view('dashboard/temp/header', $data);
+        $this->load->view('dashboard/temp/sidebar', $data);
+        $this->load->view('dashboard/temp/topbar', $data);
+        $this->load->view('dashboard/user/listcustomer', $data);
+        $this->load->view('dashboard/temp/footer');
     }
 }

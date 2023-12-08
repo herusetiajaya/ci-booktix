@@ -23,12 +23,15 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama</th>
+                            <th>Username</th>
                             <th>Email</th>
+                            <th>Name</th>
                             <th>Image</th>
-                            <!-- <th>Password</th> -->
-                            <th>Level</th>
+                            <!-- <th>Card ID</th> -->
+                            <!-- <th>Phone</th> -->
+                            <!-- <th>Address</th> -->
                             <th>Active</th>
+                            <th>Created at</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -37,16 +40,13 @@
                         foreach ($listcustomer as $listC) { ?>
                             <tr>
                                 <td><?= $i++; ?></td>
-                                <td><?= $listC['name']; ?></td>
+                                <td><?= $listC['username']; ?></td>
                                 <td><?= $listC['email']; ?></td>
-                                <td width="100px"><img class="img-thumbnail" src="<?= base_url('assets/dashboard/img/profile/') . $listC['image']; ?>"></td>
-                                <!-- <td><?= $listC['password']; ?></td> -->
-                                <td><?php if ($listC['role_id'] == '1') { ?>
-                                        SuperAdmin
-                                    <?php } else { ?>
-                                        Admin
-                                    <?php } ?>
-                                </td>
+                                <td><?= $listC['name']; ?></td>
+                                <td width="50px"><img class="img-thumbnail" src="<?= base_url('assets/frontend/img/profile/') . $listC['image']; ?>"></td>
+                                <!-- <td><?= $listC['card_id']; ?></td> -->
+                                <!-- <td><?= $listC['phone']; ?></td> -->
+                                <!-- <td><?= $listC['address']; ?></td> -->
                                 <td style="text-align:center;">
                                     <?php if ($listC['is_active'] == '1') : ?>
                                         <input class="form-check-input" type="checkbox" value="<?= $listC['is_active'] ?>" name="is_active" for="is_avtive" checked>
@@ -54,7 +54,8 @@
                                         <input class="form-check-input" type="checkbox" value="<?= $listC['is_active'] ?>" name="is_active" for="is_avtive">
                                     <?php endif; ?>
                                 </td>
-                                <td><a href="<?= base_url('dashboard/user/') ?>" class="badge badge-primary">View</a></td>
+                                <td><?= date('d F Y', $listC['date_created']); ?></td>
+                                <td><a href="<?= base_url('dashboard/user/viewUserCustomer') ?>" class="badge badge-primary">View</a></td>
                             </tr>
                         <?php } ?>
                     </tbody>
