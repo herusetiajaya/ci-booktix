@@ -18,7 +18,7 @@ class Superadmin extends CI_Controller
     {
         $data['title'] = 'Owner';
         $data['menuActive'] = 'SuperAdmin';
-        $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->view('dashboard/temp/header', $data);
         $this->load->view('dashboard/temp/sidebar', $data);
         $this->load->view('dashboard/temp/topbar', $data);
@@ -31,7 +31,7 @@ class Superadmin extends CI_Controller
     {
         $data['title'] = 'Role / Level';
         $data['menuActive'] = 'SuperAdmin';
-        $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
         $data['role'] = $this->db->get('user_role')->result_array();
         $this->load->view('dashboard/temp/header', $data);
         $this->load->view('dashboard/temp/sidebar', $data);
@@ -43,7 +43,7 @@ class Superadmin extends CI_Controller
     {
         $data['title'] = 'Role Access';
         $data['menuActive'] = 'SuperAdmin';
-        $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
         $data['role'] = $this->db->get_where('user_role', ['id' => $role_id])->row_array();
         // $this->db->where('id !=', 1);
         $data['menu'] = $this->db->get('user_menu')->result_array();
@@ -77,7 +77,7 @@ class Superadmin extends CI_Controller
     {
         $data['title'] = 'Menu Management';
         $data['menuActive'] = 'SuperAdmin';
-        $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
 
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
@@ -132,26 +132,12 @@ class Superadmin extends CI_Controller
         }
     }
 
-    public function test()
-    {
-        $data = [
-            'title' => $this->input->post('title'),
-            'menu_id' => $this->input->post('menu_id'),
-            'url' => $this->input->post('url'),
-            'icon' => $this->input->post('icon'),
-            'is_active' => $this->input->post('is_active')
-        ];
-        $result = json_encode($data);
-        var_dump($result . 'gagal lol wkwk');
-        die;
-    }
-
     // SUB MENU
     public function submenu()
     {
         $data['title'] = 'Submenu Management';
         $data['menuActive'] = 'SuperAdmin';
-        $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
 
         $data['subMenu'] = $this->menu->getSubMenu();
         $data['menu'] = $this->db->get('user_menu')->result_array();

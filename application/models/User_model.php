@@ -4,21 +4,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class User_model extends CI_Model
 {
 
-    public function uploadImage()
-    {
-        $this->db->set('name', $this->input->post('name'));
-        $this->db->where('email', $this->input->post('email'));
-        $this->db->update('admin');
-    }
-
-    public function getUserAdmin()
-    {
-        return $this->db->get('admin')->result_array();
-    }
-
     public function addUserAdmin()
     {
         $data = [
+            'username' => htmlspecialchars($this->input->post('username', true)),
             'name' => htmlspecialchars($this->input->post('name', true)),
             'email' => htmlspecialchars($this->input->post('email', true)),
             'image' => 'default.png',
@@ -30,13 +19,21 @@ class User_model extends CI_Model
         $this->db->insert('admin', $data);
     }
 
+    public function getUserAdmin()
+    {
+        return $this->db->get('admin')->result_array();
+    }
+
+    public function uploadImage()
+    {
+        $this->db->set('name', $this->input->post('name'));
+        $this->db->set('email', $this->input->post('email'));
+        $this->db->where('username', $this->input->post('username'));
+        $this->db->update('admin');
+    }
+
     public function deleteUserAdmin($id)
     {
         $this->db->delete('admin', ['id' => $id]);
-    }
-
-    public function changeUserAdminIsActive()
-    {
-        $this;
     }
 }

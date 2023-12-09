@@ -2,9 +2,9 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <?php if ($admin['role_id'] == 1) : ?>
+    <?php if ($user['role_id'] == 1) : ?>
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('dashboard/superadmin'); ?>">
-        <?php elseif ($admin['role_id'] == 2) : ?>
+        <?php elseif ($user['role_id'] == 2) : ?>
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('dashboard/admin'); ?>">
             <?php endif; ?>
             <div class="sidebar-brand-icon rotate-n-15">
@@ -70,7 +70,7 @@
                             <li class="nav-item">
                             <?php endif; ?>
                             <!-- Jika login level admin dan submenu listUserAdmin -->
-                            <?php if ($admin['role_id'] === '2' and $sm['id'] === '6') : ?>
+                            <?php if ($user['role_id'] === '2' and $sm['id'] === '6') : ?>
                                 <a class="nav-link pb-0" href="<?= base_url($sm['url']); ?>" onclick="return false;" style="cursor:not-allowed; opacity:0.5; text-decoration:none;">
                                     <i class="<?= $sm['icon']; ?>"></i>
                                     <span><?= $sm['title']; ?></span>

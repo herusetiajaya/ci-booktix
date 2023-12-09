@@ -146,6 +146,7 @@
         $('#adminModalLabel').html('Add New Admin');
         $('.modal-footer button[type=submit]').html('Add');
         $('.modal-body form').attr('action', "<?= base_url('dashboard/user/addadmin'); ?>");
+        $('.modal-body #username').val('');
         $('.modal-body #name').val('');
         $('.modal-body #email').val('');
         $('.modal-body #password1').val('');
@@ -169,8 +170,8 @@
             }
         });
     });
-    // Change User Is Active
-    $('.isActive ').on('click', function() {
+    // Change User admin Is Active
+    $('.isActiveAdmin').on('click', function() {
         const id = $(this).data('id');
         const isAct = $(this).data('ac');
 
@@ -178,6 +179,21 @@
             success: function() {
                 // alert('success');
                 document.location.href = "<?= base_url('dashboard/user/changeAdminIsActive/'); ?>" + id + '/' + isAct;
+            },
+            error: function() {
+                alert('error');
+            }
+        });
+    });
+    // Change User customer Is Active
+    $('.isActiveCustomer ').on('click', function() {
+        const id = $(this).data('id');
+        const isAct = $(this).data('ac');
+
+        $.ajax({
+            success: function() {
+                // alert('success');
+                document.location.href = "<?= base_url('dashboard/usercustomer/changeCustomerIsActive/'); ?>" + id + '/' + isAct;
             },
             error: function() {
                 alert('error');

@@ -13,15 +13,13 @@
                     <div class="row">
                         <div class="col-lg">
                             <div class="p-1">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <?= form_error('customer', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
-                                        <?= $this->session->flashdata('message'); ?>
-                                    </div>
+                                <div class="col-lg- d-flex justify-content-center">
+                                    <?= form_error('customer', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
+                                    <?= $this->session->flashdata('message'); ?>
                                 </div>
 
                                 <div class="row no-gutters">
-                                    <div class="col-md-5 p-3">
+                                    <div class="col-md-4 pl-2 pt-4">
                                         <img src="<?= base_url('assets/frontend/img/profile/') . $user['image']; ?>" class="card-img">
                                     </div>
                                     <div class="col-md- mt-2">
@@ -57,8 +55,8 @@
                                 <div class="row no-gutters">
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <a href="<?= base_url('dashboard/custu\omer/edit/') ?>" class="badge badge-success">Edit Profile</a>
-                                            <a href="<?= base_url('dashboard/customer/changePassword/') ?>" class="badge badge-info">Change Password</a>
+                                            <a href="<?= base_url('frontend/customer/edit') ?>" class="badge badge-success">Edit Profile</a>
+                                            <a href="<?= base_url('frontend/customer/changePassword') ?>" class="badge badge-info">Change Password</a>
                                         </div>
                                     </div>
                                 </div>

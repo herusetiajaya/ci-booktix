@@ -14,10 +14,10 @@ class Auth extends CI_Controller
 
     public function index()
     {
-        if ($this->session->userdata('email')) {
+        if ($this->session->userdata('username')) {
             redirect('dashboard/auth');
         }
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
+        $this->form_validation->set_rules('username', 'Username',  'required|trim');
         $this->form_validation->set_rules('password', 'Password', 'required|trim');
 
         if ($this->form_validation->run() == false) {
@@ -33,22 +33,23 @@ class Auth extends CI_Controller
 
     private function _login()
     {
-        $email = $this->input->post('email');
+        $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $admin = $this->db->get_where('admin', ['email' => $email])->row_array();
+        $user = $this->db->get_where('admin', ['username' => $username])->row_array();
         // jika usernya ada
-        if ($admin) {
+        if ($user) {
             // jika adminnya aktif
-            if ($admin['is_active'] == 1) {
+            if ($user['is_active'] == 1) {
                 // cek password
-                if (password_verify($password, $admin['password'])) {
+                if (password_verify($password, $user['password'])) {
                     $data = [
-                        'email' => $admin['email'],
-                        'role_id' => $admin['role_id']
+                        'username' => $user['username'],
+                        'email' => $user['email'],
+                        'role_id' => $user['role_id']
                     ];
                     $this->session->set_userdata($data);
-                    if ($admin['role_id'] == 1) {
+                    if ($user['role_id'] == 1) {
                         redirect('dashboard/superadmin');
                     } else {
                         redirect('dashboard/admin');
@@ -58,17 +59,18 @@ class Auth extends CI_Controller
                     redirect('dashboard/auth');
                 }
             } else {
-                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">This Email has not activated!</div>');
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">This Account has not activated!</div>');
                 redirect('dashboard/auth');
             }
         } else {
-            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Email is not registered!</div>');
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Username is not registered!</div>');
             redirect('dashboard/auth');
         }
     }
 
     public function logout()
     {
+        $this->session->unset_userdata('username');
         $this->session->unset_userdata('email');
         $this->session->unset_userdata('role_id');
 

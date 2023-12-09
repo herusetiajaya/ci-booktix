@@ -55,7 +55,7 @@ class Auth extends CI_Controller
                     redirect('frontend/auth');
                 }
             } else {
-                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">This Username has not activated!</div>');
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">This Account has not activated!</div>');
                 redirect('frontend/auth');
             }
         } else {
@@ -97,9 +97,9 @@ class Auth extends CI_Controller
                 'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
                 'name' => htmlspecialchars($this->input->post('name', true)),
                 'email' => htmlspecialchars($email),
-                'card_id' => '000xxx',
-                'phone' => '085xxxxxxx',
-                'address' => '085xxxxxxx',
+                'card_id' => '0099xxx',
+                'phone' => '088xxxxxx',
+                'address' => 'addyourAddress',
                 'image' => 'default.png',
                 'is_active' => 0,
                 'date_created' => time()

@@ -13,7 +13,7 @@ class Management extends CI_Controller
     {
         $data['title'] = 'Management';
         $data['menuActive'] = 'Management';
-        $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
         // echo 'Selamat datang ' . $data['user']['name'];
         $this->load->view('dashboard/temp/header', $data);
         $this->load->view('dashboard/temp/sidebar', $data);
@@ -26,7 +26,7 @@ class Management extends CI_Controller
     {
         $data['title'] = 'Payment Bank';
         $data['menuActive'] = 'Management';
-        $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
 
         $this->load->view('dashboard/temp/header', $data);
         $this->load->view('dashboard/temp/sidebar', $data);
@@ -39,7 +39,7 @@ class Management extends CI_Controller
     {
         $data['title'] = 'Report';
         $data['menuActive'] = 'Management';
-        $data['admin'] = $this->db->get_where('admin', ['email' => $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
 
         $this->load->view('dashboard/temp/header', $data);
         $this->load->view('dashboard/temp/sidebar', $data);

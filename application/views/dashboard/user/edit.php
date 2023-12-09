@@ -8,15 +8,22 @@
         <div class="col-lg-8">
             <?= form_open_multipart('dashboard/user/edit/'); ?>
             <div class="form-group row">
+                <label for="username" class="col-sm-2 col-form-label">Username</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="username" name="username" value="<?= $user['username']; ?>" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
                 <label for="email" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="email" name="email" value="<?= $admin['email']; ?>" readonly>
+                    <input type="text" class="form-control" id="email" name="email" value="<?= $user['email']; ?>">
+                    <?= form_error('email', '<small class="text-danger pl-3">', '</small>'); ?>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="name" class="col-sm-2 col-form-label">Full Name</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="name" name="name" value="<?= $admin['name']; ?>">
+                    <input type="text" class="form-control" id="name" name="name" value="<?= $user['name']; ?>">
                     <?= form_error('name', '<small class="text-danger pl-3">', '</small>'); ?>
                 </div>
             </div>
@@ -25,7 +32,7 @@
                 <div class="col-sm-10">
                     <div class="row">
                         <div class="col-sm-3">
-                            <img src="<?= base_url('assets/dashboard/img/profile/') . $admin['image']; ?>" alt="" class="img-thumbnail">
+                            <img src="<?= base_url('assets/dashboard/img/profile/') . $user['image']; ?>" alt="" class="img-thumbnail">
                         </div>
                         <div class="col-sm-9">
                             <div class="custum-file">
