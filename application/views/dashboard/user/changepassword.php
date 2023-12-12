@@ -25,6 +25,7 @@
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Change Password</button>
+                    <a href="<?= base_url('dashboard/user/') ?>"><button type="button" class="btn btn-danger">Cencel</button></a>
                 </div>
             </form>
         </div>

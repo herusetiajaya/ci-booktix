@@ -12,11 +12,12 @@ class Customer extends CI_Controller
         if (!$this->session->userdata('email')) {
             redirect('frontend/auth');
         }
+        $this->load->model('UserCustomer_model', 'customer');
         $this->load->library('form_validation');
     }
     public function index()
     {
-        $data['user'] = $this->db->get_where('customer', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->customer->getCustomerByUsername();
         $data['title'] = 'Customer page';
         $this->load->view('frontend/temp/header', $data);
         $this->load->view('frontend/customer/index', $data);
@@ -26,7 +27,7 @@ class Customer extends CI_Controller
     public function changePassword()
     {
         $data['title'] = 'Change Password';
-        $data['user'] = $this->db->get_where('customer', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->customer->getCustomerByUsername();
 
         $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim');
         $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|min_length[3]|matches[new_password2]');
@@ -48,11 +49,7 @@ class Customer extends CI_Controller
                     redirect('frontend/customer/changepassword');
                 } else {
                     $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
-
-                    $this->db->set('password', $password_hash);
-                    $this->db->where('username', $this->session->userdata('username'));
-                    $this->db->update('customer');
-
+                    $this->customer->updatePasswordCustomerByUsername($password_hash);
                     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Password changed!</div>');
                     redirect('frontend/customer');
                 }
@@ -63,7 +60,7 @@ class Customer extends CI_Controller
     public function edit()
     {
         $data['title'] = 'Edit Profile';
-        $data['user'] = $this->db->get_where('customer', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->customer->getCustomerByUsername();
 
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
         $this->form_validation->set_rules('name', 'Name', 'required|trim');
@@ -89,20 +86,12 @@ class Customer extends CI_Controller
                         unlink(FCPATH . 'assets/frontend/img/profile/' . $old_image);
                     }
                     $new_image = $this->upload->data('file_name');
-                    $this->db->set('image', $new_image);
+                    $this->customer->uploadImageCustomer($new_image);
                 } else {
                     echo $this->upload->display_errors();
                 }
             }
-            $dataC = [
-                'name' => htmlspecialchars($this->input->post('name', true)),
-                'email' => htmlspecialchars($this->input->post('email', true)),
-                'card_id' => htmlspecialchars($this->input->post('card_id', true)),
-                'phone' => htmlspecialchars($this->input->post('phone', true)),
-                'address' => htmlspecialchars($this->input->post('address', true)),
-            ];
-            $this->db->where('username', $this->input->post('username'));
-            $this->db->update('customer', $dataC);
+            $this->customer->updateImageCustomer();
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your profile has been updated!</div>');
             redirect('frontend/customer');
         }

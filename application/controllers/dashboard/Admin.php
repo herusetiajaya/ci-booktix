@@ -6,19 +6,16 @@ class Admin extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        // if (!$this->session->userdata('email')) {
-        //     redirect('auth');
-        // }
-        // is_logged_in();
         check_logged();
+        $this->load->model('User_model', 'user');
     }
 
     public function index()
     {
         $data['title'] = 'Dashboard';
         $data['menuActive'] = 'Admin';
-        $data['user'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
-        // echo 'Selamat datang ' . $data['user']['name'];
+        $data['user'] = $this->user->getUserAdminByUsername();
+
         $this->load->view('dashboard/temp/header', $data);
         $this->load->view('dashboard/temp/sidebar', $data);
         $this->load->view('dashboard/temp/topbar', $data);
@@ -30,8 +27,8 @@ class Admin extends CI_Controller
     {
         $data['title'] = 'Order Ticket';
         $data['menuActive'] = 'Admin';
-        $data['user'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
-        // echo 'Selamat datang ' . $data['user']['name'];
+        $data['user'] = $this->user->getUserAdminByUsername();
+
         $this->load->view('dashboard/temp/header', $data);
         $this->load->view('dashboard/temp/sidebar', $data);
         $this->load->view('dashboard/temp/topbar', $data);
@@ -43,8 +40,8 @@ class Admin extends CI_Controller
     {
         $data['title'] = 'Confirm Payment';
         $data['menuActive'] = 'Admin';
-        $data['user'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
-        // echo 'Selamat datang ' . $data['user']['name'];
+        $data['user'] = $this->user->getUserAdminByUsername();
+
         $this->load->view('dashboard/temp/header', $data);
         $this->load->view('dashboard/temp/sidebar', $data);
         $this->load->view('dashboard/temp/topbar', $data);

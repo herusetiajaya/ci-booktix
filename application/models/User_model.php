@@ -4,6 +4,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class User_model extends CI_Model
 {
 
+    public function getUserAdminByUsername()
+    {
+        return $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
+    }
+
+    public function getUserAdminByUsernameAuth($username)
+    {
+        return $this->db->get_where('admin', ['username' => $username])->row_array();
+    }
+
     public function addUserAdmin()
     {
         $data = [
@@ -24,11 +34,53 @@ class User_model extends CI_Model
         return $this->db->get('admin')->result_array();
     }
 
-    public function uploadImage()
+    public function getUserAdminById($id)
+    {
+        return $this->db->get_where('admin', ['id' => $id])->row_array();
+    }
+
+    public function uploadImage($new_image)
+    {
+        $this->db->set('image', $new_image);
+    }
+
+    public function updateImage()
     {
         $this->db->set('name', $this->input->post('name'));
         $this->db->set('email', $this->input->post('email'));
         $this->db->where('username', $this->input->post('username'));
+        $this->db->update('admin');
+    }
+
+    public function updatePassword($password_hash)
+    {
+        $this->db->set('password', $password_hash);
+        $this->db->where('username', $this->session->userdata('username'));
+        $this->db->update('admin');
+    }
+
+    public function updatePasswordById($password_hash, $id)
+    {
+        $this->db->set('password', $password_hash);
+        $this->db->where('id', $id);
+        $this->db->update('admin');
+    }
+
+    public function updateIsActive($idAdmin)
+    {
+        $this->db->where('id', $idAdmin);
+        $this->db->update('admin', ['is_active' => 0]);
+    }
+    public function updateIsNotActive($idAdmin)
+    {
+        $this->db->where('id', $idAdmin);
+        $this->db->update('admin', ['is_active' => 1]);
+    }
+
+    public function resetPassword($password, $id)
+    {
+        $this->db->set('password', $password);
+        $this->db->where('id', $id);
         $this->db->update('admin');
     }
 

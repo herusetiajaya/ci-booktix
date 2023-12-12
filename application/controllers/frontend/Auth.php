@@ -9,6 +9,7 @@ class Auth extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('UserCustomer_model', 'customer');
         $this->load->library('form_validation');
     }
 
@@ -37,7 +38,7 @@ class Auth extends CI_Controller
         $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $user = $this->db->get_where('customer', ['username' => $username])->row_array();
+        $user = $this->customer->getCustomerByUsernameAuth($username);
         // jika usernya ada
         if ($user) {
             // jika usernya aktif

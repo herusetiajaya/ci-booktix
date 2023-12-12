@@ -25,7 +25,7 @@
                             <th scope="row"><?= $i++; ?></th>
                             <td><?= $m['menu']; ?></td>
 
-                            <?php if ($m['id'] === '1' or $m['id'] === '2' or $m['id'] === '3') : ?>
+                            <?php if ($m['id'] == 1 or $m['id'] == 2 or $m['id'] == 3 or $m['id'] == 4 or $m['id'] == 5) : ?>
                                 <td>
                                     <a href="" class="editModalMenu badge badge-success" data-toggle="modal" data-target="#menuModal" data-id="<?= $m['id']; ?>" data-menu="<?= $m['menu']; ?>" onclick="return false;" style="cursor:not-allowed; opacity:0.5; text-decoration:none;">edit</a>
                                     <a href="<?= base_url('dashboard/superadmin/deletemenu/' . $m['id']); ?>" class="deleteData badge badge-danger" onclick="return false;" style="cursor:not-allowed; opacity:0.5; text-decoration:none;">delete</a>

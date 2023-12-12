@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Menu_model extends CI_Model
 {
-    // JOIN MENU AND SUB MENU
+    // JOIN user MENU AND user SUB MENU
     public function getSubMenu()
     {
         $query = "SELECT `user_sub_menu`. *, `user_menu`.`menu`
@@ -17,6 +17,16 @@ class Menu_model extends CI_Model
     public function addMenu()
     {
         $this->db->insert('user_menu', ['menu' => $this->input->post('menu')]);
+    }
+
+    public function getMenu()
+    {
+        return $this->db->get('user_menu')->result_array();
+    }
+
+    public function getUserMenuByNameMenu()
+    {
+        return $this->db->get_where('user_menu', ['menu' => $this->input->post('menu')])->row_array();
     }
 
     public function editNameMenu()
@@ -46,6 +56,17 @@ class Menu_model extends CI_Model
         $this->db->insert('user_sub_menu', $data);
     }
 
+    public function getSubMenuByCheck()
+    {
+        return $this->db->get_where('user_sub_menu', [
+            'title' => $this->input->post('title'),
+            'menu_id' => $this->input->post('menu_id'),
+            'url' => $this->input->post('url'),
+            'icon' => $this->input->post('icon'),
+            'is_active' => $this->input->post('is_active')
+        ])->row_array();
+    }
+
     public function editSubMenu()
     {
         $data = [
@@ -59,42 +80,8 @@ class Menu_model extends CI_Model
         $this->db->update('user_sub_menu', $data);
     }
 
-    public function setRulesEditSubMenu()
-    {
-        if (
-            $this->input->post('id') === '1' or
-            $this->input->post('id') === '2' or
-            $this->input->post('id') === '3' or
-            $this->input->post('id') === '4' or
-            $this->input->post('id') === '5' or
-            $this->input->post('id') === '6' or
-            $this->input->post('id') === '7'
-        ) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public function deleteSubMenuById($id)
     {
         $this->db->delete('user_sub_menu', ['id' => $id]);
-    }
-
-    public function setRulesDeleteSubMenu($id)
-    {
-        if (
-            $id === '1' or
-            $id === '2' or
-            $id === '3' or
-            $id === '4' or
-            $id === '5' or
-            $id === '6' or
-            $id === '7'
-        ) {
-            return true;
-        } else {
-            return false;
-        }
     }
 }

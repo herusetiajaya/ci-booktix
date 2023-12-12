@@ -41,9 +41,7 @@
                                     <input class="form-check-input" type="checkbox" value="<?= $sm['is_active'] ?>" name="is_active" for="is_avtive">
                                 <?php endif; ?>
                             </td> -->
-                            <?php if (
-                                $sm['id'] === '1' or $sm['id'] === '2' or $sm['id'] === '3' or $sm['id'] === '4' or $sm['id'] === '5' or $sm['id'] === '6' or $sm['id'] === '7'
-                            ) : ?>
+                            <?php if ($sm['id'] == 1 or $sm['id'] == 2 or $sm['id'] == 3 or $sm['id'] == 4 or $sm['id'] == 5 or $sm['id'] == 6 or $sm['id'] == 7) : ?>
                                 <td>
                                     <a href="" class="editSubMenuModal badge badge-success" data-toggle="modal" data-target="#subMenuModal" data-id="<?= $sm['id'] ?>" data-title="<?= $sm['title'] ?>" data-menu_id="<?= $sm['menu_id'] ?>" data-url="<?= $sm['url'] ?>" data-icon="<?= $sm['icon'] ?>" data-isActive="<?= $sm['is_active'] ?>" onclick="return false;" style="cursor:not-allowed; opacity:0.5; text-decoration:none;">edit</a>
                                     <a href="<?= base_url('dashboard/superadmin/deletesubmenu/' . $sm['id']); ?>" class="deleteData badge badge-danger" onclick="return false;" style="cursor:not-allowed; opacity:0.5; text-decoration:none;">delete</a>

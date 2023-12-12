@@ -9,13 +9,14 @@ class Auth extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('User_model', 'user');
         $this->load->library('form_validation');
     }
 
     public function index()
     {
         if ($this->session->userdata('username')) {
-            redirect('dashboard/auth');
+            redirect('dashboard/admin');
         }
         $this->form_validation->set_rules('username', 'Username',  'required|trim');
         $this->form_validation->set_rules('password', 'Password', 'required|trim');
@@ -36,7 +37,7 @@ class Auth extends CI_Controller
         $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $user = $this->db->get_where('admin', ['username' => $username])->row_array();
+        $user = $this->user->getUserAdminByUsernameAuth($username);
         // jika usernya ada
         if ($user) {
             // jika adminnya aktif

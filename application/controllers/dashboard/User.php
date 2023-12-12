@@ -9,17 +9,19 @@ class User extends CI_Controller
         if (!$this->session->userdata('username')) {
             redirect('dashboard/auth');
         }
-        $this->load->model('User_model', 'userModel');
+        $this->load->model('User_model', 'user');
         $this->load->library('form_validation');
         // is_logged_in();
         // check_logged();
     }
+
+    // User admin
     public function index()
     {
         $data['title'] = 'My Profile';
         $data['menuActive'] = 'Users';
-        $data['user'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
-        // echo 'Selamat datang ' . $data['user']['name'];
+        $data['user'] = $this->user->getUserAdminByUsername();
+
         $this->load->view('dashboard/temp/header', $data);
         $this->load->view('dashboard/temp/sidebar', $data);
         $this->load->view('dashboard/temp/topbar', $data);
@@ -31,7 +33,7 @@ class User extends CI_Controller
     {
         $data['title'] = 'Edit Profile';
         $data['menuActive'] = 'Users';
-        $data['user'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->user->getUserAdminByUsername();
         $this->form_validation->set_rules('name', 'Full Name', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
         if ($this->form_validation->run() == false) {
@@ -54,12 +56,12 @@ class User extends CI_Controller
                         unlink(FCPATH . 'assets/dashboard/img/profile/' . $old_image);
                     }
                     $new_image = $this->upload->data('file_name');
-                    $this->db->set('image', $new_image);
+                    $this->user->uploadImage($new_image);
                 } else {
                     echo $this->upload->display_errors();
                 }
             }
-            $this->userModel->uploadImage();
+            $this->user->updateImage();
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your profile has been updated!</div>');
             redirect('dashboard/user');
         }
@@ -69,7 +71,7 @@ class User extends CI_Controller
     {
         $data['title'] = 'Change Password';
         $data['menuActive'] = 'Users';
-        $data['user'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
+        $data['user'] = $this->user->getUserAdminByUsername();
 
         $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim');
         $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|min_length[3]|matches[new_password2]');
@@ -93,11 +95,7 @@ class User extends CI_Controller
                     redirect('dashboard/user/changepassword');
                 } else {
                     $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
-
-                    $this->db->set('password', $password_hash);
-                    $this->db->where('username', $this->session->userdata('username'));
-                    $this->db->update('admin');
-
+                    $this->user->updatePassword($password_hash);
                     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Password changed!</div>');
                     redirect('dashboard/user/');
                 }
@@ -105,17 +103,18 @@ class User extends CI_Controller
         }
     }
 
+    // Users admin
     public function listAdmin()
     {
-        $adminLogin =  $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
+        $adminLogin =  $this->user->getUserAdminByUsername();
         $roleId = $adminLogin['role_id'];
         if ($roleId === '2') {
             check_logged();
         }
         $data['title'] = 'List Admin';
         $data['menuActive'] = 'Users';
-        $data['user'] = $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
-        $data['tbl_admin'] = $this->userModel->getUserAdmin();
+        $data['user'] = $this->user->getUserAdminByUsername();
+        $data['tbl_admin'] = $this->user->getUserAdmin();
         $this->load->view('dashboard/temp/header', $data);
         $this->load->view('dashboard/temp/sidebar', $data);
         $this->load->view('dashboard/temp/topbar', $data);
@@ -125,7 +124,7 @@ class User extends CI_Controller
 
     public function addAdmin()
     {
-        $adminLogin =  $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
+        $adminLogin =  $this->user->getUserAdminByUsername();
         $roleId = $adminLogin['role_id'];
         if ($roleId === '2') {
             check_logged();
@@ -141,7 +140,7 @@ class User extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Add user admin failed!</div>');
             redirect('dashboard/user/listadmin');
         } else {
-            $this->userModel->addUserAdmin();
+            $this->user->addUserAdmin();
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Add user admin success</div>');
             redirect('dashboard/user/listadmin');
         }
@@ -149,15 +148,15 @@ class User extends CI_Controller
 
     public function viewAdmin($id)
     {
-        $adminLogin =  $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
+        $adminLogin =  $this->user->getUserAdminByUsername();
         $roleId = $adminLogin['role_id'];
         if ($roleId === '2') {
             check_logged();
         }
         $data['title'] = 'Profile';
         $data['menuActive'] = 'Users';
-        $data['user'] = $this->db->get_where('admin', ['id' => 1])->row_array();
-        $data['useradmin'] = $this->db->get_where('admin', ['id' => $id])->row_array();
+        $data['user'] = $this->user->getUserAdminByUsername();
+        $data['useradmin'] = $this->user->getUserAdminById($id);
 
         $this->load->view('dashboard/temp/header', $data);
         $this->load->view('dashboard/temp/sidebar', $data);
@@ -168,17 +167,19 @@ class User extends CI_Controller
 
     public function editAdmin($id)
     {
-        $adminLogin =  $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
+        $adminLogin =  $this->user->getUserAdminByUsername();
         $roleId = $adminLogin['role_id'];
         if ($roleId === '2') {
             check_logged();
         }
         $data['title'] = 'Edit Profile';
         $data['menuActive'] = 'Users';
-        $data['user'] = $this->db->get_where('admin', ['id' => 1])->row_array();
-        $data['useradmin'] = $this->db->get_where('admin', ['id' => $id])->row_array();
+        $data['user'] = $this->user->getUserAdminByUsername();
+        $data['useradmin'] = $this->user->getUserAdminById($id);
+
         $this->form_validation->set_rules('name', 'Full Name', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
+
         if ($this->form_validation->run() == false) {
             $this->load->view('dashboard/temp/header', $data);
             $this->load->view('dashboard/temp/sidebar', $data);
@@ -199,12 +200,12 @@ class User extends CI_Controller
                         unlink(FCPATH . 'assets/dashboard/img/profile/' . $old_image);
                     }
                     $new_image = $this->upload->data('file_name');
-                    $this->db->set('image', $new_image);
+                    $this->user->uploadImage($new_image);
                 } else {
                     echo $this->upload->display_errors();
                 }
             }
-            $this->userModel->uploadImage();
+            $this->user->updateImage();
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Profile has been updated!</div>');
             redirect('dashboard/user/viewadmin/' . $id);
         }
@@ -212,15 +213,15 @@ class User extends CI_Controller
 
     public function changePasswordAdmin($id)
     {
-        $adminLogin =  $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
+        $adminLogin =  $this->user->getUserAdminByUsername();
         $roleId = $adminLogin['role_id'];
         if ($roleId === '2') {
             check_logged();
         }
         $data['title'] = 'Change Password';
         $data['menuActive'] = 'Users';
-        $data['user'] = $this->db->get_where('admin', ['id' => 1])->row_array();
-        $data['useradmin'] = $this->db->get_where('admin', ['id' => $id])->row_array();
+        $data['user'] = $this->user->getUserAdminByUsername();
+        $data['useradmin'] = $this->user->getUserAdminById($id);
 
         $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim');
         $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|min_length[3]|matches[new_password2]');
@@ -244,11 +245,7 @@ class User extends CI_Controller
                     redirect('dashboard/user/changepasswordadmin/' . $id);
                 } else {
                     $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
-
-                    $this->db->set('password', $password_hash);
-                    $this->db->where('id', $id);
-                    $this->db->update('admin');
-
+                    $this->user->updatePasswordById($password_hash, $id);
                     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Password changed!</div>');
                     redirect('dashboard/user/viewadmin/' . $id);
                 }
@@ -258,15 +255,15 @@ class User extends CI_Controller
 
     public function resetPasswordAdmin($id)
     {
-        $adminLogin =  $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
+        $adminLogin =  $this->user->getUserAdminByUsername();
         $roleId = $adminLogin['role_id'];
         if ($roleId === '2') {
             check_logged();
         }
         $data['title'] = 'Reset Password';
         $data['menuActive'] = 'Users';
-        $data['user'] = $this->db->get_where('admin', ['id' => 1])->row_array();
-        $data['useradmin'] = $this->db->get_where('admin', ['id' => $id])->row_array();
+        $data['user'] = $this->user->getUserAdminByUsername();
+        $data['useradmin'] = $this->user->getUserAdminById($id);
 
         $this->form_validation->set_rules('password1', 'Password', 'trim|required|min_length[3]|matches[password2]');
         $this->form_validation->set_rules('password2', 'Repeat Password', 'trim|required|min_length[3]|matches[password1]');
@@ -278,14 +275,8 @@ class User extends CI_Controller
             $this->load->view('dashboard/user/listadminresetpass', $data);
             $this->load->view('dashboard/temp/footer');
         } else {
-
             $password = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
-
-            $this->db->set('password', $password);
-            $this->db->where('id', $id);
-            $this->db->update('admin');
-
-            $this->session->unset_userdata('reset_email');
+            $this->user->resetPassword($password, $id);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Password success to reset!</div>');
             redirect('dashboard/user/viewadmin/' . $id);
         }
@@ -293,19 +284,19 @@ class User extends CI_Controller
 
     public function deleteAdmin($id)
     {
-        $adminLogin =  $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
+        $adminLogin =  $this->user->getUserAdminByUsername();
         $roleId = $adminLogin['role_id'];
         if ($roleId === '2') {
             check_logged();
         }
-        if ($id === '1') {
+        if ($id == 1) {
             $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Cant delete this user</div>');
             redirect('dashboard/user/listadmin');
         } elseif ($id == null) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Delete user failed!</div>');
             redirect('dashboard/user/listadmin');
         } else {
-            $this->userModel->deleteUserAdmin($id);
+            $this->user->deleteUserAdmin($id);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Delete user success</div>');
             redirect('dashboard/user/listadmin');
         }
@@ -313,27 +304,24 @@ class User extends CI_Controller
 
     public function changeAdminIsActive($idAdmin, $isActive)
     {
-        $adminLogin =  $this->db->get_where('admin', ['username' => $this->session->userdata('username')])->row_array();
+        $adminLogin =  $this->user->getUserAdminByUsername();
         $roleId = $adminLogin['role_id'];
         if ($roleId === '2') {
             check_logged();
         }
-
-        $admin = $this->db->get_where('admin', ['id' => $idAdmin])->row_array();
+        $admin = $this->user->getUserAdminById($idAdmin);
         $nameAdmin = $admin['name'];
 
-        if ($idAdmin === '1') {
+        if ($idAdmin == 1) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Cant change this user!</div>');
             redirect('dashboard/user/listAdmin');
         } elseif ($isActive === '0') {
-            $this->db->where('id', $idAdmin);
-            $this->db->update('admin', ['is_active' => 1]);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">User admin ' . $nameAdmin . ' is active now!</div>');
+            $this->user->updateIsNotActive($idAdmin);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">User admin ' . $nameAdmin . ' is active right now!</div>');
             redirect('dashboard/user/listAdmin');
         } elseif ($isActive === '1') {
-            $this->db->where('id', $idAdmin);
-            $this->db->update('admin', ['is_active' => 0]);
-            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">User admin ' . $nameAdmin . ' is not active now!</div>');
+            $this->user->updateIsActive($idAdmin);
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">User admin ' . $nameAdmin . ' is not active right now!</div>');
             redirect('dashboard/user/listAdmin');
         }
     }
