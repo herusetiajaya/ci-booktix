@@ -170,6 +170,21 @@
             }
         });
     });
+    // Change admin Role/Level
+    $('.roleAdmin').on('click', function() {
+        const id = $(this).data('id');
+        const role_id = $(this).data('r');
+
+        $.ajax({
+            success: function() {
+                // alert('success');
+                document.location.href = "<?= base_url('dashboard/user/changeRoleAdmin/'); ?>" + id + '/' + role_id;
+            },
+            error: function() {
+                alert('error');
+            }
+        });
+    });
     // Change User admin Is Active
     $('.isActiveAdmin').on('click', function() {
         const id = $(this).data('id');

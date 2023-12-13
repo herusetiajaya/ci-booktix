@@ -311,9 +311,13 @@ class User extends CI_Controller
         }
         $admin = $this->user->getUserAdminById($idAdmin);
         $nameAdmin = $admin['name'];
+        $usernameAdmin = $admin['username'];
 
         if ($idAdmin == 1) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Cant change this user!</div>');
+            redirect('dashboard/user/listAdmin');
+        } elseif ($usernameAdmin === $this->session->userdata('username')) {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Cannot change your own status!</br><p><small>You must login another SuperAdmin to change yours status</small></p></div>');
             redirect('dashboard/user/listAdmin');
         } elseif ($isActive === '0') {
             $this->user->updateIsNotActive($idAdmin);
@@ -321,8 +325,35 @@ class User extends CI_Controller
             redirect('dashboard/user/listAdmin');
         } elseif ($isActive === '1') {
             $this->user->updateIsActive($idAdmin);
-            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">User admin ' . $nameAdmin . ' is not active right now!</div>');
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">User admin ' . $nameAdmin . ' is not active right now!</div>');
             redirect('dashboard/user/listAdmin');
+        }
+    }
+
+    public function changeRoleAdmin($idAdmin, $role_Id)
+    {
+        $adminLogin =  $this->user->getUserAdminByUsername();
+        $roleId = $adminLogin['role_id'];
+        if ($roleId === '2') {
+            check_logged();
+        }
+        $admin = $this->user->getUserAdminById($idAdmin);
+        $usernameAdmin = $admin['username'];
+
+        if ($idAdmin == 1) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Cant change this user!</div>');
+            redirect('dashboard/user/viewAdmin/' . $idAdmin);
+        } elseif ($usernameAdmin === $this->session->userdata('username')) {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Cannot change your own level!</br><p><small>You must login another SuperAdmin to change yours level</small></p></div>');
+            redirect('dashboard/user/viewAdmin/' . $idAdmin);
+        } elseif ($role_Id == 2) {
+            $this->user->updateUserNotSuperAdmin($idAdmin);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">User ' . $usernameAdmin . ' is SuperAdmin right now!</div>');
+            redirect('dashboard/user/viewAdmin/' . $idAdmin);
+        } elseif ($role_Id == 1) {
+            $this->user->updateUserSuperAdmin($idAdmin);
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">User ' . $usernameAdmin . ' is not SuperAdmin right now!</div>');
+            redirect('dashboard/user/viewAdmin/' . $idAdmin);
         }
     }
 }

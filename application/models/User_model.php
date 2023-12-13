@@ -77,6 +77,18 @@ class User_model extends CI_Model
         $this->db->update('admin', ['is_active' => 1]);
     }
 
+    public function updateUserNotSuperAdmin($idAdmin)
+    {
+        $this->db->where('id', $idAdmin);
+        $this->db->update('admin', ['role_id' => 1]);
+    }
+
+    public function updateUserSuperAdmin($idAdmin)
+    {
+        $this->db->where('id', $idAdmin);
+        $this->db->update('admin', ['role_id' => 2]);
+    }
+
     public function resetPassword($password, $id)
     {
         $this->db->set('password', $password);

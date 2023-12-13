@@ -17,46 +17,35 @@
                                     <?= form_error('customer', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
                                     <?= $this->session->flashdata('message'); ?>
                                 </div>
-
                                 <div class="row no-gutters">
-                                    <div class="col-md-4 pl-2 pt-4">
+                                    <div class="col-md-5 pl-2 pt-4">
                                         <img src="<?= base_url('assets/frontend/img/profile/') . $user['image']; ?>" class="card-img">
-                                    </div>
-                                    <div class="col-md- mt-2">
                                         <div class="card-body">
-                                            <h4 class="card-text"><?= $user['name']; ?></h4>
-                                            <h5 class="card-text"><?= $user['email']; ?></h5>
-                                            <p class="card-text"><?= $user['phone']; ?></p>
-                                            <p class="card-text"><small class="text-muted">Member Since <?= date('d F Y', $user['date_created']); ?></small></p>
+                                            <small class="text-muted">Card ID :</small>
+                                            <small class="text-muted"><?= $user['card_id']; ?></small>
+                                            </br>
+                                            <small class="text-muted">Phone :</small>
+                                            <small class="text-muted"><?= $user['phone']; ?></small>
+                                            </br>
+                                            <small class="text-muted">Address :</small>
+                                            <small class="text-muted"><?= $user['address']; ?></small>
                                         </div>
                                     </div>
-                                    <div class="col-md-">
-                                        <div class="card-body">
-                                            <h6 class="card-text">User Name</h6>
-                                            <h6 class="card-text">Card ID</h6>
-                                            <h6 class="card-text">Address</h6>
+                                    <div class="col-md-6 mt-3 ml-3">
+                                        <div class="row">
+                                            <div class="card-body">
+                                                <h4 class="card-text"><?= $user['name']; ?></h4>
+                                                <h5 class="card-text"><?= $user['username']; ?></h5>
+                                                <p class="card-text"><?= $user['email']; ?></p>
+                                                <p class="card-text"><small class="text-muted">Member Since <?= date('d F Y', $user['date_created']); ?></small></p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-">
-                                        <div class="card-body">
-                                            <h6 class="card-text">:</h6>
-                                            <h6 class="card-text">:</h6>
-                                            <h6 class="card-text">:</h6>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-">
-                                        <div class="card-body">
-                                            <h6 class="card-text"><?= $user['username']; ?></h6>
-                                            <h6 class="card-text"><?= $user['card_id']; ?></h6>
-                                            <h6 class="card-text"><?= $user['address']; ?></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row no-gutters">
-                                    <div class="col-md-8">
-                                        <div class="card-body">
+                                        <div class="col-md- ml-1">
                                             <a href="<?= base_url('frontend/customer/edit') ?>" class="badge badge-success">Edit Profile</a>
                                             <a href="<?= base_url('frontend/customer/changePassword') ?>" class="badge badge-info">Change Password</a>
+                                        </div>
+                                        <div class="col-md- p-3 ml-5 mt-3">
+                                            <a href="#" class="badge badge-warning">My Ticket</a>
                                         </div>
                                     </div>
                                 </div>
