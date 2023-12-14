@@ -19,11 +19,10 @@
             <div class="col-md-8">
                 <div class="card-body">
                     <h5 class="card-title"><?= $user['name']; ?></h5>
-                    <p class="card-text"><?= $user['email']; ?></p>
+                    <h6 class="card-title"><?= $user['username']; ?></h6>
+                    <p class="card-text"><small><?= $user['email']; ?></small></p>
                     <p class="card-text"><small class="text-muted">Member Since <?= date('d F Y', $user['date_created']); ?></small></p>
-                </div>
-                <div class="col-md-9">
-                    <div class="card-body">
+                    <div class="col-md-">
                         <a href="<?= base_url('dashboard/user/edit/') ?>" class="badge badge-success">Edit Profile</a>
                         <a href="<?= base_url('dashboard/user/changePassword/') ?>" class="badge badge-info">Change Password</a>
                         <a href="<?= base_url('dashboard/admin/') ?>" class="badge badge-primary">Back</a>

@@ -118,7 +118,7 @@
                         </div>
                         <div class="form-group">
                             <!-- name -->
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter FullName">
                         </div>
                         <div class="form-group">
                             <!-- email -->

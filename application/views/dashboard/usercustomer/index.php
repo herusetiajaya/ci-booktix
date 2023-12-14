@@ -100,7 +100,7 @@
                         </div>
                         <div class="form-group">
                             <!-- name -->
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter FullName">
                             <?= form_error('name', '<small class="text-danger pl-3">', '</small>'); ?>
                         </div>
                         <div class="form-group">

@@ -36,7 +36,7 @@ class UserCustomer extends CI_Controller
 
         if ($this->form_validation->run() == false) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Add user customer failed!</div>');
-            redirect('dashboard/usercustomer/#customerModal');
+            redirect('dashboard/usercustomer/');
         } else {
             $this->customer->addCustomer();
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Add user customer success</div>');

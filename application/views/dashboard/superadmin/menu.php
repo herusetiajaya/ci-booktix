@@ -4,12 +4,13 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
 
-    <div class="row">
+    <div class=" row">
         <div class="col-lg-6">
 
             <?= form_error('menu', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
             <?= $this->session->flashdata('message'); ?>
             <a href="" class="addModalMenu btn btn-primary mb-3" data-toggle="modal" data-target="#menuModal">Add New Menu</a>
+            <a href="<?= base_url('dashboard/superadmin/submenu'); ?>" class="badge badge-info p-2 mb-3 ml-5">Sub Menu &raquo;</a>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -25,7 +26,7 @@
                             <th scope="row"><?= $i++; ?></th>
                             <td><?= $m['menu']; ?></td>
 
-                            <?php if ($m['id'] == 1 or $m['id'] == 2 or $m['id'] == 3 or $m['id'] == 4 or $m['id'] == 5) : ?>
+                            <?php if ($m['id'] == 1) : ?>
                                 <td>
                                     <a href="" class="editModalMenu badge badge-success" data-toggle="modal" data-target="#menuModal" data-id="<?= $m['id']; ?>" data-menu="<?= $m['menu']; ?>" onclick="return false;" style="cursor:not-allowed; opacity:0.5; text-decoration:none;">edit</a>
                                     <a href="<?= base_url('dashboard/superadmin/deletemenu/' . $m['id']); ?>" class="deleteData badge badge-danger" onclick="return false;" style="cursor:not-allowed; opacity:0.5; text-decoration:none;">delete</a>

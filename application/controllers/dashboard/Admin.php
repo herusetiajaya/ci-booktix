@@ -25,7 +25,7 @@ class Admin extends CI_Controller
 
     public function order()
     {
-        $data['title'] = 'Order Ticket';
+        $data['title'] = 'Order';
         $data['menuActive'] = 'Admin';
         $data['user'] = $this->user->getUserAdminByUsername();
 
@@ -46,6 +46,19 @@ class Admin extends CI_Controller
         $this->load->view('dashboard/temp/sidebar', $data);
         $this->load->view('dashboard/temp/topbar', $data);
         $this->load->view('dashboard/admin/confirm', $data);
+        $this->load->view('dashboard/temp/footer');
+    }
+
+    public function ticket()
+    {
+        $data['title'] = 'Ticket';
+        $data['menuActive'] = 'Admin';
+        $data['user'] = $this->user->getUserAdminByUsername();
+
+        $this->load->view('dashboard/temp/header', $data);
+        $this->load->view('dashboard/temp/sidebar', $data);
+        $this->load->view('dashboard/temp/topbar', $data);
+        $this->load->view('dashboard/admin/ticket', $data);
         $this->load->view('dashboard/temp/footer');
     }
 }

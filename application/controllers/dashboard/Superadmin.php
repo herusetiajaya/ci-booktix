@@ -102,7 +102,8 @@ class Superadmin extends CI_Controller
         } elseif ($checkMenu) {
             $this->session->set_flashdata('message', '<div class="alert alert-info" role="alert">Nothing changes</div>');
             redirect('dashboard/superadmin/menu');
-        } elseif ($menuId == 1 or $menuId == 2 or $menuId == 3 or $menuId == 4 or $menuId == 5) {
+        } elseif ($menuId == 1) {
+            // } elseif ($menuId == 1 or $menuId == 2 or $menuId == 3 or $menuId == 4 or $menuId == 5) {
             $this->session->set_flashdata('message', '<div class="alert alert-info" role="alert">Cant changes this menu</div>');
             redirect('dashboard/superadmin/menu');
         } else
@@ -113,11 +114,12 @@ class Superadmin extends CI_Controller
 
     public function deleteMenu($id)
     {
-        if ($id == 1 or $id == 2 or $id == 3 or $id == 4 or $id == 5) {
-            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Cant delete this menu!</div>');
-            redirect('dashboard/superadmin/menu');
-        } elseif ($id == null) {
+        if ($id == null) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Delete menu failed!</div>');
+            redirect('dashboard/superadmin/menu');
+        } elseif ($id == 1) {
+            // } elseif ($id == 1 or $id == 2 or $id == 3 or $id == 4 or $id == 5) {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Cant delete this menu!</div>');
             redirect('dashboard/superadmin/menu');
         } else {
             $this->menu->deleteMenuById($id);
@@ -172,7 +174,8 @@ class Superadmin extends CI_Controller
         } elseif ($checkSubMenu) {
             $this->session->set_flashdata('message', '<div class="alert alert-info" role="alert">Nothing changes</div>');
             redirect('dashboard/superadmin/submenu');
-        } elseif ($subMenuId == 1 or $subMenuId == 2 or $subMenuId == 3 or $subMenuId == 4 or $subMenuId == 5 or $subMenuId == 6 or $subMenuId == 7) {
+        } elseif ($subMenuId == 1) {
+            // } elseif ($subMenuId == 1 or $subMenuId == 2 or $subMenuId == 3 or $subMenuId == 4 or $subMenuId == 5 or $subMenuId == 6 or $subMenuId == 7) {
             $this->session->set_flashdata('message', '<div class="alert alert-info" role="alert">Cant changes this sub menu</div>');
             redirect('dashboard/superadmin/submenu');
         } else
@@ -183,11 +186,12 @@ class Superadmin extends CI_Controller
 
     public function deleteSubMenu($id)
     {
-        if ($id == 1 or $id == 2 or $id == 3 or $id == 4 or $id == 5 or $id == 6 or $id == 7) {
-            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Cant delete this sub menu!</div>');
-            redirect('dashboard/superadmin/submenu');
-        } elseif ($id == null) {
+        if ($id == null) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Delete sub menu failed!</div>');
+            redirect('dashboard/superadmin/submenu');
+        } elseif ($id == 1) {
+            // } elseif ($id == 1 or $id == 2 or $id == 3 or $id == 4 or $id == 5 or $id == 6 or $id == 7) {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Cant delete this sub menu!</div>');
             redirect('dashboard/superadmin/submenu');
         } else {
             $this->menu->deleteSubMenuById($id);

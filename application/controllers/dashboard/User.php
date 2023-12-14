@@ -106,9 +106,7 @@ class User extends CI_Controller
     // Users admin
     public function listAdmin()
     {
-        $adminLogin =  $this->user->getUserAdminByUsername();
-        $roleId = $adminLogin['role_id'];
-        if ($roleId === '2') {
+        if ($this->session->userdata('role_id') == 2) {
             check_logged();
         }
         $data['title'] = 'List Admin';
@@ -124,9 +122,7 @@ class User extends CI_Controller
 
     public function addAdmin()
     {
-        $adminLogin =  $this->user->getUserAdminByUsername();
-        $roleId = $adminLogin['role_id'];
-        if ($roleId === '2') {
+        if ($this->session->userdata('role_id') == 2) {
             check_logged();
         }
         $this->form_validation->set_rules('username', 'Username',  'required|trim|is_unique[admin.username]', ['is_unique' => 'This Username has already to use!']);
@@ -148,9 +144,7 @@ class User extends CI_Controller
 
     public function viewAdmin($id)
     {
-        $adminLogin =  $this->user->getUserAdminByUsername();
-        $roleId = $adminLogin['role_id'];
-        if ($roleId === '2') {
+        if ($this->session->userdata('role_id') == 2) {
             check_logged();
         }
         $data['title'] = 'Profile';
@@ -167,9 +161,7 @@ class User extends CI_Controller
 
     public function editAdmin($id)
     {
-        $adminLogin =  $this->user->getUserAdminByUsername();
-        $roleId = $adminLogin['role_id'];
-        if ($roleId === '2') {
+        if ($this->session->userdata('role_id') == 2) {
             check_logged();
         }
         $data['title'] = 'Edit Profile';
@@ -213,9 +205,7 @@ class User extends CI_Controller
 
     public function changePasswordAdmin($id)
     {
-        $adminLogin =  $this->user->getUserAdminByUsername();
-        $roleId = $adminLogin['role_id'];
-        if ($roleId === '2') {
+        if ($this->session->userdata('role_id') == 2) {
             check_logged();
         }
         $data['title'] = 'Change Password';
@@ -255,9 +245,7 @@ class User extends CI_Controller
 
     public function resetPasswordAdmin($id)
     {
-        $adminLogin =  $this->user->getUserAdminByUsername();
-        $roleId = $adminLogin['role_id'];
-        if ($roleId === '2') {
+        if ($this->session->userdata('role_id') == 2) {
             check_logged();
         }
         $data['title'] = 'Reset Password';
@@ -284,9 +272,7 @@ class User extends CI_Controller
 
     public function deleteAdmin($id)
     {
-        $adminLogin =  $this->user->getUserAdminByUsername();
-        $roleId = $adminLogin['role_id'];
-        if ($roleId === '2') {
+        if ($this->session->userdata('role_id') == 2) {
             check_logged();
         }
         if ($id == 1) {
@@ -304,9 +290,7 @@ class User extends CI_Controller
 
     public function changeAdminIsActive($idAdmin, $isActive)
     {
-        $adminLogin =  $this->user->getUserAdminByUsername();
-        $roleId = $adminLogin['role_id'];
-        if ($roleId === '2') {
+        if ($this->session->userdata('role_id') == 2) {
             check_logged();
         }
         $admin = $this->user->getUserAdminById($idAdmin);
@@ -332,9 +316,7 @@ class User extends CI_Controller
 
     public function changeRoleAdmin($idAdmin, $role_Id)
     {
-        $adminLogin =  $this->user->getUserAdminByUsername();
-        $roleId = $adminLogin['role_id'];
-        if ($roleId === '2') {
+        if ($this->session->userdata('role_id') == 2) {
             check_logged();
         }
         $admin = $this->user->getUserAdminById($idAdmin);

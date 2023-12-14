@@ -11,12 +11,12 @@
         </div>
     </div>
 
-    <div class="card mb-3" style="max-width: 610px;">
+    <div class="card mb-3" style="max-width: 620px;">
         <div class="row no-gutters">
-            <div class="col-md-4">
+            <div class="col-md-3 pl-2 pt-4">
                 <img src="<?= base_url('assets/dashboard/img/profile/') . $useradmin['image']; ?>" class="card-img">
             </div>
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="row">
 
                     <div class="col-md-6 card-body about-generic-area">
