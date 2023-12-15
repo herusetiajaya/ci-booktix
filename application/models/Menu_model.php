@@ -47,11 +47,11 @@ class Menu_model extends CI_Model
     public function addSubMenu()
     {
         $data = [
-            'title' => $this->input->post('title'),
-            'menu_id' => $this->input->post('menu_id'),
-            'url' => $this->input->post('url'),
-            'icon' => $this->input->post('icon'),
-            'is_active' => $this->input->post('is_active')
+            'title' => htmlspecialchars($this->input->post('title', true)),
+            'menu_id' => htmlspecialchars($this->input->post('menu_id', true)),
+            'url' => htmlspecialchars($this->input->post('url', true)),
+            'icon' => htmlspecialchars($this->input->post('icon', true)),
+            'is_active' => htmlspecialchars($this->input->post('is_active', true)),
         ];
         $this->db->insert('user_sub_menu', $data);
     }
@@ -65,6 +65,11 @@ class Menu_model extends CI_Model
             'icon' => $this->input->post('icon'),
             'is_active' => $this->input->post('is_active')
         ])->row_array();
+    }
+
+    public function getSubMenuById($id)
+    {
+        return $this->db->get_where('user_sub_menu', ['id' => $id])->row_array();
     }
 
     public function editSubMenu()
@@ -83,5 +88,16 @@ class Menu_model extends CI_Model
     public function deleteSubMenuById($id)
     {
         $this->db->delete('user_sub_menu', ['id' => $id]);
+    }
+
+    public function updateIsActive($idSubMenu)
+    {
+        $this->db->where('id', $idSubMenu);
+        $this->db->update('user_sub_menu', ['is_active' => 0]);
+    }
+    public function updateIsNotActive($idSubMenu)
+    {
+        $this->db->where('id', $idSubMenu);
+        $this->db->update('user_sub_menu', ['is_active' => 1]);
     }
 }

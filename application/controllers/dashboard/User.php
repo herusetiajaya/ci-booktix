@@ -113,18 +113,7 @@ class User extends CI_Controller
         $data['menuActive'] = 'Users';
         $data['user'] = $this->user->getUserAdminByUsername();
         $data['tbl_admin'] = $this->user->getUserAdmin();
-        $this->load->view('dashboard/temp/header', $data);
-        $this->load->view('dashboard/temp/sidebar', $data);
-        $this->load->view('dashboard/temp/topbar', $data);
-        $this->load->view('dashboard/user/listadmin', $data);
-        $this->load->view('dashboard/temp/footer');
-    }
 
-    public function addAdmin()
-    {
-        if ($this->session->userdata('role_id') == 2) {
-            check_logged();
-        }
         $this->form_validation->set_rules('username', 'Username',  'required|trim|is_unique[admin.username]', ['is_unique' => 'This Username has already to use!']);
         $this->form_validation->set_rules('name', 'Name', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
@@ -133,8 +122,11 @@ class User extends CI_Controller
         $this->form_validation->set_rules('passwordSecond', 'Password', 'required|trim|matches[passwordFirst]');
 
         if ($this->form_validation->run() == false) {
-            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Add user admin failed!</div>');
-            redirect('dashboard/user/listadmin');
+            $this->load->view('dashboard/temp/header', $data);
+            $this->load->view('dashboard/temp/sidebar', $data);
+            $this->load->view('dashboard/temp/topbar', $data);
+            $this->load->view('dashboard/user/listadmin', $data);
+            $this->load->view('dashboard/temp/footer');
         } else {
             $this->user->addUserAdmin();
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Add user admin success</div>');

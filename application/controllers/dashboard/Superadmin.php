@@ -142,7 +142,7 @@ class Superadmin extends CI_Controller
         $this->form_validation->set_rules('menu_id', 'Menu', 'required');
         $this->form_validation->set_rules('url', 'Url', 'required');
         $this->form_validation->set_rules('icon', 'Icon', 'required');
-        $this->form_validation->set_rules('is_active', 'Is_active', 'required');
+        // $this->form_validation->set_rules('is_active', 'Is_active', 'required');
 
         if ($this->form_validation->run() == false) {
             $this->load->view('dashboard/temp/header', $data);
@@ -180,7 +180,7 @@ class Superadmin extends CI_Controller
             redirect('dashboard/superadmin/submenu');
         } else
             $this->menu->editSubMenu($this->input->post('id'));
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Change name menu success</div>');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Change sub menu success</div>');
         redirect('dashboard/superadmin/submenu');
     }
 
@@ -196,6 +196,25 @@ class Superadmin extends CI_Controller
         } else {
             $this->menu->deleteSubMenuById($id);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Delete sub menu success</div>');
+            redirect('dashboard/superadmin/submenu');
+        }
+    }
+
+    public function changeSubMenuIsActive($idSubMenu, $isActive)
+    {
+        $menu = $this->menu->getSubMenuById($idSubMenu);
+        $title = $menu['title'];
+
+        if ($idSubMenu == 1) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Cant change this user!</div>');
+            redirect('dashboard/superadmin/submenu');
+        } elseif ($isActive === '0') {
+            $this->menu->updateIsNotActive($idSubMenu);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">submenu ' . $title . ' is active right now!</div>');
+            redirect('dashboard/superadmin/submenu');
+        } elseif ($isActive === '1') {
+            $this->menu->updateIsActive($idSubMenu);
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">submenu ' . $title . ' is not active right now!</div>');
             redirect('dashboard/superadmin/submenu');
         }
     }

@@ -30,7 +30,7 @@ class UserCustomer_model extends CI_Model
             'phone' => '088xxxxxx',
             'address' => 'addyourAddress',
             'image' => 'default.png',
-            'is_active' => 0,
+            'is_active' => htmlspecialchars($this->input->post('is_active', true)),
             'date_created' => time()
         ];
         $this->db->insert('customer', $data);

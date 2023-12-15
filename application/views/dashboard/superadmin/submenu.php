@@ -21,7 +21,7 @@
                         <th scope="col">Menu</th>
                         <th scope="col">Url</th>
                         <th scope="col">Icon</th>
-                        <!-- <th scope="col">Active</th> -->
+                        <th scope="col" class="text-center">Active</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -34,21 +34,28 @@
                             <td><?= $sm['menu']; ?></td>
                             <td><?= $sm['url']; ?></td>
                             <td><?= $sm['icon']; ?></td>
-                            <!-- <td style="text-align:center;">
-                                <?php if ($sm['is_active'] == '1') : ?>
-                                    <input class="form-check-input" type="checkbox" value="<?= $sm['is_active'] ?>" name="is_active" for="is_avtive" checked disabled>
-                                <?php else : ?>
-                                    <input class="form-check-input" type="checkbox" value="<?= $sm['is_active'] ?>" name="is_active" for="is_avtive">
-                                <?php endif; ?>
-                            </td> -->
                             <?php if ($sm['id'] == 1) : ?>
+                                <td class="text-center">
+                                    <?php if ($sm['is_active'] == '1') : ?>
+                                        <input class="subMenuIsActive" type="checkbox" checked disabled>
+                                    <?php else : ?>
+                                        <input class="subMenuIsActive" type="checkbox">
+                                    <?php endif; ?>
+                                </td>
                                 <td>
                                     <a href="" class="editSubMenuModal badge badge-success" data-toggle="modal" data-target="#subMenuModal" data-id="<?= $sm['id'] ?>" data-title="<?= $sm['title'] ?>" data-menu_id="<?= $sm['menu_id'] ?>" data-url="<?= $sm['url'] ?>" data-icon="<?= $sm['icon'] ?>" data-isActive="<?= $sm['is_active'] ?>" onclick="return false;" style="cursor:not-allowed; opacity:0.5; text-decoration:none;">edit</a>
                                     <a href="<?= base_url('dashboard/superadmin/deletesubmenu/' . $sm['id']); ?>" class="deleteData badge badge-danger" onclick="return false;" style="cursor:not-allowed; opacity:0.5; text-decoration:none;">delete</a>
                                 </td>
                             <?php else : ?>
+                                <td class="text-center">
+                                    <?php if ($sm['is_active'] == '1') : ?>
+                                        <input class="subMenuIsActive" type="checkbox" value="<?= $sm['is_active'] ?>" name="is_active" for="is_avtive" data-id="<?= $sm['id'] ?>" data-ac="<?= $sm['is_active'] ?>" checked>
+                                    <?php else : ?>
+                                        <input class="subMenuIsActive" type="checkbox" value="<?= $sm['is_active'] ?>" name="is_active" for="is_avtive" data-id="<?= $sm['id'] ?>" data-ac="<?= $sm['is_active'] ?>">
+                                    <?php endif; ?>
+                                </td>
                                 <td>
-                                    <a href="" class="editSubMenuModal badge badge-success" data-toggle="modal" data-target="#subMenuModal" data-id="<?= $sm['id'] ?>" data-title="<?= $sm['title'] ?>" data-menu_id="<?= $sm['menu_id'] ?>" data-url="<?= $sm['url'] ?>" data-icon="<?= $sm['icon'] ?>" data-isActive="<?= $sm['is_active'] ?>">edit</a>
+                                    <a href="" class="editSubMenuModal badge badge-success" data-toggle="modal" data-target="#subMenuModal" data-id="<?= $sm['id'] ?>" data-title="<?= $sm['title'] ?>" data-menu_id="<?= $sm['menu_id'] ?>" data-url="<?= $sm['url'] ?>" data-icon="<?= $sm['icon'] ?>">edit</a>
                                     <a href="<?= base_url('dashboard/superadmin/deletesubmenu/' . $sm['id']); ?>" class="deleteData badge badge-danger">delete</a>
                                 </td>
                             <?php endif; ?>
@@ -97,8 +104,8 @@
                         </div>
                         <div class="form-group">
                             <div class="form-check">
-                                <input type="hidden" id="is_active" value="1" name="is_active">
-                                <input class="form-check-input" type="checkbox" id="is_active" value="1" name="is_active" for="is_avtive" checked disabled>
+                                <!-- <input type="hidden" id="is_active" value="1" name="is_active"> -->
+                                <input class="subMenuActive" type="checkbox" id="is_active" value="" name="is_active" for="is_avtive" checked>
                                 <label for="is_active" class="form-check-label"> Active? </label>
                             </div>
                         </div>

@@ -24,47 +24,43 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th>#</th>
                             <th>Username</th>
                             <th>Email</th>
                             <th>Full Name</th>
-                            <th>Image</th>
-                            <!-- <th>Password</th> -->
+                            <!-- <th>Image</th> -->
                             <th>Level</th>
-                            <th>Active</th>
-                            <th>Created at</th>
+                            <th class="text-center">Active</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $i = 1;
-                        foreach ($tbl_admin as $adm) { ?>
+                        foreach ($tbl_admin as $adm) : ?>
                             <tr>
                                 <td><?= $i++; ?></td>
                                 <td><?= $adm['username']; ?></td>
                                 <td><?= $adm['email']; ?></td>
                                 <td><?= $adm['name']; ?></td>
-                                <td width="50px"><img class="img-thumbnail" src="<?= base_url('assets/dashboard/img/profile/') . $adm['image']; ?>"></td>
-                                <!-- <td><?= $adm['password']; ?></td> -->
-                                <td><?php if ($adm['role_id'] == '1') { ?>
+                                <!-- <td><img class="img-thumbnail" style="width: 50px;" src="<?= base_url('assets/dashboard/img/profile/') . $adm['image']; ?>"></td> -->
+                                <td><?php if ($adm['role_id'] == '1') : ?>
                                         SuperAdmin
-                                    <?php } else { ?>
+                                    <?php else : ?>
                                         Admin
-                                    <?php } ?>
+                                    <?php endif; ?>
                                 </td>
                                 <?php if ($adm['id'] === '1') : ?>
-                                    <td class=" text-center">
+                                    <td class="text-center">
                                         <!-- IS USER ACTIVE -->
                                         <?php if ($adm['is_active'] === '1') : ?>
-                                            <input class="isActiveAdmin" type="checkbox" name="is_active" for="is_avtive" checked disabled data-id="<?= $adm['id']; ?>" data-ac="<?= $adm['is_active']; ?>">
+                                            <input class="isActiveAdmin" type="checkbox" checked disabled>
                                         <?php else : ?>
-                                            <input class="isActiveAdmin" type="checkbox" name="is_active" for="is_avtive" data-id="<?= $adm['id']; ?>" data-ac="<?= $adm['is_active']; ?>">
+                                            <input class="isActiveAdmin" type="checkbox">
                                         <?php endif; ?>
                                     </td>
-                                    <td><?= date('d F Y', $adm['date_created']); ?></td>
                                     <td>
                                         <a href="<?= base_url('dashboard/user/viewAdmin/' . $adm['id']) ?>" class="badge badge-primary">View</a>
                                         <a href="<?= base_url('dashboard/user/deleteAdmin/' . $adm['id']) ?>" class="deleteData badge badge-danger" onclick="return false;" style="cursor:not-allowed; opacity:0.5; text-decoration:none;">Delete</a>
@@ -78,7 +74,6 @@
                                             <input class="isActiveAdmin" type="checkbox" name="is_active" for="is_avtive" data-id="<?= $adm['id']; ?>" data-ac="<?= $adm['is_active']; ?>">
                                         <?php endif; ?>
                                     </td>
-                                    <td><?= date('d F Y', $adm['date_created']); ?></td>
                                     <td>
                                         <a href="<?= base_url('dashboard/user/viewAdmin/' . $adm['id']) ?>" class="badge badge-primary">View</a>
                                         <a href="<?= base_url('dashboard/user/deleteAdmin/' . $adm['id']) ?>" class="deleteData badge badge-danger">Delete</a>
@@ -86,7 +81,7 @@
                                 <?php endif; ?>
 
                             </tr>
-                        <?php } ?>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -94,6 +89,7 @@
     </div>
 
     <!-- /.container-fluid -->
+</div>
 </div>
 <!-- End of Main Content -->
 
@@ -108,10 +104,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="user" action="<?= base_url('dashboard/user/addadmin'); ?>" method="post">
+                <form class="user" action="<?= base_url('dashboard/user/listadmin'); ?>" method="post">
                     <div class="modal-body">
-                        <!-- id -->
-                        <input type="hidden" class="form-control" id="id" name="id">
                         <div class="form-group">
                             <!-- username -->
                             <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
@@ -131,6 +125,13 @@
                         <div class="form-group">
                             <!-- Repeat password -->
                             <input type="password" class="form-control" id="passwordSecond" name="passwordSecond" placeholder="Repeat Password">
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <!-- is active -->
+                                <input class="adminActive" type="checkbox" id="is_active" value="" name="is_active" for="is_avtive" checked>
+                                <label for="is_active" class="form-check-label"> Active? </label>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

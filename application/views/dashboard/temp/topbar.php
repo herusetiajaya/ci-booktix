@@ -37,6 +37,7 @@
                         <a class="dropdown-item submit-logout" href="">
                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                             Logout
+                            <input type="hidden" id="logout" value="<?= base_url('dashboard/auth/logout'); ?>">
                         </a>
                         <!-- <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -49,3 +50,26 @@
 
         </nav>
         <!-- End of Topbar -->
+
+        <!-- About Modal -->
+        <div class="modal fade" id="aboutApp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">About this App</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Booktix<br>
+                        Booking Ticket Film Online<br>
+                        By Heru Setiawan :v<br>
+                        wkwk
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>

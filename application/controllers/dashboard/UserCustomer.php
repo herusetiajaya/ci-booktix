@@ -19,15 +19,7 @@ class UserCustomer extends CI_Controller
         $data['menuActive'] = 'Users';
         $data['user'] = $this->user->getUserAdminByUsername();
         $data['tbl_customer'] = $this->customer->getCustomer();
-        $this->load->view('dashboard/temp/header', $data);
-        $this->load->view('dashboard/temp/sidebar', $data);
-        $this->load->view('dashboard/temp/topbar', $data);
-        $this->load->view('dashboard/usercustomer/index', $data);
-        $this->load->view('dashboard/temp/footer');
-    }
 
-    public function addCustomer()
-    {
         $this->form_validation->set_rules('username', 'Username',  'required|trim|is_unique[customer.username]', ['is_unique' => 'This Username has already to use!']);
         $this->form_validation->set_rules('name', 'Name', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
@@ -35,15 +27,17 @@ class UserCustomer extends CI_Controller
         $this->form_validation->set_rules('passwordSecond', 'Password', 'required|trim|matches[passwordFirst]');
 
         if ($this->form_validation->run() == false) {
-            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Add user customer failed!</div>');
-            redirect('dashboard/usercustomer/');
+            $this->load->view('dashboard/temp/header', $data);
+            $this->load->view('dashboard/temp/sidebar', $data);
+            $this->load->view('dashboard/temp/topbar', $data);
+            $this->load->view('dashboard/usercustomer/index', $data);
+            $this->load->view('dashboard/temp/footer');
         } else {
             $this->customer->addCustomer();
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Add user customer success</div>');
             redirect('dashboard/usercustomer/');
         }
     }
-
 
     public function viewUserCustomer($id)
     {

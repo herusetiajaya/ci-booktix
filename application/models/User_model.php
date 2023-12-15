@@ -23,7 +23,7 @@ class User_model extends CI_Model
             'image' => 'default.png',
             'password' => password_hash($this->input->post('passwordFirst', true), PASSWORD_DEFAULT),
             'role_id' => 2,
-            'is_active' => 0,
+            'is_active' => htmlspecialchars($this->input->post('is_active', true)),
             'date_created' => time()
         ];
         $this->db->insert('admin', $data);

@@ -8,9 +8,9 @@
             </div>
             <div class="col m6 light text-white">
                 <div class="slider row justify-content-center">
-                    <img src="<?= base_url('assets/'); ?>frontend/img/profile/saitama.png" class="rounded-circle img-thumbnail img-slideshow" style="width: 20%;">
-                    <img src="<?= base_url('assets/'); ?>frontend/img/profile/martis.png" class="rounded-circle img-thumbnail img-slideshow" style="width: 20%;">
-                    <img src="<?= base_url('assets/'); ?>frontend/img/profile/rikudo.png" class="rounded-circle img-thumbnail img-slideshow" style="width: 20%;">
+                    <img src="<?= base_url('assets/'); ?>frontend/img/home-img/x-saitama.jpg" class="rounded-circle img-thumbnail img-slideshow" style="width: 20%;">
+                    <img src="<?= base_url('assets/'); ?>frontend/img/home-img/x-martis.png" class="rounded-circle img-thumbnail img-slideshow" style="width: 20%;">
+                    <img src="<?= base_url('assets/'); ?>frontend/img/home-img/x-rikudo.png" class="rounded-circle img-thumbnail img-slideshow" style="width: 20%;">
                 </div>
             </div>
         </div>
