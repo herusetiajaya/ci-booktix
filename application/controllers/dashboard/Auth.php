@@ -18,8 +18,8 @@ class Auth extends CI_Controller
         if ($this->session->userdata('username')) {
             redirect('dashboard/admin');
         }
-        $this->form_validation->set_rules('username', 'Username',  'required|trim');
-        $this->form_validation->set_rules('password', 'Password', 'required|trim');
+        $this->form_validation->set_rules('username', 'Username',  'required|trim|max_length[10]');
+        $this->form_validation->set_rules('password', 'Password', 'required|trim|max_length[10]');
 
         if ($this->form_validation->run() == false) {
             $data['ipaddres'] = $this->getUserIP();
@@ -34,8 +34,8 @@ class Auth extends CI_Controller
 
     private function _login()
     {
-        $username = $this->input->post('username');
-        $password = $this->input->post('password');
+        $username = htmlspecialchars($this->input->post('username', true));
+        $password = htmlspecialchars($this->input->post('password', true));
 
         $user = $this->user->getUserAdminByUsernameAuth($username);
         // jika usernya ada
@@ -74,6 +74,7 @@ class Auth extends CI_Controller
         $this->session->unset_userdata('username');
         $this->session->unset_userdata('email');
         $this->session->unset_userdata('role_id');
+        // $this->session->sess_destroy();
 
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">You have been logged out!</div>');
         redirect('dashboard/auth');

@@ -34,8 +34,8 @@ class User extends CI_Controller
         $data['title'] = 'Edit Profile';
         $data['menuActive'] = 'Users';
         $data['user'] = $this->user->getUserAdminByUsername();
-        $this->form_validation->set_rules('name', 'Full Name', 'required|trim');
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
+        $this->form_validation->set_rules('name', 'Full Name', 'required|trim|max_length[30]');
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|max_length[25]|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
         if ($this->form_validation->run() == false) {
             $this->load->view('dashboard/temp/header', $data);
             $this->load->view('dashboard/temp/sidebar', $data);
@@ -73,8 +73,8 @@ class User extends CI_Controller
         $data['menuActive'] = 'Users';
         $data['user'] = $this->user->getUserAdminByUsername();
 
-        $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim');
-        $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|min_length[3]|matches[new_password2]');
+        $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim|max_length[10]');
+        $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|max_length[10]|min_length[3]|matches[new_password2]');
         $this->form_validation->set_rules('new_password2', 'Confirm New Password', 'required|trim|min_length[3]|matches[new_password1]');
 
         if ($this->form_validation->run() == false) {
@@ -114,11 +114,11 @@ class User extends CI_Controller
         $data['user'] = $this->user->getUserAdminByUsername();
         $data['tbl_admin'] = $this->user->getUserAdmin();
 
-        $this->form_validation->set_rules('username', 'Username',  'required|trim|is_unique[admin.username]', ['is_unique' => 'This Username has already to use!']);
-        $this->form_validation->set_rules('name', 'Name', 'required|trim');
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
+        $this->form_validation->set_rules('username', 'Username',  'required|trim|max_length[10]|is_unique[admin.username]', ['is_unique' => 'This Username has already to use!']);
+        $this->form_validation->set_rules('name', 'Name', 'required|trim|max_length[30]');
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|max_length[25]|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
 
-        $this->form_validation->set_rules('passwordFirst', 'Password', 'required|trim|min_length[3]|matches[passwordSecond]', ['matches' => 'Password dont match!', 'min_length' => 'Password to short!']);
+        $this->form_validation->set_rules('passwordFirst', 'Password', 'required|trim|max_length[10]|min_length[3]|matches[passwordSecond]', ['matches' => 'Password dont match!', 'min_length' => 'Password to short!']);
         $this->form_validation->set_rules('passwordSecond', 'Password', 'required|trim|matches[passwordFirst]');
 
         if ($this->form_validation->run() == false) {
@@ -161,8 +161,8 @@ class User extends CI_Controller
         $data['user'] = $this->user->getUserAdminByUsername();
         $data['useradmin'] = $this->user->getUserAdminById($id);
 
-        $this->form_validation->set_rules('name', 'Full Name', 'required|trim');
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
+        $this->form_validation->set_rules('name', 'Full Name', 'required|trim|max_length[30]');
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|max_length[25]|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
 
         if ($this->form_validation->run() == false) {
             $this->load->view('dashboard/temp/header', $data);
@@ -205,8 +205,8 @@ class User extends CI_Controller
         $data['user'] = $this->user->getUserAdminByUsername();
         $data['useradmin'] = $this->user->getUserAdminById($id);
 
-        $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim');
-        $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|min_length[3]|matches[new_password2]');
+        $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim|max_length[10]');
+        $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|max_length[10]|min_length[3]|matches[new_password2]');
         $this->form_validation->set_rules('new_password2', 'Confirm New Password', 'required|trim|min_length[3]|matches[new_password1]');
 
         if ($this->form_validation->run() == false) {
@@ -245,7 +245,7 @@ class User extends CI_Controller
         $data['user'] = $this->user->getUserAdminByUsername();
         $data['useradmin'] = $this->user->getUserAdminById($id);
 
-        $this->form_validation->set_rules('password1', 'Password', 'trim|required|min_length[3]|matches[password2]');
+        $this->form_validation->set_rules('password1', 'Password', 'trim|required|max_length[10]|min_length[3]|matches[password2]');
         $this->form_validation->set_rules('password2', 'Repeat Password', 'trim|required|min_length[3]|matches[password1]');
 
         if ($this->form_validation->run() == false) {
@@ -267,14 +267,23 @@ class User extends CI_Controller
         if ($this->session->userdata('role_id') == 2) {
             check_logged();
         }
+        $admin = $this->user->getUserAdminById($id);
+        $usernameAdmin = $admin['username'];
+        $nameImg = $admin['image'];
         if ($id == 1) {
             $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Cant delete this user</div>');
+            redirect('dashboard/user/listadmin');
+        } elseif ($usernameAdmin === $this->session->userdata('username')) {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Cannot kill yourself!</br><p><small>You must login another SuperAdmin to delete your account</small></p></div>');
             redirect('dashboard/user/listadmin');
         } elseif ($id == null) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Delete user failed!</div>');
             redirect('dashboard/user/listadmin');
         } else {
             $this->user->deleteUserAdmin($id);
+            if ($nameImg != 'default.png') {
+                unlink(FCPATH . 'assets/dashboard/img/profile/' . $nameImg);
+            }
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Delete user success</div>');
             redirect('dashboard/user/listadmin');
         }

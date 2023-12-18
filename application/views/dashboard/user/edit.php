@@ -32,7 +32,7 @@
                 <div class="col-sm-10">
                     <div class="row">
                         <div class="col-sm-3">
-                            <img src="<?= base_url('assets/dashboard/img/profile/') . $user['image']; ?>" alt="" class="img-thumbnail">
+                            <img src="<?= base_url('assets/dashboard/img/profile/') . $user['image']; ?>" alt="" class="img img-thumbnail">
                         </div>
                         <div class="col-sm-9">
                             <div class="custum-file">

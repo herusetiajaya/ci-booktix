@@ -20,10 +20,10 @@ class UserCustomer extends CI_Controller
         $data['user'] = $this->user->getUserAdminByUsername();
         $data['tbl_customer'] = $this->customer->getCustomer();
 
-        $this->form_validation->set_rules('username', 'Username',  'required|trim|is_unique[customer.username]', ['is_unique' => 'This Username has already to use!']);
-        $this->form_validation->set_rules('name', 'Name', 'required|trim');
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
-        $this->form_validation->set_rules('passwordFirst', 'Password', 'required|trim|min_length[3]|matches[passwordSecond]', ['matches' => 'Password dont match!', 'min_length' => 'Password to short!']);
+        $this->form_validation->set_rules('username', 'Username',  'required|trim|max_length[10]|is_unique[customer.username]', ['is_unique' => 'This Username has already to use!']);
+        $this->form_validation->set_rules('name', 'Name', 'required|trim|max_length[30]');
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|max_length[25]|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
+        $this->form_validation->set_rules('passwordFirst', 'Password', 'required|trim|max_length[10]|min_length[3]|matches[passwordSecond]', ['matches' => 'Password dont match!', 'min_length' => 'Password to short!']);
         $this->form_validation->set_rules('passwordSecond', 'Password', 'required|trim|matches[passwordFirst]');
 
         if ($this->form_validation->run() == false) {
@@ -60,11 +60,11 @@ class UserCustomer extends CI_Controller
         $data['user'] = $this->user->getUserAdminByUsername();
         $data['tbl_customer'] = $this->customer->getCustomerById($id);
 
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
-        $this->form_validation->set_rules('name', 'Name', 'required|trim');
-        $this->form_validation->set_rules('card_id', 'Card ID', 'required|trim');
-        $this->form_validation->set_rules('phone', 'Phone', 'required|trim');
-        $this->form_validation->set_rules('address', 'Address', 'required|trim');
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|max_length[25]|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
+        $this->form_validation->set_rules('name', 'Name', 'required|trim|max_length[30]');
+        $this->form_validation->set_rules('card_id', 'Card ID', 'trim|max_length[10]');
+        $this->form_validation->set_rules('phone', 'Phone', 'trim|max_length[15]');
+        $this->form_validation->set_rules('address', 'Address', 'trim|max_length[50]');
 
         if ($this->form_validation->run() == false) {
             $this->load->view('dashboard/temp/header', $data);
@@ -82,7 +82,7 @@ class UserCustomer extends CI_Controller
                 $this->load->library('upload', $config);
                 if ($this->upload->do_upload('image')) {
                     $old_image = $data['tbl_customer']['image'];
-                    if ($old_image != 'default.png') {
+                    if ($old_image != 'defaultCustomer.png') {
                         unlink(FCPATH . 'assets/frontend/img/profile/' . $old_image);
                     }
                     $new_image = $this->upload->data('file_name');
@@ -104,8 +104,8 @@ class UserCustomer extends CI_Controller
         $data['user'] = $this->user->getUserAdminByUsername();
         $data['tbl_customer'] = $this->customer->getCustomerById($id);
 
-        $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim');
-        $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|min_length[3]|matches[new_password2]');
+        $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim|max_length[10]');
+        $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|max_length[10]|min_length[3]|matches[new_password2]');
         $this->form_validation->set_rules('new_password2', 'Confirm New Password', 'required|trim|min_length[3]|matches[new_password1]');
 
         if ($this->form_validation->run() == false) {
@@ -119,11 +119,11 @@ class UserCustomer extends CI_Controller
             $new_password = $this->input->post('new_password1');
             if (!password_verify($current_password, $data['tbl_customer']['password'])) {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong current password!</div>');
-                redirect('dashboard/user/changepasswordadmin/' . $id);
+                redirect('dashboard/usercustomer/changePasswordCustomer/' . $id);
             } else {
                 if ($current_password == $new_password) {
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">New password cannot be the same as current password!</div>');
-                    redirect('dashboard/user/changepasswordadmin/' . $id);
+                    redirect('dashboard/usercustomer/changePasswordCustomer/' . $id);
                 } else {
                     $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
                     $this->customer->updatePasswordCustomer($password_hash, $id);
@@ -141,7 +141,7 @@ class UserCustomer extends CI_Controller
         $data['user'] = $this->user->getUserAdminByUsername();
         $data['tbl_customer'] = $this->customer->getCustomerById($id);
 
-        $this->form_validation->set_rules('password1', 'Password', 'trim|required|min_length[3]|matches[password2]');
+        $this->form_validation->set_rules('password1', 'Password', 'trim|required|max_length[10]|min_length[3]|matches[password2]');
         $this->form_validation->set_rules('password2', 'Repeat Password', 'trim|required|min_length[3]|matches[password1]');
 
         if ($this->form_validation->run() == false) {
@@ -160,11 +160,17 @@ class UserCustomer extends CI_Controller
 
     public function deleteCustomer($id)
     {
+        $userCustomer = $this->db->get_where('customer', ['id' => $id])->row_array();
+        $nameImg = $userCustomer['image'];
+
         if ($id == null) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Delete user failed!</div>');
             redirect('dashboard/usercustomer');
         } else {
             $this->customer->deleteCustomer($id);
+            if ($nameImg != 'defaultCustomer.png') {
+                unlink(FCPATH . 'assets/frontend/img/profile/' . $nameImg);
+            }
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Delete user success</div>');
             redirect('dashboard/usercustomer');
         }

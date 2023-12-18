@@ -74,7 +74,7 @@ class Superadmin extends CI_Controller
         $data['user'] = $this->user->getUserAdminByUsername();
         $data['menu'] = $this->menu->getMenu();
 
-        $this->form_validation->set_rules('menu', 'Menu', 'required');
+        $this->form_validation->set_rules('menu', 'Menu', 'required|max_length[20]');
 
         if ($this->form_validation->run() == false) {
             $this->load->view('dashboard/temp/header', $data);
@@ -94,7 +94,7 @@ class Superadmin extends CI_Controller
         $checkMenu = $this->menu->getUserMenuByNameMenu();
         $menuId = $this->input->post('id');
 
-        $this->form_validation->set_rules('menu', 'Menu', 'required');
+        $this->form_validation->set_rules('menu', 'Menu', 'required|max_length[20]');
 
         if ($this->form_validation->run() == false) {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Change name menu failed!</div>');

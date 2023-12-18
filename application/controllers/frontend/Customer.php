@@ -9,7 +9,7 @@ class Customer extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if (!$this->session->userdata('email')) {
+        if (!$this->session->userdata('usernameCustomer')) {
             redirect('frontend/auth');
         }
         $this->load->model('UserCustomer_model', 'customer');
@@ -29,8 +29,8 @@ class Customer extends CI_Controller
         $data['title'] = 'Change Password';
         $data['user'] = $this->customer->getCustomerByUsername();
 
-        $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim');
-        $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|min_length[3]|matches[new_password2]');
+        $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim|max_length[10]');
+        $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|max_length[10]|min_length[3]|matches[new_password2]');
         $this->form_validation->set_rules('new_password2', 'Confirm New Password', 'required|trim|min_length[3]|matches[new_password1]');
 
         if ($this->form_validation->run() == false) {
@@ -62,11 +62,11 @@ class Customer extends CI_Controller
         $data['title'] = 'Edit Profile';
         $data['user'] = $this->customer->getCustomerByUsername();
 
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
-        $this->form_validation->set_rules('name', 'Name', 'required|trim');
-        $this->form_validation->set_rules('card_id', 'Card ID', 'required|trim');
-        $this->form_validation->set_rules('phone', 'Phone', 'required|trim');
-        $this->form_validation->set_rules('address', 'Address', 'required|trim');
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|max_length[25]|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
+        $this->form_validation->set_rules('name', 'Name', 'required|trim|max_length[30]');
+        $this->form_validation->set_rules('card_id', 'Card ID', 'required|trim|max_length[10]');
+        $this->form_validation->set_rules('phone', 'Phone', 'required|trim|max_length[12]');
+        $this->form_validation->set_rules('address', 'Address', 'required|trim|max_length[50]');
 
         if ($this->form_validation->run() == false) {
             $this->load->view('frontend/temp/header', $data);
@@ -82,7 +82,7 @@ class Customer extends CI_Controller
                 $this->load->library('upload', $config);
                 if ($this->upload->do_upload('image')) {
                     $old_image = $data['user']['image'];
-                    if ($old_image != 'default.png') {
+                    if ($old_image != 'defaultCustomer.png') {
                         unlink(FCPATH . 'assets/frontend/img/profile/' . $old_image);
                     }
                     $new_image = $this->upload->data('file_name');

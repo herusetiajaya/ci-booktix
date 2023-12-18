@@ -17,6 +17,9 @@
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets/'); ?>dashboard/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <link href="<?= base_url('assets/'); ?>dashboard/datepicker-1.9.0/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
+    <link href="<?= base_url('assets/'); ?>dashboard/timepicker-2.0.2/dist/mdtimepicker.css" rel="stylesheet" type="text/css">
+    <link href="<?= base_url('assets/'); ?>dashboard/timepicker-2.0.2/dist/mdtimepicker-theme.css.css" rel="stylesheet" type="text/css">
     <link href="<?= base_url('assets/'); ?>dashboard/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>

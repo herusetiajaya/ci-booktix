@@ -22,8 +22,8 @@ class Studio_model extends CI_Model
     public function getStudioByCheck()
     {
         return $this->db->get_where('tbl_studio', [
-            'name' => $this->input->post('name'),
-            'information' => $this->input->post('information'),
+            'name' => htmlspecialchars($this->input->post('name')),
+            'information' => htmlspecialchars($this->input->post('information')),
         ])->row_array();
     }
 
@@ -40,8 +40,8 @@ class Studio_model extends CI_Model
     public function updateStudio($id)
     {
         $data = [
-            'name' => $this->input->post('name'),
-            'information' => $this->input->post('information'),
+            'name' => htmlspecialchars($this->input->post('name')),
+            'information' => htmlspecialchars($this->input->post('information')),
         ];
         $this->db->where('id', $id);
         $this->db->update('tbl_studio', $data);
@@ -67,8 +67,8 @@ class Studio_model extends CI_Model
     public function addSeat()
     {
         $data = [
-            'code_seat' => $this->input->post('code_seat'),
-            'studio_id' => $this->input->post('studio_id'),
+            'code_seat' => htmlspecialchars($this->input->post('code_seat')),
+            'studio_id' => htmlspecialchars($this->input->post('studio_id')),
         ];
         $this->db->insert('tbl_seat', $data);
     }
@@ -76,8 +76,8 @@ class Studio_model extends CI_Model
     public function updateSeat($id)
     {
         $data = [
-            'code_seat' => $this->input->post('code_seat'),
-            'studio_id' => $this->input->post('studio_id'),
+            'code_seat' => htmlspecialchars($this->input->post('code_seat')),
+            'studio_id' => htmlspecialchars($this->input->post('studio_id')),
         ];
         $this->db->where('id', $id);
         $this->db->update('tbl_seat', $data);

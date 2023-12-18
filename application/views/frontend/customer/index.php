@@ -3,7 +3,7 @@
         <h3 class="text text-white">My Profile</h3>
         <div class="row justify-content-center">
 
-            <div class="col-lg-5">
+            <div class="col-lg-6">
 
                 <div class="card o-hidden border-0 shadow-lg my-4">
                     <div class="card-body p-0">
@@ -18,22 +18,22 @@
                                     <?= $this->session->flashdata('message'); ?>
                                 </div>
                                 <div class="row no-gutters">
-                                    <div class="col-md-5 pl-2 pt-4">
+                                    <div class="col-md-4 pl-2 pt-4">
                                         <img src="<?= base_url('assets/frontend/img/profile/') . $user['image']; ?>" class="card-img">
-                                        <div class="card-body">
+                                        <div class="card-body col-md-">
                                             <small class="text-muted">Card ID :</small>
                                             <small class="text-muted"><?= $user['card_id']; ?></small>
                                             </br>
                                             <small class="text-muted">Phone :</small>
                                             <small class="text-muted"><?= $user['phone']; ?></small>
                                             </br>
-                                            <small class="text-muted">Address :</small>
+                                            <small class="text-muted">Address :</small></br>
                                             <small class="text-muted"><?= $user['address']; ?></small>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 mt-3 ml-3">
+                                    <div class="col-md-7 mt-3 ml-3">
                                         <div class="row">
-                                            <div class="card-body">
+                                            <div class="card-body col-10">
                                                 <h4 class="card-text"><?= $user['name']; ?></h4>
                                                 <h5 class="card-text"><?= $user['username']; ?></h5>
                                                 <p class="card-text"><?= $user['email']; ?></p>
@@ -43,8 +43,9 @@
                                         <div class="col-md- ml-1">
                                             <a href="<?= base_url('frontend/customer/edit') ?>" class="badge badge-success">Edit Profile</a>
                                             <a href="<?= base_url('frontend/customer/changePassword') ?>" class="badge badge-info">Change Password</a>
+                                            <a href="<?= base_url('frontend/auth/logout') ?>" class="badge badge-danger submit-logout">Logout</a>
                                         </div>
-                                        <div class="col-md- p-3 ml-5 mt-3">
+                                        <div class="col-md- p-3 ml-5 pl-5 mt-3">
                                             <a href="#" class="badge badge-warning">My Ticket</a>
                                         </div>
                                     </div>

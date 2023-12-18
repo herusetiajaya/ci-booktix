@@ -7,13 +7,10 @@
     </div>
 </footer>
 <!-- End of Footer -->
-
 </div>
 <!-- End of Content Wrapper -->
-
 </div>
 <!-- End of Page Wrapper -->
-
 <!-- Scroll to Top Button-->
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
@@ -27,9 +24,12 @@
 <script src="<?= base_url('assets/'); ?>dashboard/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url('assets/'); ?>dashboard/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <!-- Custom scripts for all pages-->
+<!-- <script src="<?= base_url('assets/'); ?>dashboard/js/jquery-3.7.0.min.js"></script> -->
 <script src="<?= base_url('assets/'); ?>dashboard/js/sb-admin-2.min.js"></script>
 <script src="<?= base_url('assets/'); ?>dashboard/js/sweetalert2.all.min.js"></script>
 <script src="<?= base_url('assets/'); ?>dashboard/js/demo/datatables-demo.js"></script>
+<script src="<?= base_url('assets/'); ?>dashboard/datepicker-1.9.0/js/bootstrap-datepicker.js"></script>
+<script src="<?= base_url('assets/'); ?>dashboard/timepicker-2.0.2/dist/mdtimepicker.js"></script>
 <!-- Custom myscripts -->
 <script src="<?= base_url('assets/'); ?>dashboard/js/owner/booktix.js"></script>
 <script>
@@ -154,24 +154,6 @@
             }
         });
     });
-
-    // Checkbox in modal sub menu add
-    $('.subMenuActive').on('change', function() {
-        this.value = this.checked ? 1 : '0';
-        // alert(this.value);
-    }).change();
-
-    // Checkbox in modal admin add
-    $('.adminActive').on('change', function() {
-        this.value = this.checked ? 1 : '0';
-        // alert(this.value);
-    }).change();
-
-    // Checkbox in modal customer add
-    $('.customerActive').on('change', function() {
-        this.value = this.checked ? 1 : '0';
-        // alert(this.value);
-    }).change();
 </script>
 </body>
 

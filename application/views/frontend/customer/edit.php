@@ -38,7 +38,7 @@
                                         <div class="col-sm-10">
                                             <div class="row">
                                                 <div class="col-sm-3">
-                                                    <img src="<?= base_url('assets/frontend/img/profile/') . $user['image']; ?>" alt="" class="img-thumbnail">
+                                                    <img src="<?= base_url('assets/frontend/img/profile/') . $user['image']; ?>" alt="" class="img img-thumbnail">
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <div class="custum-file">
@@ -47,24 +47,24 @@
 
                                                     <div class="form-group row mt-4  ml-5">
                                                         <label for="car_id" class="col-sm-3 small">Card ID</label>
-                                                        <div class="col-sm-1">
+                                                        <div class="col-sm-">
                                                             <input type="text" class="small border-info rounded" id="car_id" name="card_id" value="<?= $user['card_id']; ?>">
-                                                            <?= form_error('card_id', '<small class="text-danger pl-3">', '</small>'); ?>
                                                         </div>
+                                                        <?= form_error('card_id', '<small class="text-danger pl-3">', '</small>'); ?>
                                                     </div>
                                                     <div class="form-group row mt-1 ml-5">
                                                         <label for="phone" class="col-sm-3 small">Phone</label>
-                                                        <div class="col-sm-1">
+                                                        <div class="col-sm-">
                                                             <input type="text" class="small border-info rounded" id="phone" name="phone" value="<?= $user['phone']; ?>">
-                                                            <?= form_error('phone', '<small class="text-danger pl-3">', '</small>'); ?>
                                                         </div>
+                                                        <?= form_error('phone', '<small class="text-danger pl-3">', '</small>'); ?>
                                                     </div>
                                                     <div class="form-group row mt-1 ml-5">
                                                         <label for="address" class="col-sm-3 small">Address</label>
-                                                        <div class="col-sm-1">
+                                                        <div class="col-sm-">
                                                             <textarea class="small border-info rounded" id="address" name="address"><?= $user['address']; ?></textarea>
-                                                            <?= form_error('address', '<small class="text-danger pl-3">', '</small>'); ?>
                                                         </div>
+                                                        <?= form_error('address', '<small class="text-danger pl-3">', '</small>'); ?>
                                                     </div>
 
                                                 </div>

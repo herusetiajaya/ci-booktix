@@ -46,8 +46,8 @@ class User_model extends CI_Model
 
     public function updateImage()
     {
-        $this->db->set('name', $this->input->post('name'));
-        $this->db->set('email', $this->input->post('email'));
+        $this->db->set('name', htmlspecialchars($this->input->post('name')));
+        $this->db->set('email', htmlspecialchars($this->input->post('email')));
         $this->db->where('username', $this->input->post('username'));
         $this->db->update('admin');
     }

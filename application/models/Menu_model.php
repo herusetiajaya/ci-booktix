@@ -16,7 +16,7 @@ class Menu_model extends CI_Model
     // USER MENU
     public function addMenu()
     {
-        $this->db->insert('user_menu', ['menu' => $this->input->post('menu')]);
+        $this->db->insert('user_menu', ['menu' => htmlspecialchars($this->input->post('menu', true))]);
     }
 
     public function getMenu()
@@ -26,13 +26,13 @@ class Menu_model extends CI_Model
 
     public function getUserMenuByNameMenu()
     {
-        return $this->db->get_where('user_menu', ['menu' => $this->input->post('menu')])->row_array();
+        return $this->db->get_where('user_menu', ['menu' => htmlspecialchars($this->input->post('menu', true))])->row_array();
     }
 
     public function editNameMenu()
     {
         $data = [
-            "menu" => $this->input->post('menu', true)
+            "menu" => htmlspecialchars($this->input->post('menu', true))
         ];
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('user_menu', $data);
@@ -75,11 +75,11 @@ class Menu_model extends CI_Model
     public function editSubMenu()
     {
         $data = [
-            'title' => $this->input->post('title', true),
-            'menu_id' => $this->input->post('menu_id', true),
-            'url' => $this->input->post('url', true),
-            'icon' => $this->input->post('icon', true),
-            'is_active' => $this->input->post('is_active', true)
+            'title' => htmlspecialchars($this->input->post('title', true)),
+            'menu_id' => htmlspecialchars($this->input->post('menu_id', true)),
+            'url' => htmlspecialchars($this->input->post('url', true)),
+            'icon' => htmlspecialchars($this->input->post('icon', true)),
+            'is_active' => htmlspecialchars($this->input->post('is_active', true))
         ];
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('user_sub_menu', $data);

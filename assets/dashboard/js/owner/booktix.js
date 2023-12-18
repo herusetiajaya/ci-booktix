@@ -1,8 +1,64 @@
-// Image edit user
+// Datepicker v1.9.0
+$('.form-control.dateSchedule').datepicker({
+    startDate: '-0d',
+    format: 'dd/mm/yyyy',
+    clearBtn: true,
+    autoclose: true,
+    todayHighlight: true,
+    toggleActive: true,
+});
+
+// Timepicker v2.0.2
+mdtimepicker('.timeSchedule', { 
+    readOnly: true,
+    is24hour: true,
+    theme: 'dark',
+    hourPadding: true,
+    clearBtn: true,
+    // maxtime:'now',
+    // mintime: 'now',
+    events: {
+        ready: function() { $('ready', this) },
+        shown: function() { $('shown', this) },
+        hidden: function() { $('hidden', this) },
+        timeChanged: function (data) {
+            $('.form-control.timeSchedule').val(data.value);
+        }
+    }
+});
+// Timepicker v1.0.0
+// $('.timepicker').mdtimepicker({
+//     format: 'hh:mm tt',
+//     theme: 'indigo',
+//     }).on('timechanged', function(e){
+//     $('.timeSchedule').val(e.value);
+//     $('.timeSchedule').val(e.time);
+// });
+
+// edit user image
 $('.custom-file-input').on('change', function() {
-    const fileName = $(this).val().split('\\').pop();
+    // change filename
+    let fileName = $(this).val().split('\\').pop();
     $(this).next('.custom-file-label').addClass("selected").html(fileName);
-}).change();
+
+    // change img
+    const base_urlIMG = $('#valImgDefault').val();
+    const input = this;
+    const url = $(this).val();
+    const ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+    if (input.files && input.files[0]&& (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
+    {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+        $('.img').attr('src', e.target.result);
+        }
+    reader.readAsDataURL(input.files[0]);
+    }
+    else
+    {
+    $('.img').attr('src', base_urlIMG);
+    }
+});
 
 // delete Data SweetAlert2
 $('.deleteData').on('click', function(e) {
@@ -60,6 +116,24 @@ $('.isActiveStudio').on('click', function() {
         }
     });
 });
+
+// Checkbox in modal sub menu add
+$('.subMenuActive').on('change', function() {
+    this.value = this.checked ? 1 : '0';
+    // alert(this.value);
+}).change();
+
+// Checkbox in modal admin add
+$('.adminActive').on('change', function() {
+    this.value = this.checked ? 1 : '0';
+    // alert(this.value);
+}).change();
+
+// Checkbox in modal customer add
+$('.customerActive').on('change', function() {
+    this.value = this.checked ? 1 : '0';
+    // alert(this.value);
+}).change();
 
 // Checkbox in modal studio add
 $('.studioIsActive').on('change', function() {
@@ -125,4 +199,86 @@ $(document).on('click', '.editSeat', function() {
     $('.modal-body #id').val(seatId);
     $('.modal-body #code_seat').val(codeSeat);
     $('.modal-body #studio_id').val(studioId);
+});
+
+// Modal film add
+$(document).on('click', '.addFilm', function() {
+    $('#filmModalLabel').html('Add New Film');
+    $('.modal-footer button[type=submit]').html('Add');
+    const base_url = $('#linkAddfilm').val();
+    $('.modal-body form').attr('action', base_url);
+    $('.modal-body #id').val('');
+    $('.modal-body #title').val('');
+    $('.modal-body #category').val('');
+    $('.modal-body #description').val('');
+    $('.custom-file-label').addClass("selected").html('Choose file');
+    $('.custom-file-input').attr('required', true);
+
+    const base_urlIMG = $('#valImgDefault').val();
+    $('.modal-body .img').attr('src', base_urlIMG);
+});
+
+// Modal film edit
+$(document).on('click', '.editFilm', function() {
+    $('#filmModalLabel').html('Edit Film');
+    $('.modal-footer button[type=submit]').html('Edit');
+    const filmId = $(this).data('id');
+    const base_url = $('#linkEditfilm').val();
+    $('.modal-body form').attr('action', base_url + filmId);
+    const title = $(this).data('t');
+    const category = $(this).data('c');
+    const des  = $(this).data('d');
+    const img = $(this).data('i');
+    $('.modal-body #id').val(filmId);
+    $('.modal-body #title').val(title);
+    $('.modal-body #category').val(category);
+    $('.modal-body #description').val(des);
+    $('.custom-file-label').addClass("selected").html(img);
+    $('.custom-file-input').attr('required', false);
+
+    const base_urlIMG = $('#valImg').val();
+    $('.modal-body .img').attr('src', base_urlIMG + img);
+});
+
+// Add schedule
+$('.addSchedule').on('click', function() {
+    $('#scheduleModalLabel').html('Add new Schedule');
+    $('.modal-footer button[type=submit]').html('Add');
+    const addlink = $('.linkAdd').val();
+    $('.modal-body form').attr('action', addlink);
+
+    $('.modal-body #date').val('');
+    $('.modal-body #time').val('');
+    $('.modal-body #price').val('');
+    $('.modal-body #message').val('');
+    $('.modal-body #id').val('');
+});
+
+// Edit schedule
+$('.editSchedule').on('click', function() {
+    $('#scheduleModalLabel').html('Edit Schedule');
+    $('.modal-footer button[type=submit]').html('Edit');
+    const editLink = $('.linkEdit').val();
+    $('.modal-body form').attr('action', editLink);
+
+    const id = $(this).data('id');
+    const base_url = $('.linkGetSchedule').val();
+    $.ajax({
+        url: base_url,
+        data: {id : id},
+        type: 'POST',
+        dataType: 'json',
+        cache: false,
+        context: this,
+        success: function(data) {
+            $('.modal-body #date').val(data.date);
+            $('.modal-body #time').val(data.time);
+            $('.modal-body #price').val(data.price);
+            $('.modal-body #message').val(data.message);
+            $('.modal-body #id').val(data.id);
+        },
+        error: function() {
+            alert('error');
+        }
+    });
 });

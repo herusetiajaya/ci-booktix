@@ -28,10 +28,10 @@
                         <a class="nav-item nav-link <?= ($title == 'About page') ? 'active' : '' ?>" href="<?= base_url('frontend/about'); ?>">About</a>
                         <a class="nav-item nav-link <?= ($title == 'Film page') ? 'active' : '' ?>" href="<?= base_url('frontend/film'); ?>">Film</a>
                         <a class="nav-item nav-link <?= ($title == 'Forum page') ? 'active' : '' ?>" href="<?= base_url('frontend/forum'); ?>">Forum</a>
-                        <?php if ($this->session->userdata('username')) : ?>
+                        <?php if ($this->session->userdata('usernameCustomer')) : ?>
                             <div class="dropdown show ml-5">
                                 <a class="nav-item nav-link <?= ($title == 'Customer page') ? 'active' : '' ?> dropdown-toggle" href="" role="a" id="dropdownMenuLink" data-toggle="dropdown" data-target="#dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span"><?= $this->session->userdata('username'); ?></span>
+                                    <span"><?= $this->session->userdata('usernameCustomer'); ?></span>
                                 </a>
                                 <div class="dropdown-menu bg-secondary" aria-labelledby="dropdownMenuLink">
                                     <a class="dropdown-item nav-item nav-link bg-dark" href="<?= base_url('frontend/customer'); ?>">

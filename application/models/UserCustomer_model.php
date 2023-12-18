@@ -6,7 +6,19 @@ class UserCustomer_model extends CI_Model
 
     public function getCustomerByUsername()
     {
-        return $this->db->get_where('customer', ['username' => $this->session->userdata('username')])->row_array();
+        return $this->db->get_where('customer', ['username' => $this->session->userdata('usernameCustomer')])->row_array();
+    }
+
+    // Customer Authentication
+    public function getCustomerByUsernameAndEmailAuth($usernameOrEmail)
+    {
+        $sEmail = $this->db->get_where('customer', ['email' => $usernameOrEmail])->row_array();
+        if ($usernameOrEmail == $sEmail['email']) {
+            $data = ['email' => $usernameOrEmail];
+        } else {
+            $data = ['username' => $usernameOrEmail];
+        }
+        return $this->db->get_where('customer', $data)->row_array();
     }
 
     public function getCustomer()
@@ -26,10 +38,10 @@ class UserCustomer_model extends CI_Model
             'password' => password_hash($this->input->post('passwordFirst'), PASSWORD_DEFAULT),
             'name' => htmlspecialchars($this->input->post('name', true)),
             'email' => htmlspecialchars($this->input->post('email', true)),
-            'card_id' => '0099xxx',
-            'phone' => '088xxxxxx',
-            'address' => 'addyourAddress',
-            'image' => 'default.png',
+            'card_id' => '',
+            'phone' => '088xxxxxxxx',
+            'address' => '',
+            'image' => 'defaultCustomer.png',
             'is_active' => htmlspecialchars($this->input->post('is_active', true)),
             'date_created' => time()
         ];
@@ -89,11 +101,5 @@ class UserCustomer_model extends CI_Model
     public function deleteCustomer($id)
     {
         $this->db->delete('customer', ['id' => $id]);
-    }
-
-    // Customer Authentication
-    public function getCustomerByUsernameAuth($username)
-    {
-        return $this->db->get_where('customer', ['username' => $username])->row_array();
     }
 }

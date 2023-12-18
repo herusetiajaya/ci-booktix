@@ -11,15 +11,15 @@
         </div>
     </div>
 
-    <div class="card mb-3" style="max-width: 620px;">
+    <div class="card mb-3" style="max-width: 640px;">
         <div class="row no-gutters">
             <div class="col-md-3 pl-2 pt-4">
                 <img src="<?= base_url('assets/dashboard/img/profile/') . $useradmin['image']; ?>" class="card-img">
             </div>
-            <div class="col-md-9">
+            <div class="col-md-8 ml-3">
                 <div class="row">
 
-                    <div class="col-md-6 card-body about-generic-area">
+                    <div class="col-md-7 card-body about-generic-area">
                         <h4 class="card-title"><?= $useradmin['name']; ?></h4>
                         <h5 class="card-title"><?= $useradmin['username']; ?></h5>
                         <p class="card-text"><?= $useradmin['email']; ?></p>
@@ -27,7 +27,7 @@
                     </div>
 
                     <!-- Role/Level -->
-                    <div class="card-body about-generic-area border-left-dark h-50">
+                    <div class="col-md-5 card-body about-generic-area border-left-dark h-50">
                         <h6><small>Role / Level</small></h6>
                         <?php if ($useradmin['id'] == 1) : ?>
                             <h5><label for="role_id">SuperAdmin</label>
@@ -45,7 +45,7 @@
                     </div>
 
                 </div>
-                <div class="col-md- ml-2 about-generic-area">
+                <div class="col-md- ml-2 mb-2 about-generic-area">
                     <a href="<?= base_url('dashboard/user/editadmin/' . $useradmin['id']) ?>" class="badge badge-success">Edit Profile</a>
                     <a href="<?= base_url('dashboard/user/changePasswordAdmin/' . $useradmin['id']) ?>" class="badge badge-info">Change Password</a>
                     <a href="<?= base_url('dashboard/user/resetpasswordadmin/' . $useradmin['id']) ?>" class="badge badge-warning">Reset Password</a>

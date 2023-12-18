@@ -15,12 +15,12 @@ class Auth extends CI_Controller
 
     public function index()
     {
-        if ($this->session->userdata('email')) {
+        if ($this->session->userdata('usernameCustomer')) {
             redirect('frontend/customer');
         }
         // $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
-        $this->form_validation->set_rules('username', 'Username', 'required|trim');
-        $this->form_validation->set_rules('password', 'Password', 'required|trim');
+        $this->form_validation->set_rules('username-or-email', 'Username Or Email', 'required|trim|max_length[25]');
+        $this->form_validation->set_rules('password', 'Password', 'required|trim|max_length[10]');
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Login page';
@@ -35,10 +35,10 @@ class Auth extends CI_Controller
     private function _login()
     {
         // $email = $this->input->post('email');
-        $username = $this->input->post('username');
-        $password = $this->input->post('password');
+        $usernameOrEmail = htmlspecialchars($this->input->post('username-or-email', true));
+        $password = htmlspecialchars($this->input->post('password', true));
 
-        $user = $this->customer->getCustomerByUsernameAuth($username);
+        $user = $this->customer->getCustomerByUsernameAndEmailAuth($usernameOrEmail);
         // jika usernya ada
         if ($user) {
             // jika usernya aktif
@@ -46,8 +46,8 @@ class Auth extends CI_Controller
                 // cek password
                 if (password_verify($password, $user['password'])) {
                     $data = [
-                        'username' => $user['username'],
-                        'email' => $user['email']
+                        'usernameCustomer' => $user['username'],
+                        // 'email' => $user['email']
                     ];
                     $this->session->set_userdata($data);
                     redirect('frontend/home');
@@ -60,15 +60,16 @@ class Auth extends CI_Controller
                 redirect('frontend/auth');
             }
         } else {
-            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Username not found!</div>');
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Username or Email not found!</div>');
             redirect('frontend/auth');
         }
     }
 
     public function logout()
     {
-        $this->session->unset_userdata('username');
-        $this->session->unset_userdata('email');
+        $this->session->unset_userdata('usernameCustomer');
+        // $this->session->unset_userdata('email');
+        // $this->session->sess_destroy();
 
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">You have been logged out!</div>');
         redirect('frontend/home');
@@ -76,14 +77,13 @@ class Auth extends CI_Controller
 
     public function registration()
     {
-        if ($this->session->userdata('email')) {
+        if ($this->session->userdata('usernameCustomer')) {
             redirect('frontend/customer');
         }
-        $this->form_validation->set_rules('name', 'Name', 'required|trim');
-        $this->form_validation->set_rules('username', 'User Name', 'required|trim|is_unique[customer.username]', ['is_unique' => 'This Username has already to use!']);
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
-
-        $this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[3]|matches[password2]', ['matches' => 'Password dont match!', 'min_length' => 'Password to short!', 'required' => 'Password required.']);
+        $this->form_validation->set_rules('name', 'Name', 'required|trim|max_length[30]');
+        $this->form_validation->set_rules('username', 'User Name', 'required|trim|max_length[10]|is_unique[customer.username]', ['is_unique' => 'This Username has already to use!']);
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|max_length[25]|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
+        $this->form_validation->set_rules('password1', 'Password', 'required|trim|max_length[10]|min_length[3]|matches[password2]', ['matches' => 'Password dont match!', 'min_length' => 'Password to short!', 'required' => 'Password required.', 'max_length' => 'Password max length 10.']);
         $this->form_validation->set_rules('password2', 'Password', 'required|trim|matches[password1]');
 
         if ($this->form_validation->run() == false) {
@@ -98,10 +98,10 @@ class Auth extends CI_Controller
                 'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
                 'name' => htmlspecialchars($this->input->post('name', true)),
                 'email' => htmlspecialchars($email),
-                'card_id' => '0099xxx',
-                'phone' => '088xxxxxx',
-                'address' => 'addyourAddress',
-                'image' => 'default.png',
+                'card_id' => '',
+                'phone' => '088xxxxxxxx',
+                'address' => '',
+                'image' => 'defaultCustomer.png',
                 'is_active' => 0,
                 'date_created' => time()
             ];
@@ -172,10 +172,10 @@ class Auth extends CI_Controller
 
     public function forgotpassword()
     {
-        if ($this->session->userdata('email')) {
+        if ($this->session->userdata('usernameCustomer')) {
             redirect('frontend/customer');
         }
-        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
+        $this->form_validation->set_rules('email', 'Email', 'trim||max_length[25]|required|valid_email', ['valid_email' => 'The Email is not a valid email address.']);
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Login page';
             $this->load->view('frontend/temp/header', $data);
@@ -249,7 +249,7 @@ class Auth extends CI_Controller
             redirect('frontend/auth');
         }
 
-        $this->form_validation->set_rules('password1', 'Password', 'trim|required|min_length[3]|matches[password2]');
+        $this->form_validation->set_rules('password1', 'Password', 'trim|required|max_length[10]|min_length[3]|matches[password2]');
         $this->form_validation->set_rules('password2', 'Repeat Password', 'trim|required|min_length[3]|matches[password1]');
 
         if ($this->form_validation->run() == false) {

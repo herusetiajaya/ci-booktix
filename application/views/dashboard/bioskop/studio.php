@@ -78,7 +78,7 @@
             </div>
             <div class="modal-body">
                 <form class="studio" action="" method="post">
-                    <input type="hidden" class="form-action" id="linkAddStudio" value="<?= base_url('dashboard/bioskop/addStudio') ?>">
+                    <input type="hidden" class="form-action" id="linkAddStudio" value="<?= base_url('dashboard/bioskop/studio') ?>">
                     <input type="hidden" class="form-action" id="linkEditStudio" value="<?= base_url('dashboard/bioskop/editStudio') ?>">
                     <div class="modal-body">
                         <!-- id -->

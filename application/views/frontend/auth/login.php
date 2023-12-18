@@ -26,8 +26,8 @@
                                 </div>
                                 <form class="user" method="post" action="<?= base_url('frontend/auth'); ?>">
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-user" id="username" name="username" aria-describedby="emailHelp" placeholder="Enter Username" value="<?= set_value('username'); ?>">
-                                        <?= form_error('username', '<small class="text-danger pl-3">', '</small>'); ?>
+                                        <input type="text" class="form-control form-control-user" id="username-or-email" name="username-or-email" aria-describedby="emailHelp" placeholder="Username or Email" value="<?= set_value('username'); ?>">
+                                        <?= form_error('username-or-email', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Password">

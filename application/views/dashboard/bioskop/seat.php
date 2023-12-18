@@ -69,7 +69,7 @@
             </div>
             <div class="modal-body">
                 <form class="seat" action="" method="post">
-                    <input type="hidden" class="form-action" value="<?= base_url('dashboard/bioskop/addSeat') ?>" id="linkAddSeat">
+                    <input type="hidden" class="form-action" value="<?= base_url('dashboard/bioskop/seat') ?>" id="linkAddSeat">
                     <input type="hidden" class="form-action" value="<?= base_url('dashboard/bioskop/editSeat') ?>" id="linkEditSeat">
                     <div class="modal-body">
                         <!-- id -->

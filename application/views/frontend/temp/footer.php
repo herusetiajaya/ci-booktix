@@ -26,8 +26,23 @@
 <script>
     // Image edit user
     $('.custom-file-input').on('change', function() {
+        // change filename
         let fileName = $(this).val().split('\\').pop();
         $(this).next('.custom-file-label').addClass("selected").html(fileName);
+
+        // change img
+        const input = this;
+        const url = $(this).val();
+        const ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+        if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $('.img').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            $('.img').attr('src', 'default.png');
+        }
     });
     // logout
     $('.submit-logout').on('click', function(e) {
