@@ -155,6 +155,53 @@
         });
     });
 </script>
+<script>
+    // Modal view img film 
+    $(document).on('click', '.viewIMG', function() {
+        const title = $(this).data('vt');
+        const img = $(this).data('vi');
+        const base_urlIMG = $('#valImg').val();
+        $('#imgFilmModalLabel').html(title);
+        $('.modal-body .img').attr('src', base_urlIMG + img);
+    });
+
+    // Shorting text description film
+    function shortingText(value) {
+        if (value.length <= 30) {
+            return value;
+        }
+        return value.substring(0, 30) + '...';
+    }
+
+    // Modal time add
+    $(document).on('click', '.addTime', function() {
+        $('#timeModalLabel').html('Add New Time');
+        $('.modal-footer button[type=submit]').html('Add');
+
+        const base_url = $('#linkAddTime').val();
+        $('.modal-body form').attr('action', base_url);
+
+        $('.modal-body #id').val('');
+        $('.modal-body #time').val('');
+        $('.modal-body #schedule_id').attr('selected', 'selected').val('');
+    });
+
+    // Modal time edit
+    $(document).on('click', '.editTime', function() {
+        $('#timeModalLabel').html('Edit Time');
+        $('.modal-footer button[type=submit]').html('Edit');
+
+        const base_url = $('#linkEditTime').val();
+        $('.modal-body form').attr('action', base_url);
+
+        const timeId = $(this).data('id');
+        const time = $(this).data('t');
+        const scheduleId = $(this).data('si');
+        $('.modal-body #id').val(timeId);
+        $('.modal-body #time').val(time);
+        $('.modal-body #schedule_id').val(scheduleId);
+    });
+</script>
 </body>
 
 </html>

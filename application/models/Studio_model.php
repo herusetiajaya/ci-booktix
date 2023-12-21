@@ -3,16 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Studio_model extends CI_Model
 {
-    // JOIN studio AND seat
-    public function getSeatJoinStudio()
-    {
-        $query = "SELECT `tbl_seat`. *, `tbl_studio`.`name`
-        FROM `tbl_seat` JOIN `tbl_studio`
-        ON `tbl_seat`.`studio_id` = `tbl_studio`.`id`
-    ";
-        return $this->db->query($query)->result_array();
-    }
-
     // Studio
     public function getStudio()
     {
@@ -61,9 +51,23 @@ class Studio_model extends CI_Model
     public function deleteStudio($id)
     {
         $this->db->delete('tbl_studio', ['id' => $id]);
+        $this->db->delete('tbl_seat', ['studio_id' => $id]);
     }
 
     // Seat
+    public function getSeatById($id)
+    {
+        return $this->db->get_where('tbl_seat', ['studio_id' => $id])->result_array();
+    }
+    // JOIN seat AND studio
+    public function getSeatJoinStudio()
+    {
+        $query = "SELECT `tbl_seat`. *, `tbl_studio`.`name`
+            FROM `tbl_seat` JOIN `tbl_studio`
+            ON `tbl_seat`.`studio_id` = `tbl_studio`.`id`
+        ";
+        return $this->db->query($query)->result_array();
+    }
     public function addSeat()
     {
         $data = [

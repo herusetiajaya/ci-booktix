@@ -95,7 +95,8 @@ class Bioskop extends CI_Controller
         $data['tbl_seat'] = $this->studio->getSeatJoinStudio();
         $data['tbl_studio'] = $this->studio->getStudio();
 
-        $this->form_validation->set_rules('code_seat', 'Code Seat', 'required|trim|max_length[2]');
+        $this->form_validation->set_rules('code_seat', 'Code Seat', 'required|trim|max_length[3]');
+        $this->form_validation->set_rules('studio_id', 'Studio Name', 'required|trim');
 
         if ($this->form_validation->run() == false) {
             $this->load->view('dashboard/temp/header', $data);
@@ -114,7 +115,7 @@ class Bioskop extends CI_Controller
     {
         $id = $this->input->post('id');
 
-        $this->form_validation->set_rules('code_seat', 'Code Seat', 'required|trim|max_length[2]');
+        $this->form_validation->set_rules('code_seat', 'Code Seat', 'required|trim|max_length[3]');
         $this->form_validation->set_rules('studio_id', 'Studio Name', 'required|trim');
 
         if ($this->form_validation->run() == false) {
@@ -148,7 +149,7 @@ class Bioskop extends CI_Controller
 
         $this->form_validation->set_rules('title', 'Title', 'required|trim|max_length[30]');
         $this->form_validation->set_rules('category', 'Category', 'required|trim|max_length[30]');
-        $this->form_validation->set_rules('description', 'Description', 'required|trim|max_length[100]');
+        $this->form_validation->set_rules('description', 'Description', 'required|trim|max_length[1000]');
         $this->form_validation->set_rules('img', 'Poster', 'trim|max_length[30]|');
 
         if ($this->form_validation->run() == false) {
@@ -188,7 +189,7 @@ class Bioskop extends CI_Controller
 
         $this->form_validation->set_rules('title', 'Title', 'required|trim|max_length[30]');
         $this->form_validation->set_rules('category', 'Category', 'required|trim|max_length[30]');
-        $this->form_validation->set_rules('description', 'Description', 'required|trim|max_length[100]');
+        $this->form_validation->set_rules('description', 'Description', 'required|trim|max_length[1000]');
         $this->form_validation->set_rules('img', 'Poster', 'trim|max_length[30]|');
 
         if ($this->form_validation->run() == false) {
@@ -244,7 +245,6 @@ class Bioskop extends CI_Controller
         $data['tblSchedule'] = $this->schedule->getSchedule();
 
         $this->form_validation->set_rules('date', 'Date', 'trim|required');
-        $this->form_validation->set_rules('time', 'Time', 'trim|required');
         $this->form_validation->set_rules('price', 'Price', 'trim|required|max_length[30]');
         $this->form_validation->set_rules('message', 'Message', 'trim|required|max_length[30]');
 
@@ -272,7 +272,6 @@ class Bioskop extends CI_Controller
         $id = $this->input->post('id');
 
         $this->form_validation->set_rules('date', 'Date', 'trim|required');
-        $this->form_validation->set_rules('time', 'Time', 'trim|required');
         $this->form_validation->set_rules('price', 'Price', 'trim|required|max_length[30]');
         $this->form_validation->set_rules('message', 'Message', 'trim|required|max_length[30]');
 
@@ -295,6 +294,60 @@ class Bioskop extends CI_Controller
             $this->schedule->deleteSchedule($id);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Delete schedule success</div>');
             redirect('dashboard/bioskop/schedule');
+        }
+    }
+
+    // TIME
+    public function time()
+    {
+        $data['title'] = 'Schedule';
+        $data['menuActive'] = 'Bioskop';
+        $data['user'] = $this->user->getUserAdminByUsername();
+        $data['tblTime'] = $this->schedule->getTimeJoinSchedule();
+        $data['tblSchedule'] = $this->schedule->getSchedule();
+
+        $this->form_validation->set_rules('time', 'Time', 'required|trim|max_length[30]');
+        $this->form_validation->set_rules('schedule_id', 'Schedule Id', 'required|trim');
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('dashboard/temp/header', $data);
+            $this->load->view('dashboard/temp/sidebar', $data);
+            $this->load->view('dashboard/temp/topbar', $data);
+            $this->load->view('dashboard/bioskop/time', $data);
+            $this->load->view('dashboard/temp/footer');
+        } else {
+            $this->schedule->addTime();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New time added!</div>');
+            redirect('dashboard/bioskop/time');
+        }
+    }
+
+    public function editTime()
+    {
+        $id = $this->input->post('id');
+
+        $this->form_validation->set_rules('time', 'Time', 'required|trim|max_length[30]');
+        $this->form_validation->set_rules('schedule_id', 'Schedule Id', 'required|trim');
+
+        if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Change time failed!</div>');
+            redirect('dashboard/bioskop/time');
+        } else {
+            $this->schedule->editTime($id);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Change time success</div>');
+            redirect('dashboard/bioskop/time');
+        }
+    }
+
+    public function deleteTime($id)
+    {
+        if ($id == null) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Delete time failed!</div>');
+            redirect('dashboard/bioskop/time');
+        } else {
+            $this->schedule->deleteTime($id);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Delete time success</div>');
+            redirect('dashboard/bioskop/time');
         }
     }
 }

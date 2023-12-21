@@ -10,7 +10,7 @@ class Film_model extends CI_Model
 
     public function getFilmById($id)
     {
-        return $this->db->get('tbl_film', ['id' => $id])->row_array();
+        return $this->db->get_where('tbl_film', ['id' => $id])->row_array();
     }
 
     public function setImgFilm($new_image)

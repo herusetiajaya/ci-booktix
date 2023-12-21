@@ -182,7 +182,7 @@ $(document).on('click', '.addSeat', function() {
 
     $('.modal-body #id').val('');
     $('.modal-body #code_seat').val('');
-    $('.modal-body #studio_id').val('defaultSelect');
+    $('.modal-body #studio_id').val('');
 });
 
 // Modal seat edit
@@ -246,6 +246,7 @@ $('.addSchedule').on('click', function() {
     $('.modal-footer button[type=submit]').html('Add');
     const addlink = $('.linkAdd').val();
     $('.modal-body form').attr('action', addlink);
+    $('.modal-body #price').get(0).type = 'number';
 
     $('.modal-body #date').val('');
     $('.modal-body #time').val('');
@@ -263,6 +264,7 @@ $('.editSchedule').on('click', function() {
 
     const id = $(this).data('id');
     const base_url = $('.linkGetSchedule').val();
+    $('.modal-body #price').get(0).type = 'number';
     $.ajax({
         url: base_url,
         data: {id : id},

@@ -41,6 +41,7 @@ class Menu_model extends CI_Model
     public function deleteMenuById($id)
     {
         $this->db->delete('user_menu', ['id' => $id]);
+        $this->db->delete('user_access_menu', ['menu_id' => $id]);
     }
 
     // USER SUB MENU

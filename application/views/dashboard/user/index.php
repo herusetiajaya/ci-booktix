@@ -25,7 +25,7 @@
                     <div class="col-md-">
                         <a href="<?= base_url('dashboard/user/edit/') ?>" class="badge badge-success">Edit Profile</a>
                         <a href="<?= base_url('dashboard/user/changePassword/') ?>" class="badge badge-info">Change Password</a>
-                        <a href="<?= base_url('dashboard/admin/') ?>" class="badge badge-primary">Back</a>
+                        <a href="javascript:history.back()" class="badge badge-secondary">Back</a>
                     </div>
                 </div>
             </div>

@@ -21,6 +21,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <a href="" class="addSchedule btn btn-primary pull-right" data-toggle="modal" data-target="#scheduleModal">Add new Schedule</a>
+            <a href="<?= base_url('dashboard/bioskop/time') ?>" class="badge badge-info pull-right p-2 ml-5">Time Schedule</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -29,7 +30,6 @@
                         <tr>
                             <th>#</th>
                             <th>Date</th>
-                            <th>Time</th>
                             <th>Price</th>
                             <th>Message</th>
                             <th>Action</th>
@@ -41,8 +41,9 @@
                             <tr>
                                 <td><?= $i++; ?></td>
                                 <td><?= $schedule['date']; ?></td>
-                                <td><?= $schedule['time']; ?></td>
-                                <td><?= $schedule['price']; ?></td>
+                                <td>
+                                    <?= rupiah($schedule['price']) ?>
+                                </td>
                                 <td><?= $schedule['message']; ?></td>
                                 <td>
                                     <a href="" data-toggle="modal" data-target="#scheduleModal" class="editSchedule badge badge-primary" data-id="<?= $schedule['id']; ?>">Edit</a>
@@ -84,17 +85,10 @@
                                 <!-- <span class="glyphicon glyphicon-calendar fas fa-calendar-alt h3 pl-2"></span> -->
                             </div>
                         </div>
-                        <!-- timepicker -->
-                        <div class="form-group">
-                            <input type="text" class="form-control timeSchedule" name="time" id="time" placeholder="Time" readonly>
-                            <span class="form-group-addon">
-                                <!-- <i class="glyphicon glyphicon-time fas fa-clock h3 pl-2"></i> -->
-                            </span>
-                        </div>
 
                         <div class="form-group">
                             <!-- price -->
-                            <input type="text" class="form-control" id="price" name="price" placeholder="Enter price">
+                            <input type="number" step="any" class="form-control" id="price" name="price" placeholder="Enter price">
                         </div>
                         <div class="form-group">
                             <!-- message -->

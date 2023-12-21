@@ -40,9 +40,13 @@
                             <tr>
                                 <td><?= $i++; ?></td>
                                 <td><?= $film['title']; ?></td>
-                                <td><img class="img-thumbnail" style="width: 50px;" src="<?= base_url('assets/dashboard/img/img-film/') . $film['img']; ?>"></td>
+                                <td>
+                                    <a href="" data-toggle="modal" data-target="#imgFilmModal" class="viewIMG" data-vt="<?= $film['title']; ?>" data-vi="<?= $film['img']; ?>">
+                                        <img class="img-thumbnail" style="width: 35px; height: 35px;" src="<?= base_url('assets/dashboard/img/img-film/') . $film['img']; ?>">
+                                    </a>
+                                </td>
                                 <td><?= $film['category']; ?></td>
-                                <td><?= $film['description']; ?></td>
+                                <td style="white-space: nowrap; text-overflow: ellipsis; max-width:1px; overflow:hidden;"><?= $film['description']; ?></td>
                                 <td>
                                     <a href="" data-toggle="modal" data-target="#filmModal" class="editFilm badge badge-primary" data-id="<?= $film['id']; ?>" data-t="<?= $film['title']; ?>" data-c="<?= $film['category']; ?>" data-d="<?= $film['description']; ?>" data-i="<?= $film['img']; ?>">Edit</a>
                                     <a href="<?= base_url('dashboard/bioskop/deletefilm/' . $film['id']) ?>" class="deleteData badge badge-danger">Delete</a>
@@ -88,11 +92,11 @@
                         <div class="form-group">
                             <!-- description -->
                             <!-- <input type="text" class="form-control" id="description" name="description" placeholder="Enter Description"> -->
-                            <textarea name="description" class="form-control" id="description" placeholder="Enter Description"></textarea>
+                            <textarea name="description" rows="3" class="form-control" id="description" placeholder="Enter Description"></textarea>
                         </div>
                         <div class="form-group row">
-                            <div class="row-sm-4 pl-3">Poster</div>
-                            <div class="row-sm-9">
+                            <div class="row-sm-4 pl-5 pb-2">Poster</div>
+                            <div class="row-sm-9 pl-4">
                                 <div class="row">
                                     <div class="col-sm-3" id="img-src">
                                         <input type="hidden" id="valImgDefault" value="<?= base_url('assets/dashboard/img/img-film/default.png') ?>">
@@ -115,6 +119,29 @@
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal view img film -->
+<div class="modal fade" id="imgFilmModal" tabindex="-1" role="dialog" aria-labelledby="imgFilmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imgFilmModalLabel">Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+                <div class="col-md-9">
+                    <input type="hidden" id="valImg" value="<?= base_url('assets/dashboard/img/img-film/') ?>">
+                    <img src="" alt="" class="img img-thumbnail">
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+                <a href="" class="badge badge-danger p-2" data-dismiss="modal">Close</a>
+            </div> -->
         </div>
     </div>
 </div>

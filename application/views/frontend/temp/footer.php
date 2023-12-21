@@ -110,6 +110,151 @@
     }, 1000);
 </script>
 
+<script>
+    $('#sch_id').on('change', function() {
+        const schId = $('#sch_id').val();
+        $('#time').val('');
+        $.ajax({
+            url: '<?= base_url('frontend/film/getSchedule'); ?>',
+            data: {
+                id: schId
+            },
+            type: 'POST',
+            dataType: 'json',
+            cache: false,
+            context: this,
+            success: function(data) {
+                // alert(data);
+                $('#date').val(data.date);
+                const val = data.price;
+                const price = 'Rp. ' + val;
+                $('#price').val(price);
+                $('#message').val(data.message);
+                $('#id').val(data.id);
+            },
+            error: function() {
+                alert('error');
+            }
+        });
+    });
+
+    $('#sch_id').on('change', function() {
+        const schIda = $('#sch_id').val();
+        $('#setST').empty();
+
+        $.ajax({
+            url: '<?= base_url('frontend/film/getTime'); ?>',
+            data: {
+                id: schIda
+            },
+            type: 'POST',
+            dataType: 'json',
+            cache: false,
+            context: this,
+            success: function(data) {
+                $.each(data, function(i, val) {
+                    let e = $('<a href="#" data-t="' + val.time + '">' + val.time + '</a>');
+                    $('#setST').append(e);
+                    e.attr('class', 'atime badge badge-success mr-2 p-2 mt-3');
+                    $('.atime').on('click', function() {
+                        const time = $(this).data('t');
+                        $('#time').val(time);
+                    });
+                });
+            },
+            error: function() {
+                alert('error');
+            }
+        });
+    });
+
+    $('.astudio').on('click', function() {
+        const nameStudio = $(this).data('s');
+        const idStudio = $(this).data('id');
+        $('#studio').val(nameStudio);
+        $('#seat').val('');
+        $('#setSeat').empty();
+
+        $.ajax({
+            url: '<?= base_url('frontend/film/getSeat'); ?>',
+            data: {
+                id: idStudio
+            },
+            type: 'POST',
+            dataType: 'json',
+            cache: false,
+            context: this,
+            success: function(data) {
+                $.each(data, function(i, val) {
+                    let e = $('<a href="#" style="width: 37px;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
+                    $('#setSeat').append(e);
+                    e.attr('class', 'aseat badge badge-info mr-2 mt-1');
+                    $('.aseat').on('click', function() {
+                        const seat = $(this).data('st');
+                        $('#seat').val(seat);
+                    });
+                });
+            },
+            error: function() {
+                alert('error');
+            }
+        });
+    });
+
+    // confirm login SweetAlert2
+    $('.submitOrder').on('click', function(e) {
+        e.preventDefault();
+        const href = $(this).attr('href');
+        Swal.fire({
+            title: 'Login first to continue order',
+            text: "Cencel if not",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Oke'
+        }).then((result) => {
+            if (result.value) {
+                document.location.href = href;
+            }
+        })
+    });
+
+    // form validation
+    $('.submitForm').on('click', function() {
+
+        const date = $('#date').val();
+        const price = $('#price').val();
+        const time = $('#time').val();
+        const studio = $('#studio').val();
+        const seat = $('#seat').val();
+        if (date == '' || price == '' || time == '') {
+            Swal.fire({
+                title: 'Set a Schedule',
+                text: "please set a schedule first before order Ticket",
+                icon: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oke',
+            })
+            return false;
+        }
+        if (studio == '' || seat == '') {
+            Swal.fire({
+                title: 'Set a Seat Studio',
+                text: "please set a seat first before order Ticket",
+                icon: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oke',
+            })
+            return false;
+        }
+    });
+</script>
+
 </body>
 
 </html>

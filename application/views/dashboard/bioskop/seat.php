@@ -80,8 +80,8 @@
                         </div>
                         <div class="form-group">
                             <!-- Name Studio -->
-                            <select name="studio_id" id="studio_id" class="form-control">
-                                <option value="defaultSelect">Select Studio</option>
+                            <label for="studio_id">Select Studio</label>
+                            <select name="studio_id" id="studio_id" class="form-control" required>
                                 <?php foreach ($tbl_studio as $studio) : ?>
                                     <?php if ($studio['is_active'] == 1) : ?>
                                         <option value="<?= $studio['id']; ?>"><?= $studio['name']; ?></option>

@@ -76,3 +76,9 @@ function querySubMenuLevel($menuId)
                     ";
     return $querySubMenu;
 }
+
+function rupiah($price)
+{
+    $rupiah = 'Rp. ' . number_format($price, 0, '.', '.');
+    return $rupiah;
+}
