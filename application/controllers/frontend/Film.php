@@ -44,9 +44,32 @@ class Film extends CI_Controller
         $data['tblSchedule'] = $this->schedule->getSchedule();
         $data['tblStudio'] = $this->studio->getStudio();
 
-        $this->load->view('frontend/temp/header', $data);
-        $this->load->view('frontend/film/movie_schedule', $data);
-        $this->load->view('frontend/temp/footer');
+        $this->form_validation->set_rules('film', 'Film', 'trim|required|max_length[30]');
+        $this->form_validation->set_rules('date', 'Date', 'trim|required|max_length[20]');
+        $this->form_validation->set_rules('time', 'Time', 'trim|required|max_length[20]');
+        $this->form_validation->set_rules('studio', 'Studio', 'trim|required|max_length[20]');
+        $this->form_validation->set_rules('seat', 'Seat', 'trim|required|max_length[20]');
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('frontend/temp/header', $data);
+            $this->load->view('frontend/film/movie_schedule', $data);
+            $this->load->view('frontend/temp/footer');
+        } else {
+            $tempdata = [
+                'film' => htmlspecialchars($this->input->post('film', true)),
+                'date' => htmlspecialchars($this->input->post('date', true)),
+                // 'price' => htmlspecialchars($this->input->post('price', true)),
+                'time' => htmlspecialchars($this->input->post('time', true)),
+                'studio' => htmlspecialchars($this->input->post('studio', true)),
+                'seat' => htmlspecialchars($this->input->post('seat', true)),
+            ];
+            $this->session->set_tempdata($tempdata);
+            redirect('frontend/film/orderTicket');
+            // var_dump(
+            //     $this->session->tempdata()
+            // );
+            // die();
+        }
     }
 
     public function getSchedule()
@@ -70,18 +93,14 @@ class Film extends CI_Controller
     public function orderTicket()
     {
         if (!$this->session->userdata('usernameCustomer')) {
+            $this->session->set_flashdata('message-swal', 'swal("LOGIN", "cannot load this page", "error");');
             redirect('frontend/auth');
         }
         $data['title'] = 'Order Ticket';
         $data['user'] = $this->customer->getCustomerByUsername();
-        $data['detailTicket'] = [
-            'film' => htmlspecialchars($this->input->post('film'), true),
-            'date' => htmlspecialchars($this->input->post('date'), true),
-            'price' => htmlspecialchars($this->input->post('price'), true),
-            'time' => htmlspecialchars($this->input->post('time'), true),
-            'studio' => htmlspecialchars($this->input->post('studio'), true),
-            'seat' => htmlspecialchars($this->input->post('seat'), true),
-        ];
+        $data['film'] = $this->film->getFilmByTitle($this->session->tempdata('film'));
+        $data['schedule'] = $this->schedule->getScheduleBydate($this->session->tempdata('date'));
+        $data['detailTicket'] = $this->session->tempdata();
 
         $this->load->view('frontend/temp/header', $data);
         $this->load->view('frontend/film/orderticket', $data);

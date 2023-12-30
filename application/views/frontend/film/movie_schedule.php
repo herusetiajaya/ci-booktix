@@ -1,11 +1,16 @@
 <div class="container mt-3 mb-4">
     <div class="card-header bg-success">
         <h1 class="text text-white d-flex justify-content-center">Movie Schedule</h1>
+        <?php if (validation_errors()) : ?>
+            <div class="alert alert-danger col-lg-" role="alert">
+                <?= validation_errors(); ?>
+            </div>
+        <?php endif; ?>
         <div class="row bg-white pt-3 pl-3 rounded-bottom rounded-top">
 
             <div class="col-lg-3 d-flex justify-content-end">
                 <div class="card shadow col-lg mb-3" style="height: 300px;">
-                    <form action="<?= base_url('frontend/film/orderticket/') ?>" method="post">
+                    <form action="" method="post" class="form">
                         <div class="row-lg- text-center">
                             <small class="">Detail Ticket</small>
                         </div>
@@ -18,7 +23,7 @@
                                             <td class="col-1">:</td>
                                             <td>
                                                 <small>
-                                                    <input type="text" class="bg-dark text-white border-0  w-100" name="film" id="film" readonly value="<?= $tblFilm['title']; ?>">
+                                                    <input type="text" class="bg-dark text-white border-0  w-100" name="film" id="film" readonly required value="<?= $tblFilm['title']; ?>">
                                                 </small>
                                             </td>
                                         </tr>
@@ -27,7 +32,7 @@
                                             <td>:</td>
                                             <td>
                                                 <small>
-                                                    <input type="text" class="bg-dark text-white border-0 w-75" name="date" id="date" readonly value="" placeholder="--/--/---">
+                                                    <input type="text" class="bg-dark text-white border-0 w-75" name="date" id="date" readonly required value="" placeholder="--/--/---">
                                                 </small>
                                             </td>
                                         </tr>
@@ -36,7 +41,7 @@
                                             <td>:</td>
                                             <td>
                                                 <small>
-                                                    <input type="text" class="bg-dark text-white border-0 w-75" name="price" id="price" readonly value="" placeholder="Rp. 0">
+                                                    <input type="text" class="bg-dark text-white border-0 w-75" name="price" id="price" readonly required value="" placeholder="Rp. 0">
                                                 </small>
                                             </td>
                                         </tr>
@@ -45,7 +50,7 @@
                                             <td>:</td>
                                             <td>
                                                 <small>
-                                                    <input type="text" class="bg-dark text-white border-0 w-75" name="time" id="time" readonly value="" placeholder="00:00">
+                                                    <input type="text" class="bg-dark text-white border-0 w-75" name="time" id="time" readonly required value="" placeholder="00:00">
                                                 </small>
                                             </td>
                                         </tr>
@@ -54,7 +59,7 @@
                                             <td>:</td>
                                             <td>
                                                 <small>
-                                                    <input type="text" class="bg-dark text-white border-0 w-75" name="studio" id="studio" readonly value="" placeholder="Studio 0">
+                                                    <input type="text" class="bg-dark text-white border-0 w-75" name="studio" id="studio" readonly required value="" placeholder="Studio 0">
                                             </td>
                                         </tr>
                                         <tr>
@@ -62,7 +67,7 @@
                                             <td>:</td>
                                             <td>
                                                 <small>
-                                                    <input type=" text" class="bg-dark text-white border-0 w-75" name="seat" id="seat" readonly value="" placeholder="XX">
+                                                    <input type=" text" class="bg-dark text-white border-0 w-75" name="seat" id="seat" readonly required value="" placeholder="XX">
                                                 </small>
                                             </td>
                                         </tr>
@@ -72,7 +77,7 @@
                         </div>
                         <div class="row-lg mb-3">
                             <?php if ($this->session->userdata('usernameCustomer')) : ?>
-                                <button type="submit" class="submitForm badge badge-primary p-2 border-0">Order Ticket Now</button>
+                                <button type="submit" class="submitForm btn badge badge-primary text-white p-2 border-0 ">Order Ticket Now</button>
                             <?php else : ?>
                                 <a href="<?= base_url('frontend/auth/') ?>" class="submitOrder submitForm badge badge-primary p-2 border-0">Order Ticket Now</a>
                             <?php endif; ?>
@@ -128,7 +133,7 @@
                                 </div>
                                 <div class="col-lg d-flex justify-content-center p-0 m-0">
                                     <div class="col-lg- ml-4 mb-3 pt-3" id=setSeat>
-                                        <!-- <a href="#" data-t="" style="width: 40px;" class="aseat badge badge-info p-2 mt-3 mr-1"><small>A1</small></a> -->
+                                        <!-- <a href="#" data-t="" style="width: 40px; pointer-events:none;" class="aseat badge badge-info p-2 mt-3 mr-1"><small>A1</small></a> -->
                                     </div>
                                 </div>
                             </div>

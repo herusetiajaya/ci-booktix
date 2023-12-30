@@ -13,6 +13,11 @@ class Schedule_model extends CI_Model
         return $this->db->get_where('tbl_Schedule', ['id' => $id])->row_array();
     }
 
+    public function getScheduleBydate($date)
+    {
+        return $this->db->get_where('tbl_Schedule', ['date' => $date])->row_array();
+    }
+
     public function addSchedule()
     {
 

@@ -21,6 +21,7 @@
 <script src="<?= base_url('assets/'); ?>frontend/js/bootstrap.js"></script>
 <script src="<?= base_url('assets/'); ?>frontend/js/sweetalert2.all.min.js"></script>
 
+<!-- <?= "<script>" . $this->session->flashdata('message-swal') . "</script>" ?> -->
 <!-- <script src="<?= base_url('assets/'); ?>frontend/js/myscript.js"></script> -->
 
 <script>
@@ -111,6 +112,7 @@
 </script>
 
 <script>
+    // set a schedule
     $('#sch_id').on('change', function() {
         const schId = $('#sch_id').val();
         $('#time').val('');
@@ -137,7 +139,7 @@
             }
         });
     });
-
+    // set a time
     $('#sch_id').on('change', function() {
         const schIda = $('#sch_id').val();
         $('#setST').empty();
@@ -168,9 +170,11 @@
         });
     });
 
+    // set a studio get a seat
     $('.astudio').on('click', function() {
         const nameStudio = $(this).data('s');
         const idStudio = $(this).data('id');
+        const jm = 1;
         $('#studio').val(nameStudio);
         $('#seat').val('');
         $('#setSeat').empty();
@@ -185,15 +189,89 @@
             cache: false,
             context: this,
             success: function(data) {
-                $.each(data, function(i, val) {
-                    let e = $('<a href="#" style="width: 37px;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
-                    $('#setSeat').append(e);
-                    e.attr('class', 'aseat badge badge-info mr-2 mt-1');
-                    $('.aseat').on('click', function() {
-                        const seat = $(this).data('st');
-                        $('#seat').val(seat);
+                const jml_k = jm;
+                if (jml_k == 1) {
+                    alert('success1');
+                    $.each(data, function(i, val) {
+                        if (val.ordered == '1') {
+                            let e = $('<a href="#" style="width: 37px; pointer-events: none;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
+                            $('#setSeat').append(e);
+                            e.attr('class', 'badge badge-warning mr-2 mt-1');
+                        } else {
+                            let e = $('<a href="#" style="width: 37px;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
+                            $('#setSeat').append(e);
+                            e.attr('class', 'aseat ' + val.code_seat + ' badge badge-info mr-2 mt-1').hover(function(m) {
+                                $(this).css('background', m.type === 'mouseenter' ? 'orange' : '#17a2b8');
+                            });
+                            $('.' + val.code_seat + '').on('click', function() {
+                                $('.aseat').css('background', '#17a2b8');
+                                $('.aseat').hover(function(m) {
+                                    $(this).css('background', m.type === 'mouseenter' ? 'orange' : '#17a2b8');
+                                });
+                                $('.' + val.code_seat + '').hover(function(m) {
+                                    $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
+                                });
+                                const seat = $(this).data('st');
+                                $('#seat').val(seat);
+                            });
+                        }
                     });
-                });
+                } else if (jml_k == 2) {
+                    alert('success2');
+                    let n = 0;
+                    $.each(data, function(i, val) {
+                        if (val.ordered == '1') {
+                            let e = $('<a href="#" style="width: 37px; pointer-events: none;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
+                            $('#setSeat').append(e);
+                            e.attr('class', 'badge badge-warning mr-2 mt-1');
+                        } else {
+                            let e = $('<a href="#" style="width: 37px;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
+                            $('#setSeat').append(e);
+                            e.attr('class', 'aseat ' + val.code_seat + ' badge badge-info mr-2 mt-1').hover(function(m) {
+                                $(this).css('background', m.type === 'mouseenter' ? 'orange' : '#17a2b8');
+                            });
+
+                            $('.' + val.code_seat + '').on('click', function() {
+                                n++;
+                                if (n > jml_k) {
+                                    $('.aseat').off('click');
+                                    alert('max just 2')
+                                } else if (n == 1) {
+                                    $('.' + val.code_seat + '').hover(function(m) {
+                                        $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
+                                    });
+                                    const seat = $(this).data('st');
+                                    $('#seat').val(seat);
+                                } else if (n == 2) {
+                                    $('.' + val.code_seat + '').hover(function(m) {
+                                        $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
+                                    });
+                                    const seat = $(this).data('st');
+                                    $('#seat2').val(seat);
+                                }
+                                // let updateTT = function(){
+                                //     $('#seat').val(seat);
+                                // };
+                            });
+
+                            // } else if (n == 1) {
+                            //             $('.' + val.code_seat + '').hover(function(m) {
+                            //                 $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
+                            //             });
+                            //             const seat = $(this).data('st');
+                            //             $('#seat').val(seat);
+                            //         } else if (n == 2) {
+                            //             $('.' + val.code_seat + '').hover(function(m) {
+                            //                 $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
+                            //             });
+                            //             const seat = $(this).data('st');
+                            //             $('#seat2').val(seat);
+                            //         }
+
+                        }
+                    });
+
+                }
             },
             error: function() {
                 alert('error');
