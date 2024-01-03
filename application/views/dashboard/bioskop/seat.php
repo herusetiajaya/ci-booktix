@@ -30,6 +30,7 @@
                             <th>#</th>
                             <th>Code Seat</th>
                             <th>Studio Name</th>
+                            <th>Ordered</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -40,6 +41,13 @@
                                 <td><?= $i++; ?></td>
                                 <td><?= $seat['code_seat']; ?></td>
                                 <td><?= $seat['name']; ?></td>
+                                <td class="text-center">
+                                    <?php if ($seat['ordered'] == '1') : ?>
+                                        <input class="orderedSeat" type="checkbox" data-id="<?= $seat['id']; ?>" data-ord="<?= $seat['ordered']; ?>" checked>
+                                    <?php else : ?>
+                                        <input class="orderedSeat" type="checkbox" data-id="<?= $seat['id']; ?>" data-ord="<?= $seat['ordered']; ?>">
+                                    <?php endif; ?>
+                                </td>
                                 <td>
                                     <a href="" class="editSeat badge badge-primary" data-toggle="modal" data-target="#seatModal" data-id="<?= $seat['id']; ?>" data-cs="<?= $seat['code_seat']; ?>" data-sd="<?= $seat['studio_id']; ?>">Edit</a>
                                     <a href="<?= base_url('dashboard/bioskop/deleteSeat/' . $seat['id']) ?>" class="deleteData badge badge-danger">Delete</a>

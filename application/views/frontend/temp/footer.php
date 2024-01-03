@@ -174,9 +174,10 @@
     $('.astudio').on('click', function() {
         const nameStudio = $(this).data('s');
         const idStudio = $(this).data('id');
-        const jm = 1;
+        const jm = $('#seatCount').val();
         $('#studio').val(nameStudio);
         $('#seat').val('');
+        $('#seat2').val('');
         $('#setSeat').empty();
 
         $.ajax({
@@ -191,7 +192,7 @@
             success: function(data) {
                 const jml_k = jm;
                 if (jml_k == 1) {
-                    alert('success1');
+                    alert('jumlah kursi 1');
                     $.each(data, function(i, val) {
                         if (val.ordered == '1') {
                             let e = $('<a href="#" style="width: 37px; pointer-events: none;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
@@ -217,7 +218,7 @@
                         }
                     });
                 } else if (jml_k == 2) {
-                    alert('success2');
+                    alert('jumlah kursi 2');
                     let n = 0;
                     $.each(data, function(i, val) {
                         if (val.ordered == '1') {
@@ -230,7 +231,6 @@
                             e.attr('class', 'aseat ' + val.code_seat + ' badge badge-info mr-2 mt-1').hover(function(m) {
                                 $(this).css('background', m.type === 'mouseenter' ? 'orange' : '#17a2b8');
                             });
-
                             $('.' + val.code_seat + '').on('click', function() {
                                 n++;
                                 if (n > jml_k) {
@@ -249,34 +249,85 @@
                                     const seat = $(this).data('st');
                                     $('#seat2').val(seat);
                                 }
-                                // let updateTT = function(){
-                                //     $('#seat').val(seat);
-                                // };
                             });
-
-                            // } else if (n == 1) {
-                            //             $('.' + val.code_seat + '').hover(function(m) {
-                            //                 $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
-                            //             });
-                            //             const seat = $(this).data('st');
-                            //             $('#seat').val(seat);
-                            //         } else if (n == 2) {
-                            //             $('.' + val.code_seat + '').hover(function(m) {
-                            //                 $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
-                            //             });
-                            //             const seat = $(this).data('st');
-                            //             $('#seat2').val(seat);
-                            //         }
-
                         }
                     });
-
+                }else if (jml_k == 3) {
+                    alert('jumlah kursi 3');
+                    let n = 0;
+                    $.each(data, function(i, val) {
+                        if (val.ordered == '1') {
+                            let e = $('<a href="#" style="width: 37px; pointer-events: none;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
+                            $('#setSeat').append(e);
+                            e.attr('class', 'badge badge-warning mr-2 mt-1');
+                        } else {
+                            let e = $('<a href="#" style="width: 37px;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
+                            $('#setSeat').append(e);
+                            e.attr('class', 'aseat ' + val.code_seat + ' badge badge-info mr-2 mt-1').hover(function(m) {
+                                $(this).css('background', m.type === 'mouseenter' ? 'orange' : '#17a2b8');
+                            });
+                            $('.' + val.code_seat + '').on('click', function() {
+                                n++;
+                                if (n > jml_k) {
+                                    $('.aseat').off('click');
+                                    alert('max just 3')
+                                } else if (n == 1) {
+                                    $('.' + val.code_seat + '').hover(function(m) {
+                                        $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
+                                    });
+                                    const seat = $(this).data('st');
+                                    $('#seat').val(seat);
+                                } else if (n == 2) {
+                                    $('.' + val.code_seat + '').hover(function(m) {
+                                        $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
+                                    });
+                                    const seat = $(this).data('st');
+                                    $('#seat2').val(seat);
+                                } else if (n == 3) {
+                                    $('.' + val.code_seat + '').hover(function(m) {
+                                        $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
+                                    });
+                                    const seat = $(this).data('st');
+                                    $('#seat3').val(seat);
+                                }
+                            });
+                        }
+                    });
                 }
             },
             error: function() {
                 alert('error');
             }
         });
+    });
+
+    // seat count
+    $('#seatCount').on('change', function() {
+        $('#studio').val('');
+        $('#seat').val('');
+        $('#seat2').val('');
+        $('#setSeat').empty();
+
+        if ($('#seatCount').val() == 1) {
+            alert('Seat Count 1');
+            $('#comaSeat2').attr('hidden', true);
+            $('#seat2').attr('hidden', true);
+            $('#comaSeat3').attr('hidden', true);
+            $('#seat3').attr('hidden', true);
+        } else if ($('#seatCount').val() == 2) {
+            alert('Seat Count 2');
+            $('#comaSeat2').attr('hidden', false);
+            $('#seat2').attr('hidden', false);
+            $('#comaSeat3').attr('hidden', true);
+            $('#seat3').attr('hidden', true);
+        } else if ($('#seatCount').val() == 3) {
+            alert('Seat Count 3');
+            $('#comaSeat2').attr('hidden', false);
+            $('#seat2').attr('hidden', false);
+            $('#comaSeat3').attr('hidden', false);
+            $('#seat3').attr('hidden', false);
+        }
+
     });
 
     // confirm login SweetAlert2
@@ -298,7 +349,7 @@
         })
     });
 
-    // form validation
+    // form validation movie schedule
     $('.submitForm').on('click', function() {
 
         const date = $('#date').val();

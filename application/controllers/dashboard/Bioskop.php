@@ -40,7 +40,7 @@ class Bioskop extends CI_Controller
 
     public function studioIsActive($idStudio, $isActive)
     {
-        $studio = $this->db->get_where('tbl_studio', ['id' => $idStudio])->row_array();
+        $studio = $this->studio->getStudioById($idStudio);
         $nameStudio = $studio['name'];
 
         if ($isActive === '0') {
@@ -135,6 +135,26 @@ class Bioskop extends CI_Controller
         } else {
             $this->studio->deleteSeat($id);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Delete seat success</div>');
+            redirect('dashboard/bioskop/seat');
+        }
+    }
+
+    public function orderedSeat($idSeat, $ordered)
+    {
+        $seat = $this->studio->getSeatById($idSeat);
+        $codeSeat = $seat['code_seat'];
+        $idStudio = $seat['studio_id'];
+
+        $studio = $this->studio->getStudioById($idStudio);
+        $studioName = $studio['name'];
+
+        if ($ordered === '0') {
+            $this->studio->updateNotOrderSeat($idSeat);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">' . $codeSeat . ' ' . $studioName . ' is ordered right now!</div>');
+            redirect('dashboard/bioskop/seat');
+        } elseif ($ordered === '1') {
+            $this->studio->updateOrderSeat($idSeat);
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">' . $codeSeat . ' ' . $studioName . ' is not ordered right now!</div>');
             redirect('dashboard/bioskop/seat');
         }
     }

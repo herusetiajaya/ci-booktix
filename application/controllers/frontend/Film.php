@@ -86,14 +86,14 @@ class Film extends CI_Controller
 
     public function getSeat()
     {
-        echo json_encode($this->studio->getSeatById($this->input->post('id')));
+        echo json_encode($this->studio->getSeatByStudioId($this->input->post('id')));
         die();
     }
 
     public function orderTicket()
     {
         if (!$this->session->userdata('usernameCustomer')) {
-            $this->session->set_flashdata('message-swal', 'swal("LOGIN", "cannot load this page", "error");');
+            // $this->session->set_flashdata('message-swal', 'swal("LOGIN", "cannot load this page", "error");');
             redirect('frontend/auth');
         }
         $data['title'] = 'Order Ticket';
@@ -106,4 +106,5 @@ class Film extends CI_Controller
         $this->load->view('frontend/film/orderticket', $data);
         $this->load->view('frontend/temp/footer');
     }
+
 }

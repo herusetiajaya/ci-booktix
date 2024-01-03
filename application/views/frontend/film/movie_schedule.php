@@ -67,7 +67,11 @@
                                             <td>:</td>
                                             <td>
                                                 <small>
-                                                    <input type=" text" class="bg-dark text-white border-0 w-75" name="seat" id="seat" readonly required value="" placeholder="XX">
+                                                    <input type=" text" class="bg-dark text-white border-0" name="seat" id="seat" readonly required value="" placeholder="X1" style="width: 26px;">
+                                                    <small class="h5 mr-1" id="comaSeat2" hidden>,</small>
+                                                    <input type=" text" class="bg-dark text-white border-0" name="seat2" id="seat2" hidden readonly required value="" placeholder="X2" style="width: 26px;">
+                                                    <small class="h5 mr-1" id="comaSeat3" hidden>,</small>
+                                                    <input type=" text" class="bg-dark text-white border-0" name="seat3" id="seat3" hidden readonly required value="" placeholder="X3" style="width: 26px;">
                                                 </small>
                                             </td>
                                         </tr>
@@ -120,11 +124,23 @@
                             <hr class="m-0">
                         </div>
                         <div class="col-lg mb-3 mt-3">
-                            <?php foreach ($tblStudio as $studio) : ?>
-                                <?php if ($studio['is_active'] == 1) : ?>
-                                    <a href="#" data-id="<?= $studio['id']; ?>" data-s="<?= $studio['name']; ?>" class="astudio badge badge-success pl-1 pr-1 pb-1 mr-1"><small><?= $studio['name'] ?></small></a>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
+                            <div class="row">
+                                <div class="col-lg-9">
+                                    <?php foreach ($tblStudio as $studio) : ?>
+                                        <?php if ($studio['is_active'] == 1) : ?>
+                                            <a href="#" data-id="<?= $studio['id']; ?>" data-s="<?= $studio['name']; ?>" class="astudio badge badge-success pl-1 pr-1 pb-1 mr-1"><small><?= $studio['name'] ?></small></a>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </div>
+                                <div class="col-lg-3 d-flex">
+                                    <label for="seatCount" class="mr-1 small">Seat Count :</label>
+                                    <select name="seatCount" id="seatCount" class="form-control form-control-sm h-75 p-0 border-0" style="width: 35px;">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="col d-flex justify-content-center">
                             <div class="col-lg-9 ml-2">

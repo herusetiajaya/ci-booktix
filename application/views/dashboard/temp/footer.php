@@ -154,6 +154,21 @@
             }
         });
     });
+    // Change Seat IsOrdered
+    $('.orderedSeat').on('click', function() {
+        const id = $(this).data('id');
+        const ord = $(this).data('ord');
+
+        $.ajax({
+            success: function() {
+                // alert('success');
+                document.location.href = "<?= base_url('dashboard/bioskop/orderedSeat/'); ?>" + id + '/' + ord;
+            },
+            error: function() {
+                alert('error');
+            }
+        });
+    });
 </script>
 <script>
     // Modal view img film 

@@ -9,6 +9,11 @@ class Studio_model extends CI_Model
         return $this->db->get('tbl_studio')->result_array();
     }
 
+    public function getStudioById($idStudio)
+    {
+        return $this->db->get_where('tbl_studio', ['id' => $idStudio])->row_array();
+    }
+
     public function getStudioByCheck()
     {
         return $this->db->get_where('tbl_studio', [
@@ -54,11 +59,6 @@ class Studio_model extends CI_Model
         $this->db->delete('tbl_seat', ['studio_id' => $id]);
     }
 
-    // Seat
-    public function getSeatById($id)
-    {
-        return $this->db->get_where('tbl_seat', ['studio_id' => $id])->result_array();
-    }
     // JOIN seat AND studio
     public function getSeatJoinStudio()
     {
@@ -68,6 +68,18 @@ class Studio_model extends CI_Model
         ";
         return $this->db->query($query)->result_array();
     }
+
+    // Seat
+    public function getSeatByStudioId($id)
+    {
+        return $this->db->get_where('tbl_seat', ['studio_id' => $id])->result_array();
+    }
+
+    public function getSeatById($id)
+    {
+        return $this->db->get_where('tbl_seat', ['id' => $id])->row_array();
+    }
+
     public function addSeat()
     {
         $data = [
@@ -90,5 +102,16 @@ class Studio_model extends CI_Model
     public function deleteSeat($id)
     {
         $this->db->delete('tbl_seat', ['id' => $id]);
+    }
+
+    public function updateNotOrderSeat($idSeat)
+    {
+        $this->db->where('id', $idSeat);
+        $this->db->update('tbl_seat', ['ordered' => 1]);
+    }
+    public function updateOrderSeat($idSeat)
+    {
+        $this->db->where('id', $idSeat);
+        $this->db->update('tbl_seat', ['ordered' => 0]);
     }
 }

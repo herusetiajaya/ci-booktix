@@ -117,6 +117,23 @@ $('.isActiveStudio').on('click', function() {
     });
 });
 
+// Change Seat is Ordered
+$('.orderedSeat').on('click', function() {
+    alert('error');
+    // const id = $(this).data('id');
+    // const isAct = $(this).data('ac');
+
+    // $.ajax({
+    //     success: function() {
+    //         const base_url = $('.isActiveStudio').val();
+    //         document.location.href = base_url+ id + '/' + isAct;
+    //     },
+    //     error: function() {
+    //         alert('error');
+    //     }
+    // });
+});
+
 // Checkbox in modal sub menu add
 $('.subMenuActive').on('change', function() {
     this.value = this.checked ? 1 : '0';
