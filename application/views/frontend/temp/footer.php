@@ -111,6 +111,7 @@
     }, 1000);
 </script>
 
+<!-- MOVIE PAGE -->
 <script>
     // set a schedule
     $('#sch_id').on('change', function() {
@@ -129,8 +130,10 @@
                 // alert(data);
                 $('#date').val(data.date);
                 const val = data.price;
-                const price = 'Rp. ' + val;
-                $('#price').val(price);
+                let sc = $('#ticketCount').val();
+                let result = val * sc;
+                const rpTotal = 'Rp. ' + result;
+                $('#price').val(rpTotal);
                 $('#message').val(data.message);
                 $('#id').val(data.id);
             },
@@ -174,10 +177,11 @@
     $('.astudio').on('click', function() {
         const nameStudio = $(this).data('s');
         const idStudio = $(this).data('id');
-        const jm = $('#seatCount').val();
+        const seatCount = $('#ticketCount').val();
         $('#studio').val(nameStudio);
         $('#seat').val('');
         $('#seat2').val('');
+        $('#seat3').val('');
         $('#setSeat').empty();
 
         $.ajax({
@@ -190,9 +194,9 @@
             cache: false,
             context: this,
             success: function(data) {
-                const jml_k = jm;
-                if (jml_k == 1) {
-                    alert('jumlah kursi 1');
+                const seat_count = seatCount;
+                if (seat_count == 1) {
+                    // alert('jumlah kursi 1');
                     $.each(data, function(i, val) {
                         if (val.ordered == '1') {
                             let e = $('<a href="#" style="width: 37px; pointer-events: none;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
@@ -217,8 +221,8 @@
                             });
                         }
                     });
-                } else if (jml_k == 2) {
-                    alert('jumlah kursi 2');
+                } else if (seat_count == 2) {
+                    // alert('jumlah kursi 2');
                     let n = 0;
                     $.each(data, function(i, val) {
                         if (val.ordered == '1') {
@@ -233,9 +237,9 @@
                             });
                             $('.' + val.code_seat + '').on('click', function() {
                                 n++;
-                                if (n > jml_k) {
+                                if (n > seat_count) {
                                     $('.aseat').off('click');
-                                    alert('max just 2')
+                                    alert('max seat count 2')
                                 } else if (n == 1) {
                                     $('.' + val.code_seat + '').hover(function(m) {
                                         $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
@@ -252,8 +256,8 @@
                             });
                         }
                     });
-                }else if (jml_k == 3) {
-                    alert('jumlah kursi 3');
+                }else if (seat_count == 3) {
+                    // alert('jumlah kursi 3');
                     let n = 0;
                     $.each(data, function(i, val) {
                         if (val.ordered == '1') {
@@ -268,9 +272,9 @@
                             });
                             $('.' + val.code_seat + '').on('click', function() {
                                 n++;
-                                if (n > jml_k) {
+                                if (n > seat_count) {
                                     $('.aseat').off('click');
-                                    alert('max just 3')
+                                    alert('max seat count 3')
                                 } else if (n == 1) {
                                     $('.' + val.code_seat + '').hover(function(m) {
                                         $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
@@ -301,27 +305,31 @@
         });
     });
 
-    // seat count
-    $('#seatCount').on('change', function() {
+    // Ticket Count
+    $('#ticketCount').on('change', function() {
+        $('#sch_id').val('');
+        $('#date').val('');
+        $('#price').val('');
+        $('#time').val('');
         $('#studio').val('');
         $('#seat').val('');
         $('#seat2').val('');
+        $('#seat3').val('');
+
+        $('#setST').empty();
         $('#setSeat').empty();
 
-        if ($('#seatCount').val() == 1) {
-            alert('Seat Count 1');
+        if ($('#ticketCount').val() == 1) {
             $('#comaSeat2').attr('hidden', true);
             $('#seat2').attr('hidden', true);
             $('#comaSeat3').attr('hidden', true);
             $('#seat3').attr('hidden', true);
-        } else if ($('#seatCount').val() == 2) {
-            alert('Seat Count 2');
+        } else if ($('#ticketCount').val() == 2) {
             $('#comaSeat2').attr('hidden', false);
             $('#seat2').attr('hidden', false);
             $('#comaSeat3').attr('hidden', true);
             $('#seat3').attr('hidden', true);
-        } else if ($('#seatCount').val() == 3) {
-            alert('Seat Count 3');
+        } else if ($('#ticketCount').val() == 3) {
             $('#comaSeat2').attr('hidden', false);
             $('#seat2').attr('hidden', false);
             $('#comaSeat3').attr('hidden', false);
@@ -351,12 +359,14 @@
 
     // form validation movie schedule
     $('.submitForm').on('click', function() {
-
         const date = $('#date').val();
         const price = $('#price').val();
         const time = $('#time').val();
         const studio = $('#studio').val();
         const seat = $('#seat').val();
+        const seat2 = $('#seat2').val();
+        const seat3 = $('#seat3').val();
+        const ticketCount = $('#ticketCount').val();
         if (date == '' || price == '' || time == '') {
             Swal.fire({
                 title: 'Set a Schedule',
@@ -369,9 +379,43 @@
             })
             return false;
         }
-        if (studio == '' || seat == '') {
+
+        if (studio == '') {
             Swal.fire({
                 title: 'Set a Seat Studio',
+                text: "please set a seat first before order Ticket",
+                icon: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oke',
+            })
+            return false;
+        } else if (ticketCount == 1 && seat == '') {
+            Swal.fire({
+                title: 'Set a Seat Studio',
+                text: "please set a seat first before order Ticket",
+                icon: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oke',
+            })
+            return false;
+        } else if (ticketCount == 2 && seat2 == '') {
+            Swal.fire({
+                title: 'Finished choosing a Seat',
+                text: "please set a seat first before order Ticket",
+                icon: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oke',
+            })
+            return false;
+        } else if (ticketCount == 3 && seat3 == '') {
+            Swal.fire({
+                title: 'Finished choosing a Seat',
                 text: "please set a seat first before order Ticket",
                 icon: 'warning',
                 showCancelButton: false,

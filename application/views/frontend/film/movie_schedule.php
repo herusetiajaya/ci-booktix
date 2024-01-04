@@ -92,8 +92,25 @@
             </div>
 
             <div class="col-lg-9">
-                <div class="col-lg- d-flex justify-content-center">
-                    <div class="card shadow col-lg-5 mx-3 mb-3">
+                
+                <div class="col-lg- d-flex justify-content-start">
+                <div class="card shadow col-lg-2 mx-5 mb-3">
+                        <div class="row-lg-3 text-center">
+                            <label for="ticketCount" class="mr-1 small">Ticket Count</label>
+                            <hr class="m-0">
+                        </div>
+                        <div class="row-lg-3 mb-3 mt-3">
+                            <div class="lg d-flex justify-content-center">
+                                <select name="ticketCount" id="ticketCount" class="form-control form-control-sm h-75 p-0" style="width: 35px;">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow col-lg-5 mx-1 mb-3">
                         <div class="row-lg-3 text-center">
                             <small class="">Set a Schedule</small>
                             <hr class="m-0">
@@ -124,22 +141,12 @@
                             <hr class="m-0">
                         </div>
                         <div class="col-lg mb-3 mt-3">
-                            <div class="row">
-                                <div class="col-lg-9">
-                                    <?php foreach ($tblStudio as $studio) : ?>
-                                        <?php if ($studio['is_active'] == 1) : ?>
-                                            <a href="#" data-id="<?= $studio['id']; ?>" data-s="<?= $studio['name']; ?>" class="astudio badge badge-success pl-1 pr-1 pb-1 mr-1"><small><?= $studio['name'] ?></small></a>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                </div>
-                                <div class="col-lg-3 d-flex">
-                                    <label for="seatCount" class="mr-1 small">Seat Count :</label>
-                                    <select name="seatCount" id="seatCount" class="form-control form-control-sm h-75 p-0 border-0" style="width: 35px;">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
+                            <div class="col-lg-9">
+                                <?php foreach ($tblStudio as $studio) : ?>
+                                    <?php if ($studio['is_active'] == 1) : ?>
+                                        <a href="#" data-id="<?= $studio['id']; ?>" data-s="<?= $studio['name']; ?>" class="astudio badge badge-success pl-1 pr-1 pb-1 mr-1"><small><?= $studio['name'] ?></small></a>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
                             </div>
                         </div>
                         <div class="col d-flex justify-content-center">
