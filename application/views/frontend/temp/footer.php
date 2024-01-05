@@ -111,8 +111,47 @@
     }, 1000);
 </script>
 
-<!-- MOVIE PAGE -->
+<!-- MOVIE PAGE SCHEDULE -->
 <script>
+    // Ticket Count
+    $('#ticketCount').on('change', function() {
+        $('#tickCount').val('');
+        $('#sch_id').val('');
+        $('#date').val('');
+        $('#price').val('');
+        $('#time').val('');
+        $('#studio').val('');
+        $('#seat').val('');
+        $('#seat2').val('');
+        $('#seat3').val('');
+        $('#idSeat').val('');
+        $('#idSeat2').val('');
+        $('#idSeat3').val('');
+        $('#setST').empty();
+        $('#setSeat').empty();
+
+        if ($('#ticketCount').val() == 1) {
+            $('#tickCount').val('1');
+            $('#comaSeat2').attr('hidden', true);
+            $('#seat2').attr('hidden', true);
+            $('#comaSeat3').attr('hidden', true);
+            $('#seat3').attr('hidden', true);
+        } else if ($('#ticketCount').val() == 2) {
+            $('#tickCount').val('2');
+            $('#comaSeat2').attr('hidden', false);
+            $('#seat2').attr('hidden', false);
+            $('#comaSeat3').attr('hidden', true);
+            $('#seat3').attr('hidden', true);
+        } else if ($('#ticketCount').val() == 3) {
+            $('#tickCount').val('3');
+            $('#comaSeat2').attr('hidden', false);
+            $('#seat2').attr('hidden', false);
+            $('#comaSeat3').attr('hidden', false);
+            $('#seat3').attr('hidden', false);
+        }
+    });
+
+
     // set a schedule
     $('#sch_id').on('change', function() {
         const schId = $('#sch_id').val();
@@ -182,6 +221,9 @@
         $('#seat').val('');
         $('#seat2').val('');
         $('#seat3').val('');
+        $('#idSeat').val('');
+        $('#idSeat2').val('');
+        $('#idSeat3').val('');
         $('#setSeat').empty();
 
         $.ajax({
@@ -199,11 +241,11 @@
                     // alert('jumlah kursi 1');
                     $.each(data, function(i, val) {
                         if (val.ordered == '1') {
-                            let e = $('<a href="#" style="width: 37px; pointer-events: none;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
+                            let e = $('<a href="#" style="width: 37px; pointer-events: none;"><small>' + val.code_seat + '</small></a>');
                             $('#setSeat').append(e);
                             e.attr('class', 'badge badge-warning mr-2 mt-1');
                         } else {
-                            let e = $('<a href="#" style="width: 37px;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
+                            let e = $('<a href="#" data-id="' + val.id + '" data-st="' + val.code_seat + '" style="width: 37px;"><small>' + val.code_seat + '</small></a>');
                             $('#setSeat').append(e);
                             e.attr('class', 'aseat ' + val.code_seat + ' badge badge-info mr-2 mt-1').hover(function(m) {
                                 $(this).css('background', m.type === 'mouseenter' ? 'orange' : '#17a2b8');
@@ -217,7 +259,9 @@
                                     $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
                                 });
                                 const seat = $(this).data('st');
+                                const seatId = $(this).data('id');
                                 $('#seat').val(seat);
+                                $('#idSeat').val(seatId);
                             });
                         }
                     });
@@ -226,11 +270,11 @@
                     let n = 0;
                     $.each(data, function(i, val) {
                         if (val.ordered == '1') {
-                            let e = $('<a href="#" style="width: 37px; pointer-events: none;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
+                            let e = $('<a href="#" style="width: 37px; pointer-events: none;"><small>' + val.code_seat + '</small></a>');
                             $('#setSeat').append(e);
                             e.attr('class', 'badge badge-warning mr-2 mt-1');
                         } else {
-                            let e = $('<a href="#" style="width: 37px;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
+                            let e = $('<a href="#" style="width: 37px;" data-id="' + val.id + '" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
                             $('#setSeat').append(e);
                             e.attr('class', 'aseat ' + val.code_seat + ' badge badge-info mr-2 mt-1').hover(function(m) {
                                 $(this).css('background', m.type === 'mouseenter' ? 'orange' : '#17a2b8');
@@ -245,13 +289,17 @@
                                         $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
                                     });
                                     const seat = $(this).data('st');
+                                    const seatId = $(this).data('id');
                                     $('#seat').val(seat);
+                                    $('#idSeat').val(seatId);
                                 } else if (n == 2) {
                                     $('.' + val.code_seat + '').hover(function(m) {
                                         $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
                                     });
                                     const seat = $(this).data('st');
+                                    const seatId = $(this).data('id');
                                     $('#seat2').val(seat);
+                                    $('#idSeat2').val(seatId);
                                 }
                             });
                         }
@@ -261,11 +309,11 @@
                     let n = 0;
                     $.each(data, function(i, val) {
                         if (val.ordered == '1') {
-                            let e = $('<a href="#" style="width: 37px; pointer-events: none;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
+                            let e = $('<a href="#" style="width: 37px; pointer-events: none;" ><small>' + val.code_seat + '</small></a>');
                             $('#setSeat').append(e);
                             e.attr('class', 'badge badge-warning mr-2 mt-1');
                         } else {
-                            let e = $('<a href="#" style="width: 37px;" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
+                            let e = $('<a href="#" style="width: 37px;" data-id="' + val.id + '" data-st="' + val.code_seat + '"><small>' + val.code_seat + '</small></a>');
                             $('#setSeat').append(e);
                             e.attr('class', 'aseat ' + val.code_seat + ' badge badge-info mr-2 mt-1').hover(function(m) {
                                 $(this).css('background', m.type === 'mouseenter' ? 'orange' : '#17a2b8');
@@ -280,19 +328,25 @@
                                         $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
                                     });
                                     const seat = $(this).data('st');
+                                    const seatId = $(this).data('id');
                                     $('#seat').val(seat);
+                                    $('#idSeat').val(seatId);
                                 } else if (n == 2) {
                                     $('.' + val.code_seat + '').hover(function(m) {
                                         $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
                                     });
                                     const seat = $(this).data('st');
+                                    const seatId = $(this).data('id');
                                     $('#seat2').val(seat);
+                                    $('#idSeat2').val(seatId);
                                 } else if (n == 3) {
                                     $('.' + val.code_seat + '').hover(function(m) {
                                         $(this).css('background', m.type === 'mouseenter' ? '#17a2b8' : 'orange');
                                     });
                                     const seat = $(this).data('st');
+                                    const seatId = $(this).data('id');
                                     $('#seat3').val(seat);
+                                    $('#idSeat3').val(seatId);
                                 }
                             });
                         }
@@ -303,39 +357,6 @@
                 alert('error');
             }
         });
-    });
-
-    // Ticket Count
-    $('#ticketCount').on('change', function() {
-        $('#sch_id').val('');
-        $('#date').val('');
-        $('#price').val('');
-        $('#time').val('');
-        $('#studio').val('');
-        $('#seat').val('');
-        $('#seat2').val('');
-        $('#seat3').val('');
-
-        $('#setST').empty();
-        $('#setSeat').empty();
-
-        if ($('#ticketCount').val() == 1) {
-            $('#comaSeat2').attr('hidden', true);
-            $('#seat2').attr('hidden', true);
-            $('#comaSeat3').attr('hidden', true);
-            $('#seat3').attr('hidden', true);
-        } else if ($('#ticketCount').val() == 2) {
-            $('#comaSeat2').attr('hidden', false);
-            $('#seat2').attr('hidden', false);
-            $('#comaSeat3').attr('hidden', true);
-            $('#seat3').attr('hidden', true);
-        } else if ($('#ticketCount').val() == 3) {
-            $('#comaSeat2').attr('hidden', false);
-            $('#seat2').attr('hidden', false);
-            $('#comaSeat3').attr('hidden', false);
-            $('#seat3').attr('hidden', false);
-        }
-
     });
 
     // confirm login SweetAlert2
@@ -424,6 +445,33 @@
                 confirmButtonText: 'Oke',
             })
             return false;
+        }
+    });
+</script>
+
+<!-- MOVIVE ORDER TICKET PAGE -->
+<script>
+    // hidden seat count
+    $(document).ready(function(){
+        if(window.location == '<?= base_url('frontend/film/orderTicket') ?>'){
+            const tc = $('#ticket').val();
+
+            if (tc == 1) {
+            $('#comaSeat2').attr('hidden', true);
+            $('#seat2').attr('hidden', true);
+            $('#comaSeat3').attr('hidden', true);
+            $('#seat3').attr('hidden', true);
+            } else if (tc == 2) {
+            $('#comaSeat2').attr('hidden', false);
+            $('#seat2').attr('hidden', false);
+            $('#comaSeat3').attr('hidden', true);
+            $('#seat3').attr('hidden', true);
+            } else if (tc == 3) {
+            $('#comaSeat2').attr('hidden', false);
+            $('#seat2').attr('hidden', false);
+            $('#comaSeat3').attr('hidden', false);
+            $('#seat3').attr('hidden', false);
+            }
         }
     });
 </script>

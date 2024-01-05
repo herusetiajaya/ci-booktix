@@ -117,21 +117,22 @@ $('.isActiveStudio').on('click', function() {
     });
 });
 
-// Change Seat is Ordered
+// Change Seat IsOrdered
 $('.orderedSeat').on('click', function() {
-    alert('error');
-    // const id = $(this).data('id');
-    // const isAct = $(this).data('ac');
+    const id = $(this).data('id');
+    const ord = $(this).data('ord');
 
-    // $.ajax({
-    //     success: function() {
-    //         const base_url = $('.isActiveStudio').val();
-    //         document.location.href = base_url+ id + '/' + isAct;
-    //     },
-    //     error: function() {
-    //         alert('error');
-    //     }
-    // });
+    $.ajax({
+        success: function() {
+            // alert('success');
+            // document.location.href = "<?= base_url('dashboard/bioskop/orderedSeat/'); ?>" + id + '/' + ord;
+            const base_url = $('.orderedSeat').val();
+            document.location.href = base_url+ id + '/' + ord;
+        },
+        error: function() {
+            alert('error');
+        }
+    });
 });
 
 // Checkbox in modal sub menu add

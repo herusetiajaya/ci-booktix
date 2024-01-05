@@ -31,7 +31,7 @@
 <script src="<?= base_url('assets/'); ?>dashboard/datepicker-1.9.0/js/bootstrap-datepicker.js"></script>
 <script src="<?= base_url('assets/'); ?>dashboard/timepicker-2.0.2/dist/mdtimepicker.js"></script>
 <!-- Custom myscripts -->
-<script src="<?= base_url('assets/'); ?>dashboard/js/owner/booktix.js"></script>
+<script src="<?= base_url('assets/'); ?>dashboard/js/owner/booktix-main.js"></script>
 <script>
     // Change Access Role Menu
     $('.form-check-input').on('click', function() {
@@ -148,21 +148,6 @@
             success: function() {
                 // alert('success');
                 document.location.href = "<?= base_url('dashboard/user/changeRoleAdmin/'); ?>" + id + '/' + role_id;
-            },
-            error: function() {
-                alert('error');
-            }
-        });
-    });
-    // Change Seat IsOrdered
-    $('.orderedSeat').on('click', function() {
-        const id = $(this).data('id');
-        const ord = $(this).data('ord');
-
-        $.ajax({
-            success: function() {
-                // alert('success');
-                document.location.href = "<?= base_url('dashboard/bioskop/orderedSeat/'); ?>" + id + '/' + ord;
             },
             error: function() {
                 alert('error');

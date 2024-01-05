@@ -109,9 +109,22 @@ class Studio_model extends CI_Model
         $this->db->where('id', $idSeat);
         $this->db->update('tbl_seat', ['ordered' => 1]);
     }
+
     public function updateOrderSeat($idSeat)
     {
         $this->db->where('id', $idSeat);
+        $this->db->update('tbl_seat', ['ordered' => 0]);
+    }
+
+    public function updateSeatIsOrderByIdArr($seatId)
+    {
+        $this->db->where_in('id', $seatId);
+        $this->db->update('tbl_seat', ['ordered' => 1]);
+    }
+
+    public function updateSeatIsNotOrderByIdArr($seatId)
+    {
+        $this->db->where_in('id', $seatId);
         $this->db->update('tbl_seat', ['ordered' => 0]);
     }
 }

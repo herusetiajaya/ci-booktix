@@ -43,9 +43,9 @@
                                 <td><?= $seat['name']; ?></td>
                                 <td class="text-center">
                                     <?php if ($seat['ordered'] == '1') : ?>
-                                        <input class="orderedSeat" type="checkbox" data-id="<?= $seat['id']; ?>" data-ord="<?= $seat['ordered']; ?>" checked>
+                                        <input class="orderedSeat" value="<?= base_url('dashboard/bioskop/orderedSeat/'); ?>" type="checkbox" data-id="<?= $seat['id']; ?>" data-ord="<?= $seat['ordered']; ?>" checked>
                                     <?php else : ?>
-                                        <input class="orderedSeat" type="checkbox" data-id="<?= $seat['id']; ?>" data-ord="<?= $seat['ordered']; ?>">
+                                        <input class="orderedSeat" value="<?= base_url('dashboard/bioskop/orderedSeat/'); ?>" type="checkbox" data-id="<?= $seat['id']; ?>" data-ord="<?= $seat['ordered']; ?>">
                                     <?php endif; ?>
                                 </td>
                                 <td>

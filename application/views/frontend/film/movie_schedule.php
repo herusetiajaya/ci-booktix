@@ -12,67 +12,62 @@
                 <div class="card shadow col-lg mb-3" style="height: 300px;">
                     <form action="" method="post" class="form">
                         <div class="row-lg- text-center">
-                            <small class="">Detail Ticket</small>
+                            <small class="">Detail Order</small>
                         </div>
                         <div class="col-lg- mb-3">
                             <div class="table-responsive">
-                                <table class="table table-sm table-borderless table-dark" style="border-radius: 10px;" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-sm table-borderless table-dark small" style="border-radius: 10px;" id="dataTable" width="100%" cellspacing="0">
+                                    <!-- hidden form input -->
+                                    <input type="hidden" class="border-0  w-100" name="tickCount" id="tickCount" readonly required value="1">
+                                    <input type="hidden" class="border-0  w-100" name="idSeat" id="idSeat" readonly required value="">
+                                    <input type="hidden" class="border-0  w-100" name="idSeat2" id="idSeat2" readonly required value="">
+                                    <input type="hidden" class="border-0  w-100" name="idSeat3" id="idSeat3" readonly required value="">
+                                    <!-- hidden form input end -->
                                     <tfoot>
                                         <tr>
-                                            <td class="col-2"><small>Film</small></td>
+                                            <td class="col-2">Film</td>
                                             <td class="col-1">:</td>
                                             <td>
-                                                <small>
-                                                    <input type="text" class="bg-dark text-white border-0  w-100" name="film" id="film" readonly required value="<?= $tblFilm['title']; ?>">
-                                                </small>
+                                                <input type="text" class="bg-dark text-white border-0  w-100" name="film" id="film" readonly required value="<?= $tblFilm['title']; ?>">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><small>Date</small></td>
+                                            <td>Date</td>
                                             <td>:</td>
                                             <td>
-                                                <small>
-                                                    <input type="text" class="bg-dark text-white border-0 w-75" name="date" id="date" readonly required value="" placeholder="--/--/---">
-                                                </small>
+                                                <input type="text" class="bg-dark text-white border-0 w-75" name="date" id="date" readonly required value="" placeholder="--/--/---">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><small>Price</small></td>
+                                            <td>Price</td>
                                             <td>:</td>
                                             <td>
-                                                <small>
-                                                    <input type="text" class="bg-dark text-white border-0 w-75" name="price" id="price" readonly required value="" placeholder="Rp. 0">
-                                                </small>
+                                                <input type="text" class="bg-dark text-white border-0 w-75" name="price" id="price" readonly required value="" placeholder="Rp. 0">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><small>Time</small></td>
+                                            <td>Time</td>
                                             <td>:</td>
                                             <td>
-                                                <small>
-                                                    <input type="text" class="bg-dark text-white border-0 w-75" name="time" id="time" readonly required value="" placeholder="00:00">
-                                                </small>
+                                                <input type="text" class="bg-dark text-white border-0 w-75" name="time" id="time" readonly required value="" placeholder="00:00">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><small>Studio</small></td>
+                                            <td>Studio</td>
                                             <td>:</td>
                                             <td>
-                                                <small>
-                                                    <input type="text" class="bg-dark text-white border-0 w-75" name="studio" id="studio" readonly required value="" placeholder="Studio 0">
+                                                <input type="text" class="bg-dark text-white border-0 w-75" name="studio" id="studio" readonly required value="" placeholder="Studio 0">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><small>Seat</small></td>
+                                            <td>Seat</td>
                                             <td>:</td>
                                             <td>
-                                                <small>
-                                                    <input type=" text" class="bg-dark text-white border-0" name="seat" id="seat" readonly required value="" placeholder="X1" style="width: 26px;">
-                                                    <small class="h5 mr-1" id="comaSeat2" hidden>,</small>
-                                                    <input type=" text" class="bg-dark text-white border-0" name="seat2" id="seat2" hidden readonly required value="" placeholder="X2" style="width: 26px;">
-                                                    <small class="h5 mr-1" id="comaSeat3" hidden>,</small>
-                                                    <input type=" text" class="bg-dark text-white border-0" name="seat3" id="seat3" hidden readonly required value="" placeholder="X3" style="width: 26px;">
-                                                </small>
+                                                <input type=" text" class="bg-dark text-white border-0" name="seat" id="seat" readonly required value="" placeholder="X1" style="width: 26px;">
+                                                <small class="h5 mr-1" id="comaSeat2" hidden>,</small>
+                                                <input type=" text" class="bg-dark text-white border-0" name="seat2" id="seat2" hidden readonly required value="" placeholder="X2" style="width: 26px;">
+                                                <small class="h5 mr-1" id="comaSeat3" hidden>,</small>
+                                                <input type=" text" class="bg-dark text-white border-0" name="seat3" id="seat3" hidden readonly required value="" placeholder="X3" style="width: 26px;">
                                             </td>
                                         </tr>
                                     </tfoot>

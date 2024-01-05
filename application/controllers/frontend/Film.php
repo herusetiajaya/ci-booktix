@@ -44,6 +44,7 @@ class Film extends CI_Controller
         $data['tblSchedule'] = $this->schedule->getSchedule();
         $data['tblStudio'] = $this->studio->getStudio();
 
+        $this->form_validation->set_rules('tickCount', 'Ticket Count', 'trim|required|max_length[3]');
         $this->form_validation->set_rules('film', 'Film', 'trim|required|max_length[30]');
         $this->form_validation->set_rules('date', 'Date', 'trim|required|max_length[20]');
         $this->form_validation->set_rules('time', 'Time', 'trim|required|max_length[20]');
@@ -56,19 +57,32 @@ class Film extends CI_Controller
             $this->load->view('frontend/temp/footer');
         } else {
             $tempdata = [
+                'tickCount' => htmlspecialchars($this->input->post('tickCount', true)),
                 'film' => htmlspecialchars($this->input->post('film', true)),
                 'date' => htmlspecialchars($this->input->post('date', true)),
                 // 'price' => htmlspecialchars($this->input->post('price', true)),
                 'time' => htmlspecialchars($this->input->post('time', true)),
                 'studio' => htmlspecialchars($this->input->post('studio', true)),
                 'seat' => htmlspecialchars($this->input->post('seat', true)),
+                'seat2' => htmlspecialchars($this->input->post('seat2', true)),
+                'seat3' => htmlspecialchars($this->input->post('seat3', true)),
+                'idSeat' => htmlspecialchars($this->input->post('idSeat', true)),
+                'idSeat2' => htmlspecialchars($this->input->post('idSeat2', true)),
+                'idSeat3' => htmlspecialchars($this->input->post('idSeat3', true)),
             ];
             $this->session->set_tempdata($tempdata);
-            redirect('frontend/film/orderTicket');
-            // var_dump(
-            //     $this->session->tempdata()
-            // );
+
+            $seatId = [
+                'idSeat' => htmlspecialchars($this->input->post('idSeat', true)),
+                'idSeat2' => htmlspecialchars($this->input->post('idSeat2', true)),
+                'idSeat3' => htmlspecialchars($this->input->post('idSeat3', true)),
+            ];
+            $this->studio->updateSeatIsOrderByIdArr($seatId);
+
+            // var_dump($this->session->tempdata());
             // die();
+            redirect('frontend/film/orderTicket');
+            
         }
     }
 
@@ -99,12 +113,35 @@ class Film extends CI_Controller
         $data['title'] = 'Order Ticket';
         $data['user'] = $this->customer->getCustomerByUsername();
         $data['film'] = $this->film->getFilmByTitle($this->session->tempdata('film'));
-        $data['schedule'] = $this->schedule->getScheduleBydate($this->session->tempdata('date'));
         $data['detailTicket'] = $this->session->tempdata();
+
+        $schedule = $this->schedule->getScheduleBydate($this->session->tempdata('date'));
+        $price = $schedule['price'];
+        $ticketCount = $this->session->tempdata('tickCount');
+        $data['price'] = $resultPrice = $price * $ticketCount;
 
         $this->load->view('frontend/temp/header', $data);
         $this->load->view('frontend/film/orderticket', $data);
         $this->load->view('frontend/temp/footer');
+    }
+    
+    public function cencelOrder()
+    {
+        $seatId = [
+            'idSeat1' => $this->session->tempdata('idSeat'),
+            'idSeat2' => $this->session->tempdata('idSeat2'),
+            'idSeat3' => $this->session->tempdata('idSeat3'),
+        ];
+        $this->studio->updateSeatIsNotOrderByIdArr($seatId);
+        // $this->session->unset_tempdata();
+        redirect('frontend/film/index/');
+    }
+
+    public function checkSessTempdata()
+    {
+        var_dump($this->session->tempdata());
+        die();
+        
     }
 
 }
